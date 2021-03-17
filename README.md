@@ -4,25 +4,28 @@
 
 ## Git structure
 ### Commit mssg
-- `"ADD: ..."` to implement new function/files
+- `ADD: ...` to implement new function/files
 - `FIX: ...`  to correct bugs
 - `NORM: ...` to correct norm error
 - `RFCT: ...` to refacto 
 ### Branches
 + main
   + dev
-    + feat1
-      + ... 
-    + feat2
+    + feat1 
     + ...
+  + dev2
+    + dev2-prompt
+    + ... 
 
 ## To do
   - [X] import libft
   - [X] add subject V2021
   - [X] create folder structure
   - [X] create Makefile
+  - [ ] endless prompt display
   - [ ] parsing
     - [ ] ... 
+  - [ ] 
   - [ ] builtins
      - [ ] echo
         - [ ] -n option (do not ouput the trailing newline)
@@ -31,7 +34,9 @@
           <p>1. check for "-n" option as 2nd argument of our input<br />&emsp;1.1 if "-n" present, inc 1 to go on next arg<br />&emsp;1.2 set no_newline flag to 1<br />2. loop on each argument<br />&emsp;2.1 write content of the argument<br />&emsp;2.2 write <code> </code>if there is still an argument to display<br />3. if no_newline flag = 1, add a <code>\n</code><br />4. return</p>
         </details>
      - [ ] pwd
-        - [ ] ...
+        - [ ] pwd with args
+        - [ ] pwd without args
+        - [ ] pwd with $PWD/$OLDPWD unset
         <details>
           <summary>pseudo-code</summary>
           <p>1. check if there is more than 1 argument<br />&emsp;1.1 if args > 2, write <code>pwd: too many arguments</code><br />&emsp;1.2 return<br />2. check if PWD in env exists<br />&emsp;2.1 if it's unset, use getcwd<br />3. write the current directory <code>/pathname/of/curr/dir</code><br />4. return</p>
@@ -40,6 +45,14 @@
           <summary>infos</summary>
           <p>possible case :<br /><code>pwd</code><br /><code>pwd args1 args2</code><br /><br />output of <code>env | grep "PWD"</code>:<br />   PWD=/home/user42/Bureau<br />OLDPWD=/home/user42</p>
         </details>
+     - [ ] cd
+        - [ ] ...
+        - [ ] cd -
+        - [ ] cd ~
+        - [ ] cd ..
+        - [ ] cd relative path
+        - [ ] cd absolute path
+        - [ ] update PWD & OLDPWD after env var
      - [ ] export
         - [ ] ...
      - [ ] unset
@@ -48,6 +61,11 @@
         - [ ] ...
      - [ ] exit
         - [ ] ...
+     - [ ] unknown builtins
+        <details>
+          <summary>pseudo-code</summary>
+            <p>1. check if the builtin you sent is known<br />&emsp;1.1 if it's not, write <code>command not found: $builtin_you_sent</code><br />2. return</p>
+        </details>
   - [ ] ...
   - [ ] last check 
      - [ ] Norm
