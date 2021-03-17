@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                        :+:      :+:    :+:   */
+/*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: clorin <clorin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -11,26 +11,6 @@
 /* ************************************************************************** */
 
 #include "libft.h"
-
-// static void			*memmove_gnl(void *dest, const void *src, size_t len)
-// {
-// 	char		*d;
-// 	char		*s;
-
-// 	d = (char *)dest;
-// 	s = (char *)src;
-// 	if (dest == src)
-// 		return (dest);
-// 	if (s < d)
-// 	{
-// 		while (len--)
-// 			*(d + len) = *(s + len);
-// 		return (dest);
-// 	}
-// 	while (len--)
-// 		*d++ = *s++;
-// 	return (dest);
-// }
 
 char			*strjoin_gnl(char const *s1, char const *s2)
 {
