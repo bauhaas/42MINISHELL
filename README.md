@@ -19,8 +19,8 @@
 ## To do
   - [X] import libft
   - [X] add subject V2021
-  - [ ] create folder structure
-  - [ ] create Makefile
+  - [X] create folder structure
+  - [X] create Makefile
   - [ ] parsing
     - [ ] ... 
   - [ ] builtins
