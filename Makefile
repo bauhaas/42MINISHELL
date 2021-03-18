@@ -6,13 +6,13 @@
 #    By: clorin <clorin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/03/17 12:01:33 by clorin            #+#    #+#              #
-#    Updated: 2021/03/17 12:01:44 by clorin           ###   ########.fr        #
+#    Updated: 2021/03/18 16:01:50 by bahaas           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		= minishell
 
-SRC		= srcs/main.c 
+SRC		= srcs/main.c srcs/pwd.c srcs/echo.c
 
 CC		= clang
 

@@ -6,7 +6,7 @@
 /*   By: clorin <clorin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 12:52:12 by clorin            #+#    #+#             */
-/*   Updated: 2021/03/18 12:17:22 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/03/18 16:03:14 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,24 +59,28 @@ void list_env(t_list *lst_env, char **env)
 		ft_lstadd_back(&lst_env, new);
 	}
 
-	// TEST DISPLAY LIST ELEM
+	// TEST DISPLAY LIST ELEM - OK
+	/*
 	t_var *env_var;
 	env_var = NULL;
 	env_var = (t_var *)lst_env->content;
 	printf("var_name: %s\n", env_var->name);
 	printf("var_value: %s\n", env_var->value);
+	*/
 }
 
 int main(int ac, char **av, char **env)
 {
 	t_ms ms;
-	size_t buf_size = 1024;
-	char *buf;
+//	size_t buf_size = 1024;
+//	char *buf;
 
 	(void)ac;
 	(void)av;
 	ms.env = NULL;
 	list_env(ms.env, env);
+	//infinite loop shell
+	/*
 	buf = malloc(sizeof(char) * buf_size);
 	if(!buf)
 	{
@@ -88,6 +92,12 @@ int main(int ac, char **av, char **env)
 	{
 		write(1, "$>", 2);
 	}
-	free(buf);
+	free(buf);*/
+
+	ms.pwd = NULL;
+	//TEST ECHO
+	//main_echo();
+	//TEST PWD
+	main_pwd(&ms);
 	return (0);
 }

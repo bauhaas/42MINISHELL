@@ -6,7 +6,7 @@
 /*   By: clorin <clorin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 12:28:05 by clorin            #+#    #+#             */
-/*   Updated: 2021/03/18 12:17:38 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/03/18 16:01:18 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,12 @@ typedef	struct	s_var
 typedef struct	s_ms
 {
 	t_list	*env;
+	char	*pwd;
 }				t_ms;
 
+void	main_echo();
+void	echo(char **line);
 
+void	main_pwd(t_ms *ms);
+void	pwd(t_ms *ms, char **line);
 #endif
