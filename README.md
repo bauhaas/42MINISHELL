@@ -23,9 +23,9 @@
   - [X] create folder structure
   - [X] create Makefile
   - [ ] endless prompt display
+  - [ ] duplicate **env in a list
   - [ ] parsing
     - [ ] ... 
-  - [ ] 
   - [ ] builtins
      - [ ] echo
         - [ ] -n option (do not ouput the trailing newline)
@@ -54,11 +54,17 @@
         - [ ] cd absolute path
         - [ ] update PWD & OLDPWD after env var
      - [ ] export
-        - [ ] ...
+        <details>
+          <summary>pseudo-code</summary>
+            <p>1. check if the var you want to create already exist<br />2 if the var exists, replace the value<br />3. if it's a new var add it as a new element at the end of your list<br />4. return</p>
+        </details>
      - [ ] unset
         - [ ] ...
      - [ ] env
-        - [ ] ...
+        <details>
+          <summary>pseudo-code</summary>
+            <p>1. check if env is sent without args<br />&emsp;1.1 loop in our env list<br />&emsp;1.2 display <code>env->var->name</code><br />&emsp;1.3 display an <code>=</code><br />&emsp;1.4 display <code>env->var->value</code><br />2.env is sent with args<br />&emsp;2.1 if known args display <code>env: «$1st_arg_used»: Permission non accordée</code><br /><br />&emsp;2.2 if unknwon args display <code>env: «$1st_arg_used»: Aucun fichier ou dossier de ce type</code><br />3. return</p>
+        </details>
      - [ ] exit
         - [ ] ...
      - [ ] unknown builtins
