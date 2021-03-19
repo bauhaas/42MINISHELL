@@ -13,7 +13,7 @@
 NAME		= minishell
 
 SRC		= srcs/main.c srcs/cursor.c srcs/termcaps.c srcs/keyboard.c srcs/print_utils.c \
-		srcs/prompt.c
+		srcs/prompt.c srcs/history.c
 
 CC		= clang
 

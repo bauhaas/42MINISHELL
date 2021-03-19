@@ -12,7 +12,7 @@
 
 #include "../includes/minishell.h"
 
-void			keys_tree(long c, t_termcaps *tc)
+void			keys_tree(long c, t_termcaps *tc, t_mini *mini)
 {
 	if (ft_isprint(c))
 	{
@@ -25,7 +25,9 @@ void			keys_tree(long c, t_termcaps *tc)
 		tc->cur_pos--;
 	else if (c == RIGHT_ARROW && tc->cur_pos < (int)ft_strlen(tc->line))
 		tc->cur_pos++;
-	// if (tc->line)
-	// 	tc->len_line = ft_strlen(tc->line);
+	else if (c == UP_ARROW)
+	 	up_history(tc, mini);
+	else if (c == DOWN_ARROW)
+		down_history(tc, mini);
 	print_line(tc);
 }

@@ -43,16 +43,3 @@ void		set_cursor_position(t_termcaps *tc, int col, int row)
 {
 	tputs(tgoto(tc->cm, col, row), 1, tc_putchar);
 }
-
-void	move_cursor_left(t_termcaps *term)
-{
-	if (term->cur_pos == 0)
-		return ;
-	term->cur_pos--;
-	// (term->start_col + term->cur_pos + term->plen + 1) % term->col == 0 ?
-	// 	term->currow -= 1 : 0;
-	// (term->start_col + term->cur_pos + term->plen + 1) % term->col == 0 ?
-	// 	term->mod_offset += 1 : 0;
-	// tputs(tgoto(term->cm, (term->start_col + term->cur_pos + term->plen) %
-	// 	term->col, term->currow), 1, putchar_tc);
-}

@@ -17,16 +17,22 @@ int					main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	(void)envp;
-	t_termcaps		termcaps;
+	t_mini			minishell;
 
-	ft_bzero(&termcaps, sizeof(t_termcaps));
-	printf("\n ~~~~~~~ Minishell42 ~~~~~~~\n     (Bahaas / Clorin)\n           V0.1:\n");
-	init_termcaps(&termcaps);
-	prompt();
-	get_cursor_position(&termcaps.col, &termcaps.row);
-	get_line(&termcaps);
-	tcsetattr(0, TCSANOW, &termcaps.old_termcaps);
-	printf("line = %s\n", termcaps.line);
-	free(termcaps.line);
+	ft_bzero(&minishell, sizeof(t_mini));
+	minishell.exit = 1;
+	printf("\n ~~~~~~~ Minishell42 ~~~~~~~\n  by (Bahaas / Clorin)\n           V0.1:\n");
+	while (minishell.exit)
+	{
+		minishell.exit = get_line(&minishell);
+		if (minishell.line && minishell.exit)
+		{
+			printf("(%d)line = %s\n", minishell.exit, minishell.line);
+			ft_strdel(&minishell.line);
+		}
+	}
+	ft_strdel(&minishell.line);
+	free_history(&minishell.history);
+	printf("exit\n");
 	return (0);
 }
