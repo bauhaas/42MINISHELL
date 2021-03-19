@@ -31,6 +31,8 @@
 # define RIGHT_ARROW 4414235
 # define UP_ARROW 4283163
 # define DOWN_ARROW 4348699
+# define HOME 4741915
+# define END 4610843
 
 typedef struct			s_termcaps
 {

@@ -29,5 +29,9 @@ void			keys_tree(long c, t_termcaps *tc, t_mini *mini)
 	 	up_history(tc, mini);
 	else if (c == DOWN_ARROW)
 		down_history(tc, mini);
+	else if (c == HOME)
+		tc->cur_pos = 0;
+	else if (c == END)
+		tc->cur_pos = ft_strlen(tc->line);
 	print_line(tc);
 }
