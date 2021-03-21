@@ -1,38 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   echo.c                                             :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/18 14:15:43 by bahaas            #+#    #+#             */
-/*   Updated: 2021/03/21 14:51:10 by bahaas           ###   ########.fr       */
+/*   Created: 2021/03/21 00:42:31 by bahaas            #+#    #+#             */
+/*   Updated: 2021/03/21 23:16:36 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int		ft_echo(t_ms *ms, t_cmd *cmd)
+/*
+void display_env(void *content)
 {
+	printf("test\n");
+}*/
 
-	int no_newline;
-	int i;
-
-	no_newline = 0;
-	i = 1;
-	while(cmd->content[i] && !ft_strcmp(cmd->content[i], "-n")) //loop here with cmp cuz "echo -n -n -n" return nothing
+int	ft_env(t_ms *ms, t_cmd *cmd)
+{
+	t_var *var;
+	//ft_lstiter(ms->env, display_env(ms->env->content));
+	if(!cmd->content[1])
 	{
-		no_newline = 1;
-		i++;
+		while(ms->env)
+		{
+			var = (t_var *)ms->env->content;
+			printf("%s", var->name);
+			printf("=");
+			printf("%s\n", var->value);
+			ms->env = ms->env->next;
+		}
 	}
-	while(cmd->content[i])
-	{
-		write(1, cmd->content[i], ft_strlen(cmd->content[i]));
-		if(cmd->content[i + 1])
-			write(1, " ", 1);
-		i++;
-	}
-	if(!no_newline)
-		write(1, "\n", 1);
 	return (0);
 }

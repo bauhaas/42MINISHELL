@@ -6,7 +6,7 @@
 /*   By: clorin <clorin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 12:52:12 by clorin            #+#    #+#             */
-/*   Updated: 2021/03/18 16:03:14 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/03/21 15:02:26 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 ** split exist.
 */
 
-t_var	*init_var(char *env_var)
+t_var	*init_envvar(char *env_var)
 {
 	char **split_var;
 	t_var *new;
@@ -43,61 +43,58 @@ t_var	*init_var(char *env_var)
 ** a new element in our list
 */
 
-void list_env(t_list *lst_env, char **env)
+void init_lstenv(t_list **lst_env, char **env)
 {
 	int i;
 	t_list *new;
 	t_var *var;
+	t_var *cpy;
 	
 	i = -1;
 	new = NULL;
 	var = NULL;
+	cpy = NULL;
 	while(env[++i])
 	{
-		var = init_var(env[i]);
-		new = ft_lstnew(var);
-		ft_lstadd_back(&lst_env, new);
+		var = init_envvar(env[i]);
+		cpy = malloc(sizeof(t_var));
+		cpy->name = ft_strdup(var->name);
+		cpy->value = ft_strdup(var->value);
+		new = ft_lstnew(cpy);
+		ft_lstadd_back(lst_env, new);
 	}
+}
 
-	// TEST DISPLAY LIST ELEM - OK
-	/*
-	t_var *env_var;
-	env_var = NULL;
-	env_var = (t_var *)lst_env->content;
-	printf("var_name: %s\n", env_var->name);
-	printf("var_value: %s\n", env_var->value);
-	*/
+void	init_ms(t_ms *ms, char **env)
+{
+	ms->env = NULL;
+	ms->pwd = NULL;
+	ms->bltn = NULL;
+	ms->bltn = malloc(sizeof(t_bltn));
+	init_bltn(ms);
+	init_lstenv(&ms->env, env);
 }
 
 int main(int ac, char **av, char **env)
 {
 	t_ms ms;
-//	size_t buf_size = 1024;
-//	char *buf;
 
 	(void)ac;
 	(void)av;
-	ms.env = NULL;
-	list_env(ms.env, env);
-	//infinite loop shell
-	/*
-	buf = malloc(sizeof(char) * buf_size);
-	if(!buf)
-	{
-		buf = NULL;
-		return (EXIT_FAILURE);
-	}
-	write(1, "$>", 2);
-	while(read(STDIN_FILENO, buf, buf_size) > 0)
-	{
-		write(1, "$>", 2);
-	}
-	free(buf);*/
+	init_ms(&ms, env);
 
-	ms.pwd = NULL;
-	//TEST ECHO
-	//main_echo();
-	//TEST PWD
-	main_pwd(&ms);
+	//1ST IDEA LEXING & TOKENISATION
+	/*
+	char line_test[25] = "echo -n \"Hello    World\"";
+	char **line_tokens;
+	printf("%s\n", line_test);
+	line_tokens = get_tokens(line_test);
+	int i = 0;
+	while(line_tokens[i])
+	{
+		printf("token %d : %s\n", i, line_tokens[i]);
+		++i;
+	}*/
+	test_builtin(&ms);
 	return (0);
 }
