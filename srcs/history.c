@@ -36,7 +36,7 @@ t_hist			*add_history(t_hist **begin, char *line)
 	return (new);
 }
 
-void			up_history(t_termcaps *tc, t_mini *mini)
+void			up_history(t_termcaps *tc, t_ms *mini)
 {
 	if (!mini->history)
 		return ;
@@ -54,7 +54,7 @@ void			up_history(t_termcaps *tc, t_mini *mini)
 	tc->cur_pos = ft_strlen(tc->line);
 }
 
-void			down_history(t_termcaps *tc, t_mini *mini)
+void			down_history(t_termcaps *tc, t_ms *mini)
 {
 	if (!mini->history)
 		return ;

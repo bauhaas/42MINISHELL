@@ -6,7 +6,7 @@
 /*   By: clorin <clorin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 12:28:05 by clorin            #+#    #+#             */
-/*   Updated: 2021/03/22 11:20:47 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/03/22 21:55:56 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,34 +60,46 @@ typedef struct			s_hist
 	struct s_hist		*next;
 }						t_hist;
 
-typedef struct			s_mini
+/*
+** Main structure
+*/
+
+typedef struct	s_ms
 {
-	t_hist				*history;
-	t_hist				*cur_histo;
-	char				*line;
-	int					exit;
-}						t_mini;
+	t_hist	*history;
+	t_hist	*cur_histo;
+	char	*line;
+	int		exit;
+
+	t_list	*env;
+	char	*pwd;
+	char	*old_pwd;
+	struct s_bltn	*bltn;
+}				t_ms;
+
 
 void				get_cursor_position(int *col, int *rows);
 void				set_cursor_position(t_termcaps *tc, int col, int row);
-void				keys_tree(long c, t_termcaps *tc, t_mini *mini);
+void				keys_tree(long c, t_termcaps *tc, t_ms *mini);
 
 void				init_termcaps(t_termcaps *tc);
 void				window_size(t_termcaps *tc);
-int					get_line(t_mini *mini);
+int					get_line(t_ms *mini);
 int					tc_putchar(int c);
 void				create_line(long c, t_termcaps *tc);
 void				clear_line(t_termcaps *tc);
-void				print_line(t_termcaps *tc);
+//void				print_line(t_termcaps *tc);
+void				print_line(t_termcaps *tc, t_ms *ms);
 void				del_char(t_termcaps *tc);
-void				prompt(void);
+//void				prompt(void);
+int					prompt_bahaas(t_ms *ms);
 
 /*
 *	history
 */
 t_hist				*add_history(t_hist **begin, char *line);
-void				up_history(t_termcaps *tc, t_mini *min);
-void				down_history(t_termcaps *tc, t_mini *mini);
+void				up_history(t_termcaps *tc, t_ms *min);
+void				down_history(t_termcaps *tc, t_ms *mini);
 void				free_history(t_hist **begin);
 
 /*
@@ -111,17 +123,6 @@ typedef struct		s_cmd
 }					t_cmd;
 
 /*
-** Main structure
-*/
-
-typedef struct	s_ms
-{
-	t_list	*env;
-	char	*pwd;
-	struct s_bltn	*bltn;
-}				t_ms;
-
-/*
 ** Group all the builtin function pointers.
 */
 
@@ -134,9 +135,10 @@ typedef struct	s_bltn
 void	init_bltn(t_ms *ms);
 int		execute(t_ms *ms, t_cmd *cmd);
 char	**get_tokens(char *line);
-char	*ft_getenv(t_list *env, char *elem);
+char	*ft_getenv(t_list **head_ref, char *elem);
 
-void	test_builtin(t_ms *ms);
+void	init_ms(t_ms *ms, char **env);
+void	tmp_line_to_cmd(t_ms *ms, char *line);
 
 int		ft_echo(t_ms *ms, t_cmd *cmd);
 int		ft_pwd(t_ms *ms, t_cmd *cmd);

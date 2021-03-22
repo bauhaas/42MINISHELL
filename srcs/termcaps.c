@@ -6,7 +6,7 @@
 /*   By: clorin <clorin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 15:11:21 by clorin            #+#    #+#             */
-/*   Updated: 2021/03/18 10:02:43 by clorin           ###   ########.fr       */
+/*   Updated: 2021/03/22 22:03:05 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int				tc_putchar(int c)
 	return (0);
 }
 
-static int		boucle(t_termcaps *tc, t_mini *mini)
+static int		boucle(t_termcaps *tc, t_ms *mini)
 {
 	long		c;
 
@@ -81,13 +81,15 @@ static int		boucle(t_termcaps *tc, t_mini *mini)
 	return (-1);
 }
 
-int				get_line(t_mini *mini)
+int				get_line(t_ms *mini)
 {
 	int status;
 	t_termcaps	tc;
 
 	init_termcaps(&tc);
-	prompt();
+	//prompt();
+	//that version return an int the size of strlen(getenv(PWD) + 3) (3 = "$>")
+	prompt_bahaas(mini);
 	get_cursor_position(&tc.col, &tc.row);
 	status = boucle(&tc, mini);
 	set_cursor_position(&tc, tc.col, tc.row);

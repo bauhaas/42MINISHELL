@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/21 00:41:56 by bahaas            #+#    #+#             */
-/*   Updated: 2021/03/21 14:24:00 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/03/22 22:13:06 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	ft_unset(t_ms *ms, t_cmd *cmd)
 	char *var;
 	while(ms->env)
 	{
-		var = ft_getenv(ms->env, cmd->content[1]);
+		var = ft_getenv(&ms->env, cmd->content[1]);
 		i++;
 		if(var)
 		{

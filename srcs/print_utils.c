@@ -6,7 +6,7 @@
 /*   By: clorin <clorin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/18 10:14:39 by clorin            #+#    #+#             */
-/*   Updated: 2021/03/18 10:58:04 by clorin           ###   ########.fr       */
+/*   Updated: 2021/03/22 17:36:27 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,11 +73,12 @@ void			clear_line(t_termcaps *tc)
 	//tputs(tc->ce, 1, tc_putchar);
 }
 
-void			print_line(t_termcaps *tc)
+void			print_line(t_termcaps *tc, t_ms *ms)
 {
 	set_cursor_position(tc, 0, tc->row);
 	clear_line(tc);
-	prompt();
+//	prompt();
+	prompt_bahaas(ms);
 	int start = ft_strlen(getenv("PWD")) + 3;
 	if (tc->line)
 		write(STDOUT, tc->line, ft_strlen(tc->line));

@@ -6,7 +6,7 @@
 /*   By: clorin <clorin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/18 10:06:58 by clorin            #+#    #+#             */
-/*   Updated: 2021/03/18 10:12:49 by clorin           ###   ########.fr       */
+/*   Updated: 2021/03/22 17:36:10 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void			window_size(t_termcaps *tc)
 	tc->size_row = window.ws_row;
 }
 
-void			keys_tree(long c, t_termcaps *tc, t_mini *mini)
+void			keys_tree(long c, t_termcaps *tc, t_ms *mini)
 {
 	if (ft_isprint(c))
 	{
@@ -49,5 +49,5 @@ void			keys_tree(long c, t_termcaps *tc, t_mini *mini)
 		tc->row = 0;
 		tc->col = 0;
 	}
-	print_line(tc);
+	print_line(tc, mini);
 }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: clorin <clorin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 12:52:12 by clorin            #+#    #+#             */
-/*   Updated: 2021/03/21 15:02:26 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/03/22 15:50:58 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ t_var	*init_envvar(char *env_var)
 ** a new element in our list
 */
 
-void init_lstenv(t_list **lst_env, char **env)
+void init_lstenv(t_ms *ms, t_list **lst_env, char **env)
 {
 	int i;
 	t_list *new;
@@ -60,6 +60,10 @@ void init_lstenv(t_list **lst_env, char **env)
 		cpy = malloc(sizeof(t_var));
 		cpy->name = ft_strdup(var->name);
 		cpy->value = ft_strdup(var->value);
+		if(!ft_strcmp(var->name, "PWD"))
+			ms->pwd = ft_strdup(var->value);
+		if(!ft_strcmp(var->name, "OLDPWD"))
+			ms->old_pwd = ft_strdup(var->value);
 		new = ft_lstnew(cpy);
 		ft_lstadd_back(lst_env, new);
 	}
@@ -72,9 +76,11 @@ void	init_ms(t_ms *ms, char **env)
 	ms->bltn = NULL;
 	ms->bltn = malloc(sizeof(t_bltn));
 	init_bltn(ms);
-	init_lstenv(&ms->env, env);
+	init_lstenv(ms, &ms->env, env);
 }
 
+/// OLD DEV2 MAIN 
+/*
 int main(int ac, char **av, char **env)
 {
 	t_ms ms;
@@ -84,7 +90,7 @@ int main(int ac, char **av, char **env)
 	init_ms(&ms, env);
 
 	//1ST IDEA LEXING & TOKENISATION
-	/*
+	
 	char line_test[25] = "echo -n \"Hello    World\"";
 	char **line_tokens;
 	printf("%s\n", line_test);
@@ -94,7 +100,10 @@ int main(int ac, char **av, char **env)
 	{
 		printf("token %d : %s\n", i, line_tokens[i]);
 		++i;
-	}*/
-	test_builtin(&ms);
+	}
+	char line[2];
+	line[0] = 'a';
+	line[1] = 0;
+	test_builtin(&ms, line);
 	return (0);
-}
+}*/
