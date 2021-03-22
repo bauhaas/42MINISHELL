@@ -49,9 +49,8 @@ static int		boucle(t_termcaps *tc, t_mini *mini)
 	long		c;
 
 	c = 0;
-	while (1)
+	while (read(STDIN, &c, sizeof(c)) >= 0)
 	{
-		read(STDIN, &c, sizeof(c));
 		if (c == '\n')
 		{
 			if (!tc->line)
@@ -70,6 +69,7 @@ static int		boucle(t_termcaps *tc, t_mini *mini)
 		keys_tree(c, tc, mini);
 		c = 0;
 	}
+	return (-1);
 }
 
 int				get_line(t_mini *mini)
