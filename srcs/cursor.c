@@ -12,32 +12,48 @@
 
 #include "../includes/minishell.h"
 
-void		get_cursor_position(int *col, int *rows)
+static int		get_cur(char buf[30], char end, int *i)
 {
-	int	ret;
-	char	buf[255];
-	int	i;
-	int	a;
+	int			cord;
+	int			pow;
 
-	i = 1;
-	a = 0;
-	write(STDIN, "\033[6n", 4);
-	ret = read(0, buf, 254);
-	buf[ret] = '\0';
-	while (buf[i])
+	cord = 0;
+	pow = 1;
+	while (buf[*i] != end)
 	{
-		if (buf[i] >= '0' && buf[i] <= '9')
-		{
-			if (a == 0)
-				*rows = ft_atoi(&buf[i]) - 1;
-			else
-				*col = ft_atoi(&buf[i]) - 1;
-			a++;
-			i += ft_intlen(*col) - 1;
-		}
-		i++;
+		cord = cord + (buf[*i] - '0') * pow;
+		(*i)--;
+		pow *= 10;
 	}
+	return (cord);
 }
+
+void 		get_cursor_position(int *x, int *y)
+{
+	char 	buf[30];
+	int		i;
+	char	ch;
+
+	*y = 0;
+	*x = 0;
+	i = 0;
+	ch = 0;
+	ft_bzero(&buf, 30);
+	write(1, "\033[6n", 4);
+	while (ch != 'R')
+	{
+		read(0, &ch, 1);
+		buf[i++] = ch;
+	}
+	if (i < 2)
+		return ;
+	i -=2;
+	*x = get_cur(buf, ';', &i);
+	i--;
+	*y = get_cur(buf, '[', &i);
+	return ;
+}
+
 
 void		set_cursor_position(t_termcaps *tc, int col, int row)
 {
