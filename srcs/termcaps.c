@@ -15,22 +15,30 @@
 void			init_termcaps(t_termcaps *tc)
 {
 	char		*name;
+	int			ret;
 
 	ft_bzero(tc, sizeof(t_termcaps));
 	name = getenv("TERM");
-	tgetent(NULL, name);
-	tcgetattr(STDIN, &tc->term);
-	tcgetattr(STDIN, &tc->old_termcaps);
-	tc->term.c_lflag = tc->term.c_lflag & ~ICANON;
-	tc->term.c_lflag = tc->term.c_lflag & ~ECHO;
-	tc->term.c_cc[VMIN] = 1;
-	tc->term.c_cc[VTIME] = 0;
-	tcsetattr(STDIN, TCSANOW, &tc->term);
-	tc->cm = tgetstr("cm", NULL);
-	tc->ce = tgetstr("ce", NULL);
-	tc->dl = tgetstr("dl", NULL);
-	tc->cur_pos = 0;
-	tc->line = NULL;
+	ret = tgetent(NULL, name);
+	if (ret == 1)
+	{
+		tcgetattr(STDIN, &tc->term);
+		tcgetattr(STDIN, &tc->old_termcaps);
+		tc->term.c_lflag &= ~(ICANON | ECHO);
+		tc->term.c_cc[VMIN] = 1;
+		tc->term.c_cc[VTIME] = 0;
+		tcsetattr(STDIN, TCSANOW, &tc->term);
+		tc->cm = tgetstr("cm", NULL);
+		tc->ce = tgetstr("ce", NULL);
+		tc->dl = tgetstr("dl", NULL);
+		tc->cur_pos = 0;
+		tc->line = NULL;
+	}
+	else
+	{
+		printf("minishell: Error termcaps %d\n",ret);
+		exit(-1);
+	}
 }
 
 void			free_termcaps(t_termcaps *tc)
