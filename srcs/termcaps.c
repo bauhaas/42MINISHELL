@@ -51,6 +51,7 @@ static int		boucle(t_termcaps *tc, t_mini *mini)
 	c = 0;
 	while (read(STDIN, &c, sizeof(c)) >= 0)
 	{
+			get_cursor_position(&tc->col, &tc->row);
 		if (c == '\n')
 		{
 			if (!tc->line)
