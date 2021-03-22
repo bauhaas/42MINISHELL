@@ -46,6 +46,8 @@ void			keys_tree(long c, t_termcaps *tc, t_mini *mini)
 		write(1, "\33[H\33[2J", 7);
 		tc->start_col = 0;
 		tc->start_row = 0;
+		tc->row = 0;
+		tc->col = 0;
 	}
 	print_line(tc);
 }
