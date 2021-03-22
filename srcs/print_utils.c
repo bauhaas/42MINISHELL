@@ -69,7 +69,8 @@ void			create_line(long c, t_termcaps *tc)
 
 void			clear_line(t_termcaps *tc)
 {
-	tputs(tc->ce, 1, tc_putchar);
+	write(1, "\033[0J", 4);
+	//tputs(tc->ce, 1, tc_putchar);
 }
 
 void			print_line(t_termcaps *tc)

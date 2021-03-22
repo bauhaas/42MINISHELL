@@ -27,6 +27,7 @@
 
 # define EOF_KEY 4
 # define BACKSPACE 127
+# define CTR_L 12
 # define LEFT_ARROW 4479771
 # define RIGHT_ARROW 4414235
 # define UP_ARROW 4283163
@@ -45,7 +46,11 @@ typedef struct			s_termcaps
 	int					col;
 	int					row;
 	int					cur_pos;
+	int					size_col;
+	int					size_row;
 	int					start_col;
+	int					start_row;
+	int					end_row;
 }						t_termcaps;
 
 typedef struct			s_hist
@@ -68,6 +73,7 @@ void				set_cursor_position(t_termcaps *tc, int col, int row);
 void				keys_tree(long c, t_termcaps *tc, t_mini *mini);
 
 void				init_termcaps(t_termcaps *tc);
+void				window_size(t_termcaps *tc);
 int					get_line(t_mini *mini);
 int					tc_putchar(int c);
 void				create_line(long c, t_termcaps *tc);

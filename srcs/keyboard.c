@@ -12,6 +12,14 @@
 
 #include "../includes/minishell.h"
 
+void			window_size(t_termcaps *tc)
+{
+	struct		winsize window;
+	ioctl(STDOUT_FILENO, TIOCGWINSZ, &window);
+	tc->size_col = window.ws_col;
+	tc->size_row = window.ws_row;
+}
+
 void			keys_tree(long c, t_termcaps *tc, t_mini *mini)
 {
 	if (ft_isprint(c))
@@ -33,5 +41,11 @@ void			keys_tree(long c, t_termcaps *tc, t_mini *mini)
 		tc->cur_pos = 0;
 	else if (c == END)
 		tc->cur_pos = ft_strlen(tc->line);
+	else if (c == CTR_L)
+	{
+		write(1, "\33[H\33[2J", 7);
+		tc->start_col = 0;
+		tc->start_row = 0;
+	}
 	print_line(tc);
 }
