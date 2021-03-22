@@ -7,36 +7,29 @@
 - `ADD: ...` to implement new function/files
 - `FIX: ...`  to correct bugs
 - `NORM: ...` to correct norm error
-- `RFCT: ...` to refacto 
-### Branches
-+ main
-  + dev
-    + feat1 
-    + ...
-  + dev2
-    + dev2-prompt
-    + ... 
+- `RFCT: ...` to refacto  
 
 ## To do
   - [X] import libft
   - [X] add subject V2021
   - [X] create folder structure
   - [X] create Makefile
-  - [ ] endless prompt display
-  - [ ] duplicate **env in a list
+  - [X] endless prompt
+  - [X] dup **env
   - [ ] parsing
     - [ ] ... 
   - [ ] builtins
      - [ ] echo
-        - [ ] -n option (do not ouput the trailing newline)
+        - [X] handle -n option
+        - [ ] handle $ENV_VAR 
         <details>
           <summary>pseudo-code</summary>
           <p>1. check for "-n" option as 2nd argument of our input<br />&emsp;1.1 if "-n" present, inc 1 to go on next arg<br />&emsp;1.2 set no_newline flag to 1<br />2. loop on each argument<br />&emsp;2.1 write content of the argument<br />&emsp;2.2 write <code> </code>if there is still an argument to display<br />3. if no_newline flag = 1, add a <code>\n</code><br />4. return</p>
         </details>
      - [ ] pwd
-        - [ ] pwd with args
-        - [ ] pwd without args
-        - [ ] pwd with $PWD/$OLDPWD unset
+        - [X] args
+        - [X] no args
+        - [ ] pwd with $PWD/$OLDPWD unset (need to modif prompt to use ms.pwd, not ft_getenv)
         <details>
           <summary>pseudo-code</summary>
           <p>1. check if there is more than 1 argument<br />&emsp;1.1 if args > 2, write <code>pwd: too many arguments</code><br />&emsp;1.2 return<br />2. check if PWD in env exists<br />&emsp;2.1 if it's unset, use getcwd<br />3. write the current directory <code>/pathname/of/curr/dir</code><br />4. return</p>
@@ -46,13 +39,11 @@
           <p>possible case :<br /><code>pwd</code><br /><code>pwd args1 args2</code><br /><br />output of <code>env | grep "PWD"</code>:<br />   PWD=/home/user42/Bureau<br />OLDPWD=/home/user42</p>
         </details>
      - [ ] cd
-        - [ ] ...
         - [ ] cd -
         - [ ] cd ~
-        - [ ] cd ..
-        - [ ] cd relative path
-        - [ ] cd absolute path
-        - [ ] update PWD & OLDPWD after env var
+        - [x] rel path
+        - [x] abs path
+        - [x] update PWD & OLDPWD in t_env + set ms.pwd & ms.old_pwd
      - [ ] export
         <details>
           <summary>pseudo-code</summary>
