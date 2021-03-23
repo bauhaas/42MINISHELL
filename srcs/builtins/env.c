@@ -6,31 +6,25 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/21 00:42:31 by bahaas            #+#    #+#             */
-/*   Updated: 2021/03/21 23:16:36 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/03/23 15:09:36 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-/*
-void display_env(void *content)
-{
-	printf("test\n");
-}*/
-
 int	ft_env(t_ms *ms, t_cmd *cmd)
 {
 	t_var *var;
-	//ft_lstiter(ms->env, display_env(ms->env->content));
+	t_list *tmp = ms->env;
 	if(!cmd->content[1])
 	{
-		while(ms->env)
+		while(tmp)
 		{
-			var = (t_var *)ms->env->content;
+			var = (t_var *)tmp->content;
 			printf("%s", var->name);
 			printf("=");
 			printf("%s\n", var->value);
-			ms->env = ms->env->next;
+			tmp = tmp->next;
 		}
 	}
 	return (0);

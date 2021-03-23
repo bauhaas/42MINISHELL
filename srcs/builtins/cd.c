@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/21 00:44:41 by bahaas            #+#    #+#             */
-/*   Updated: 2021/03/23 14:42:01 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/03/23 15:30:04 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,20 @@ char *ft_getenv(t_list **head_ref, char *elem)
 		var = (t_var *)tmp->content;
 		if(!ft_strcmp(var->name, elem))
 			return (var->value);
+		tmp = tmp->next;
+	}
+	return (NULL);
+}
+
+char *ft_getenv_name(t_list **head_ref, char *elem)
+{
+	t_var *var;
+	t_list *tmp = *head_ref;
+	while(tmp)
+	{
+		var = (t_var *)tmp->content;
+		if(!ft_strcmp(var->name, elem))
+			return (var->name);
 		tmp = tmp->next;
 	}
 	return (NULL);
