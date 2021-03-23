@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/21 00:44:41 by bahaas            #+#    #+#             */
-/*   Updated: 2021/03/22 18:35:31 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/03/23 14:42:01 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,25 @@ void	set_location(t_list **head_ref, t_ms *ms, char *path, char *old_path)
 	ms->pwd = path;
 }
 
+char *set_path(t_ms *ms, char *path)
+{
+	char *home;
+
+	if (!ft_strcmp(path, "~") && ft_getenv(&ms->env, "HOME"))
+	{
+		home = ft_getenv(&ms->env, "HOME");
+		if(!home)
+		{
+			printf("cd: No home directory\n");
+			return (NULL);
+		}
+		return(ft_getenv(&ms->env, "HOME"));
+	}
+	else if (!ft_strcmp(path, "-"))
+		return(ms->old_pwd);
+	return (path);
+}
+
 int	ft_cd(t_ms *ms, t_cmd *cmd)
 {
 	char *old_pwd;
@@ -59,7 +78,7 @@ int	ft_cd(t_ms *ms, t_cmd *cmd)
 		i++;
 	if(i > 2)
 	{
-		ft_putstr("cd: Too many arguments\n");
+		printf("cd: Too many arguments\n");
 		return (0);
 	}
 	else if(i == 1)
@@ -67,7 +86,7 @@ int	ft_cd(t_ms *ms, t_cmd *cmd)
 		path = ft_getenv(&ms->env, "HOME");
 		if(!path)
 		{
-			ft_putstr("cd: No home directory\n");
+			printf("cd: No home directory\n");
 			return (0);
 		}
 		chdir(path);
@@ -75,9 +94,12 @@ int	ft_cd(t_ms *ms, t_cmd *cmd)
 		set_location(&ms->env, ms, path, old_pwd);
 		return (0);
 	}
-	if(chdir(cmd->content[1]) == -1)
+	path = set_path(ms, cmd->content[1]);
+	if(!path)
+		return (0);
+	if(chdir(path) == -1)
 	{
-		printf("cd: No such file or direcotry: %s\n", cmd->content[1]);
+		printf("cd: No such file or direcotry: %s\n", path);
 		return(0);
 	}
 	new_pwd = getcwd(new_pwd, 2048);
