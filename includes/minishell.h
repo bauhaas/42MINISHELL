@@ -6,7 +6,7 @@
 /*   By: clorin <clorin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 12:28:05 by clorin            #+#    #+#             */
-/*   Updated: 2021/03/22 21:55:56 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/03/23 15:30:26 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,6 +136,7 @@ void	init_bltn(t_ms *ms);
 int		execute(t_ms *ms, t_cmd *cmd);
 char	**get_tokens(char *line);
 char	*ft_getenv(t_list **head_ref, char *elem);
+char	*ft_getenv_name(t_list **head_ref, char *elem);
 
 void	init_ms(t_ms *ms, char **env);
 void	tmp_line_to_cmd(t_ms *ms, char *line);

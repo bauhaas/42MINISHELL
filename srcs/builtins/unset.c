@@ -6,53 +6,51 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/21 00:41:56 by bahaas            #+#    #+#             */
-/*   Updated: 2021/03/22 22:13:06 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/03/23 16:34:09 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-
-void del_one(t_list **head_ref, char *key)
+void delete_one(t_list** head_ref, char *name)
 {
-    t_list *temp = *head_ref, *prev;
+	t_list* tmp = *head_ref;
+	t_list* prev = NULL;
 	t_var *var;
 
-	var = (t_var *)temp->content;
-    // If head node itself holds the key to be deleted
-    if (temp != NULL && var->name == key) {
-        *head_ref = temp->next; // Changed head
-        free(temp); // free old head
-        return;
-    }
-    // Search for the key to be deleted, keep track of the
-    // previous node as we need to change 'prev->next'
-    while (temp != NULL && var->name != key) {
-        prev = temp;
-        temp = temp->next;
-    }
-    // If key was not present in linked list
-    if (temp == NULL)
-        return;
-    // Unlink the node from linked list
-    prev->next = temp->next;
-    free(temp); // Free memory
+	var = (t_var *)tmp->content;
+	if (tmp != NULL && !ft_strcmp(var->name, name))
+	{
+		*head_ref = tmp->next;
+		free(tmp);
+		return ;
+	}
+	else
+	{
+		while (tmp != NULL && ft_strcmp(var->name, name))
+		{
+			prev = tmp;
+			tmp = tmp->next;
+			var = (t_var *)tmp->content;
+		}
+		if (tmp == NULL)
+			return ;
+		prev->next = tmp->next;
+		free(tmp);
+	}
 }
 
 int	ft_unset(t_ms *ms, t_cmd *cmd)
 {
-	int i = 0;
-	char *var;
-	while(ms->env)
+	char	*env_name;
+	int		i;
+
+	i = 0;
+	while(cmd->content[++i])
 	{
-		var = ft_getenv(&ms->env, cmd->content[1]);
-		i++;
-		if(var)
-		{
-			del_one(&ms->env, var);
-		}
-		ms->env = ms->env->next;
+		env_name = ft_getenv_name(&ms->env, cmd->content[i]);
+		if(env_name)
+			delete_one(&ms->env, env_name);
 	}
-	printf("test i %d\n", i);
 	return (0);
 }
