@@ -44,8 +44,8 @@ void			keys_tree(long c, t_termcaps *tc, t_ms *mini)
 	else if (c == CTR_L)
 	{
 		write(1, "\33[H\33[2J", 7);
-		tc->start_col = 0;
-		tc->start_row = 0;
+		//tc->start_col = 0;
+		//tc->start_row = 0;
 		tc->row = 0;
 		tc->col = 0;
 	}

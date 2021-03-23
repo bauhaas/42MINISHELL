@@ -12,14 +12,7 @@
 
 #include "../includes/minishell.h"
 
-/*
-void			prompt(void)
-{
-	write (1, getenv("PWD"), ft_strlen(getenv("PWD")));
-	write (1, "$> ", 3);
-}*/
-
-int			prompt_bahaas(t_ms *ms)
+int			prompt(t_ms *ms)
 {
 	int ret;
 

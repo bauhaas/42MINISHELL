@@ -19,6 +19,8 @@
 # include <term.h>
 # include <sys/ioctl.h>
 # include <signal.h>
+# include <limits.h>
+# include <curses.h>
 # include "../libft/libft.h"
 
 # define STDIN 0
@@ -48,9 +50,9 @@ typedef struct			s_termcaps
 	int					cur_pos;
 	int					size_col;
 	int					size_row;
-	int					start_col;
-	int					start_row;
-	int					end_row;
+	// int					start_col;
+	// int					start_row;
+	// int					end_row;
 }						t_termcaps;
 
 typedef struct			s_hist
@@ -88,11 +90,9 @@ int					get_line(t_ms *mini);
 int					tc_putchar(int c);
 void				create_line(long c, t_termcaps *tc);
 void				clear_line(t_termcaps *tc);
-//void				print_line(t_termcaps *tc);
 void				print_line(t_termcaps *tc, t_ms *ms);
 void				del_char(t_termcaps *tc);
-//void				prompt(void);
-int					prompt_bahaas(t_ms *ms);
+int					prompt(t_ms *ms);
 
 /*
 *	history

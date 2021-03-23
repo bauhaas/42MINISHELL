@@ -75,11 +75,9 @@ void			clear_line(t_termcaps *tc)
 
 void			print_line(t_termcaps *tc, t_ms *ms)
 {
+	int			start;
 	set_cursor_position(tc, 0, tc->row);
-	clear_line(tc);
-//	prompt();
-	prompt_bahaas(ms);
-	int start = ft_strlen(getenv("PWD")) + 3;
+	start = prompt(ms);
 	if (tc->line)
 		write(STDOUT, tc->line, ft_strlen(tc->line));
 	get_cursor_position(&tc->col, &tc->row);

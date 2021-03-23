@@ -22,15 +22,15 @@ void			init_termcaps(t_termcaps *tc)
 	ret = tgetent(NULL, name);
 	if (ret == 1)
 	{
-		tcgetattr(STDIN, &tc->term);
-		tcgetattr(STDIN, &tc->old_termcaps);
+		tcgetattr(0, &tc->term);
+		tcgetattr(0, &tc->old_termcaps);
 		tc->term.c_lflag &= ~(ICANON | ECHO);
 		tc->term.c_cc[VMIN] = 1;
 		tc->term.c_cc[VTIME] = 0;
-		tcsetattr(STDIN, TCSANOW, &tc->term);
+		tcsetattr(0, TCSANOW, &tc->term);
 		tc->cm = tgetstr("cm", NULL);
 		tc->ce = tgetstr("ce", NULL);
-		tc->dl = tgetstr("dl", NULL);
+		tc->dl = tgetstr("DL", NULL);
 		tc->cur_pos = 0;
 		tc->line = NULL;
 	}
@@ -59,7 +59,7 @@ static int		boucle(t_termcaps *tc, t_ms *mini)
 	c = 0;
 	while (read(STDIN, &c, sizeof(c)) >= 0)
 	{
-			get_cursor_position(&tc->col, &tc->row);
+		get_cursor_position(&tc->col, &tc->row);
 		if (c == '\n')
 		{
 			if (!tc->line)
@@ -87,9 +87,7 @@ int				get_line(t_ms *mini)
 	t_termcaps	tc;
 
 	init_termcaps(&tc);
-	//prompt();
-	//that version return an int the size of strlen(getenv(PWD) + 3) (3 = "$>")
-	prompt_bahaas(mini);
+	prompt(mini);
 	get_cursor_position(&tc.col, &tc.row);
 	status = boucle(&tc, mini);
 	set_cursor_position(&tc, tc.col, tc.row);

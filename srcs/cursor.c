@@ -12,48 +12,34 @@
 
 #include "../includes/minishell.h"
 
-static int		get_cur(char buf[30], char end, int *i)
+void	get_cursor_position(int *col, int *rows)
 {
-	int			cord;
-	int			pow;
-
-	cord = 0;
-	pow = 1;
-	while (buf[*i] != end)
-	{
-		cord = cord + (buf[*i] - '0') * pow;
-		(*i)--;
-		pow *= 10;
-	}
-	return (cord);
-}
-
-void 		get_cursor_position(int *x, int *y)
-{
-	char 	buf[30];
+	int		a;
 	int		i;
-	char	ch;
+	char	buf[255];
+	int		ret;
 
-	*y = 0;
-	*x = 0;
-	i = 0;
-	ch = 0;
-	ft_bzero(&buf, 30);
-	write(1, "\033[6n", 4);
-	while (ch != 'R')
+	a = 0;
+	i = 1;
+	*col = 0;
+	*rows = 0;
+	write(0, "\033[6n", 4);
+	ret = read(0, buf, 254);
+	buf[ret] = '\0';
+	while (i < 254 && buf[i])
 	{
-		read(0, &ch, 1);
-		buf[i++] = ch;
+		if (buf[i] >= 48 && buf[i] <= 57)
+		{
+			if (a == 0)
+				*rows = ft_atoi(&buf[i]) - 1;
+			else
+				*col = ft_atoi(&buf[i]) - 1;
+			a++;
+			i += ft_intlen(*col) - 1;
+		}
+		i++;
 	}
-	if (i < 2)
-		return ;
-	i -=2;
-	*x = get_cur(buf, ';', &i);
-	i--;
-	*y = get_cur(buf, '[', &i);
-	return ;
 }
-
 
 void		set_cursor_position(t_termcaps *tc, int col, int row)
 {
