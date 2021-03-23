@@ -6,7 +6,7 @@
 /*   By: clorin <clorin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 12:52:12 by clorin            #+#    #+#             */
-/*   Updated: 2021/03/22 15:50:58 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/03/23 16:51:46 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,23 @@ void init_lstenv(t_ms *ms, t_list **lst_env, char **env)
 	}
 }
 
+void	init_location(t_ms *ms)
+{
+	t_list *tmp;
+	t_var *var;
+
+	tmp = ms->env;
+	while(tmp)
+	{
+		var = (t_var *)tmp->content;
+		if(!strcmp(var->name, "PWD"))
+			ms->pwd = var->value;
+		if(!strcmp(var->name, "OLDPWD"))
+			ms->old_pwd = var->value;
+		tmp = tmp->next;
+	}
+}
+
 void	init_ms(t_ms *ms, char **env)
 {
 	ms->env = NULL;
@@ -77,6 +94,7 @@ void	init_ms(t_ms *ms, char **env)
 	ms->bltn = malloc(sizeof(t_bltn));
 	init_bltn(ms);
 	init_lstenv(ms, &ms->env, env);
+	init_location(ms);
 }
 
 /// OLD DEV2 MAIN 
