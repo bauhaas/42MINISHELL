@@ -59,7 +59,12 @@ static int		boucle(t_termcaps *tc, t_ms *mini)
 	c = 0;
 	while (read(STDIN, &c, sizeof(c)) >= 0)
 	{
+		window_size(tc);
 		get_cursor_position(&tc->col, &tc->row);
+		if (tc->col == (tc->size_col - 1) && c != BACKSPACE
+			&& c != LEFT_ARROW && c != RIGHT_ARROW 
+			&& tc->row + 1 == tc->size_row)
+			tc->start_row --;
 		if (c == '\n')
 		{
 			if (!tc->line)
@@ -87,6 +92,7 @@ int				get_line(t_ms *mini)
 	t_termcaps	tc;
 
 	init_termcaps(&tc);
+	get_cursor_position(&tc.start_col, &tc.start_row);
 	prompt(mini);
 	get_cursor_position(&tc.col, &tc.row);
 	status = boucle(&tc, mini);

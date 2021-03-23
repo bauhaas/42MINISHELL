@@ -50,8 +50,8 @@ typedef struct			s_termcaps
 	int					cur_pos;
 	int					size_col;
 	int					size_row;
-	// int					start_col;
-	// int					start_row;
+	int					start_col;
+	int					start_row;
 	// int					end_row;
 }						t_termcaps;
 

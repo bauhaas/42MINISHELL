@@ -76,11 +76,17 @@ void			clear_line(t_termcaps *tc)
 void			print_line(t_termcaps *tc, t_ms *ms)
 {
 	int			start;
-	set_cursor_position(tc, 0, tc->row);
+	int			pos_x;
+	int			pos_y;
+
+	set_cursor_position(tc, 0, tc->start_row);
 	start = prompt(ms);
 	if (tc->line)
 		write(STDOUT, tc->line, ft_strlen(tc->line));
 	get_cursor_position(&tc->col, &tc->row);
 	clear_line(tc);
-	set_cursor_position(tc, start + tc->cur_pos, tc->row);
+	pos_x = (start + tc->cur_pos) % tc->size_col;
+	pos_y = ((start + tc->cur_pos) / tc->size_col) + tc->start_row;
+	//set_cursor_position(tc, start + tc->cur_pos, tc->row);
+	set_cursor_position(tc,pos_x, pos_y);
 }
