@@ -14,8 +14,6 @@
 
 int ft_pwd(t_ms *ms, t_cmd *cmd)
 {
-	char *pwd;
-
 	if(cmd->content[1])
 		printf("pwd: too many arguments\n");
 	else

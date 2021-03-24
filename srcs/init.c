@@ -32,7 +32,9 @@ t_var	*init_envvar(char *env_var)
 	else
 		new->name=NULL;
 	if(split_var[1])
+	{
 		new->value=split_var[1];
+	}
 	else
 		new->value=NULL;
 	return(new);

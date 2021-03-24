@@ -14,5 +14,19 @@
 
 int	ft_export(t_ms *ms, t_cmd *cmd)
 {
+	t_list *tmp = ms->env;
+
+	if (!cmd->content[1])
+	{
+		while(tmp)
+		{
+			print_env((t_var *)tmp->content, EXPORT);
+			tmp = tmp->next;
+		}
+	}
+	else
+	{
+		printf("TODO !\n");
+	}
 	return (0);
 }

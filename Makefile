@@ -12,9 +12,11 @@
 
 NAME		= minishell
 
-SRC		= srcs/main.c srcs/cursor.c srcs/termcaps.c srcs/keyboard.c srcs/print_utils.c \
-		srcs/prompt.c srcs/history.c srcs/builtins/pwd.c srcs/builtins/echo.c srcs/tokens.c srcs/execute.c \
-		srcs/builtins/export.c	srcs/builtins/env.c srcs/builtins/unset.c srcs/builtins/exit.c srcs/builtins/cd.c srcs/init.c srcs/command.c
+SRC		= srcs/main.c srcs/init.c srcs/command.c srcs/tokens.c srcs/execute.c\
+		srcs/termcaps/cursor.c srcs/termcaps/termcaps.c srcs/termcaps/keyboard.c \
+		srcs/termcaps/print_utils.c srcs/termcaps/prompt.c srcs/termcaps/history.c \
+		srcs/builtins/pwd.c srcs/builtins/echo.c srcs/builtins/export.c	srcs/builtins/env.c \
+		srcs/builtins/unset.c srcs/builtins/exit.c srcs/builtins/cd.c 
 
 CC		= clang
 

@@ -36,6 +36,9 @@
 # define HOME 4741915
 # define END 4610843
 
+# define ENV 0
+# define EXPORT 1
+
 typedef struct			s_termcaps
 {
 	struct termios		term;
@@ -136,6 +139,7 @@ int		execute(t_ms *ms, t_cmd *cmd);
 char	**get_tokens(char *line);
 char	*ft_getenv(t_list **head_ref, char *elem);
 char	*ft_getenv_name(t_list **head_ref, char *elem);
+void	print_env(t_var *env, int mod);
 
 void	init_ms(t_ms *ms, char **env);
 void	tmp_line_to_cmd(t_ms *ms, char *line);
