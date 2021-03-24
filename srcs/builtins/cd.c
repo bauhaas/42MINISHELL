@@ -6,54 +6,11 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/21 00:44:41 by bahaas            #+#    #+#             */
-/*   Updated: 2021/03/23 19:02:32 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/03/24 09:57:51 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-/*
-** TO DO: Join both of them with just a condition if we have to return name
-** or value --> it requires to add a flag on the prototype.
-**
-** Move them in a more general file.
-**
-** char *ft_getenv(t_list **head_ref, char *elem, int value); 
-** add just 1 or 0 when u call the function and check value.
-*/
-
-char *ft_getenv(t_list **head_ref, char *elem)
-{
-	t_var *var;
-	t_list *tmp = *head_ref;
-	while(tmp)
-	{
-		var = (t_var *)tmp->content;
-		if(!ft_strcmp(var->name, elem))
-			return (var->value);
-		tmp = tmp->next;
-	}
-	return (NULL);
-}
-
-char *ft_getenv_name(t_list **head_ref, char *elem)
-{
-	t_var *var;
-	t_list *tmp = *head_ref;
-	while(tmp)
-	{
-		var = (t_var *)tmp->content;
-		if(!ft_strcmp(var->name, elem))
-			return (var->name);
-		tmp = tmp->next;
-	}
-	return (NULL);
-}
-
-//
-//
-//
-//
 
 /*
 ** Swap the content of 2 list element
@@ -131,7 +88,7 @@ char *cd_home(t_ms *ms, int tilde)
 {
 	char *home;
 		
-	home = ft_getenv(&ms->env, "HOME");
+	home = ft_getenv(&ms->env, "HOME", 1);
 	if(!home)
 	{
 		if(tilde)

@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/21 14:52:26 by bahaas            #+#    #+#             */
-/*   Updated: 2021/03/22 18:27:55 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/03/24 09:56:42 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ void	tmp_line_to_cmd(t_ms *ms, char *line)
 	/*
 	printf("ms.pwd = %s\n", ms->pwd);
 	printf("ms.oldpwd = %s\n", ms->old_pwd);
-	char *pwd_env = ft_getenv(&ms->env, "PWD");
-	char *oldpwd_env = ft_getenv(&ms->env, "OLDPWD");
+	char *pwd_env = ft_getenv(&ms->env, "PWD", 1);
+	char *oldpwd_env = ft_getenv(&ms->env, "OLDPWD", 1);
 	printf("ms->env->pwd = %s\n", pwd_env);
 	printf("ms->env->oldpwd = %s\n", oldpwd_env);
 	*/

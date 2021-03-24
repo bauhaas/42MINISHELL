@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/21 00:41:56 by bahaas            #+#    #+#             */
-/*   Updated: 2021/03/23 16:34:09 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/03/24 09:58:31 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	ft_unset(t_ms *ms, t_cmd *cmd)
 	i = 0;
 	while(cmd->content[++i])
 	{
-		env_name = ft_getenv_name(&ms->env, cmd->content[i]);
+		env_name = ft_getenv(&ms->env, cmd->content[i], 0);
 		if(env_name)
 			delete_one(&ms->env, env_name);
 	}
