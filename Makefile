@@ -28,8 +28,8 @@ OBJ		= $(SRC:.c=.o)
 all :		$(NAME)
 
 .c.o :	
+		@printf "\033[0;33mGenerating Minishell objects... %-33.33s\r" $@
 		@$(CC) $(FLAGS) $(HEADER) -c $< -o $(<:.c=.o)
-		@echo "compilation : "$< "\033[32mOK\033[0m"
 
 $(NAME) :	$(OBJ)
 		@make -C libft/
