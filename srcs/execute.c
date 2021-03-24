@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/20 16:00:10 by bahaas            #+#    #+#             */
-/*   Updated: 2021/03/22 15:46:29 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/03/24 16:59:13 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,14 +80,74 @@ int		launch_bltn(t_ms *ms, t_cmd *cmd)
 ** if the 1st word is equivalent to a builtin or an exec that require to fork
 */
 
+char **lst_to_arr(t_list *env)
+{
+	char **arr_env;
+	t_list *tmp = env;
+	t_var *var;
+	int i = 0;
+	arr_env = malloc(sizeof(char *) * ft_lstsize(tmp));
+	if(!arr_env)
+		return (NULL);
+	while(tmp)
+	{
+		var = (t_var *)tmp->content;
+		arr_env[i] = ft_strdup(var->name);
+		arr_env[i] = ft_strjoin(arr_env[i], "=");
+		arr_env[i] = ft_strjoin(arr_env[i], var->value);
+		tmp = tmp->next;
+		i++;
+	}
+	return (arr_env);
+}
+
+int	search_prog(t_ms *ms, t_cmd *cmd)
+{
+	char **path_to_check;
+	char *path_env;
+	char *program;
+	int i;
+	char **arr_env;
+
+	arr_env = lst_to_arr(ms->env);
+
+	path_env = ft_getenv(&ms->env, "PATH", 1);
+	path_to_check = ft_split(path_env, ':');
+
+	i = 0;
+	while(path_to_check[i])
+		i++;
+	i = 0;
+	program = ft_strjoin(path_to_check[i], cmd->content[0]);
+	while(path_to_check[i])
+	{
+		if(execve(program, cmd->content, arr_env))
+			free(program);
+		i++;
+		program = ft_strjoin(path_to_check[i], "/");
+		program = ft_strjoin(program, cmd->content[0]);
+	}
+	return (0);
+}
+
+void fork_exec(t_ms *ms, t_cmd *cmd)
+{
+	int pid;
+
+	pid = 0;
+	pid = fork();
+	if(pid == 0)
+		search_prog(ms, cmd);
+}
+
 int	execute(t_ms *ms, t_cmd *cmd)
 {
 	while (cmd != NULL)
 	{
 		if (get_bltn(ms, cmd->content[0]))
 			launch_bltn(ms, cmd);
-		//else
-			//fork_exec(ms, cmd)		// TO DO LATER :)
+		else
+			fork_exec(ms, cmd);	// TO DO LATER :)
 		cmd = cmd->next;
 	}
 	return (0);
