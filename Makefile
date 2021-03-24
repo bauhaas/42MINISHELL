@@ -12,7 +12,7 @@
 
 NAME		= minishell
 
-SRC		= srcs/main.c srcs/init.c srcs/command.c srcs/tokens.c srcs/execute.c\
+SRC		= srcs/main.c srcs/init.c srcs/command.c srcs/tokens.c srcs/execute.c srcs/expansion.c \
 		srcs/termcaps/cursor.c srcs/termcaps/termcaps.c srcs/termcaps/keyboard.c \
 		srcs/termcaps/print_utils.c srcs/termcaps/prompt.c srcs/termcaps/history.c \
 		srcs/builtins/pwd.c srcs/builtins/echo.c srcs/builtins/export.c	srcs/builtins/env.c \

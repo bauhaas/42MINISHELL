@@ -26,6 +26,9 @@
 # define STDOUT 1
 # define STDERR 2
 
+# define FALSE 0
+# define TRUE 1
+
 # define EOF_KEY 4
 # define BACKSPACE 127
 # define CTR_L 12
@@ -96,6 +99,9 @@ void				print_line(t_termcaps *tc, t_ms *ms);
 void				del_char(t_termcaps *tc);
 int					prompt(t_ms *ms);
 
+int					valid_quote(const char *str);
+int					is_in_quote(const char *str, int pos);
+void				parse(const char *str);
 /*
 *	history
 */

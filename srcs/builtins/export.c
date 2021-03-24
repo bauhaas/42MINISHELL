@@ -76,7 +76,8 @@ int	ft_export(t_ms *ms, t_cmd *cmd)
 	}
 	else
 	{
-		printf("TODO !\n");
+		char *str = "\"dfdfdf\'\"";
+		printf("test valid_quote(%s) = %d !\n", str, valid_quote(str));
 	}
 	return (0);
 }
