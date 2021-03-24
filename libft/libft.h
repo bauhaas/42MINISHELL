@@ -98,5 +98,5 @@ char			*ft_strmap(char const *s, char (*f)(char));
 t_list			*ft_lstsplit(char const *s, char c);
 int				get_next_line(const int fd, char **line);
 char			*strjoin_gnl(char const *s1, char const *s2);
-size_t			ft_intlen(intmax_t nb);
+size_t			ft_intlen(long long nb);
 #endif
