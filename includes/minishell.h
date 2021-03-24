@@ -20,7 +20,6 @@
 # include <sys/ioctl.h>
 # include <signal.h>
 # include <limits.h>
-# include <curses.h>
 # include "../libft/libft.h"
 
 # define STDIN 0
