@@ -142,6 +142,7 @@ void	print_env(t_var *env, int mod);
 char	*ft_getenv(t_list **head_ref, char *elem, int i);
 
 void	init_ms(t_ms *ms, char **env);
+void	ft_lstswap(t_list *prev, t_list *next);
 void	tmp_line_to_cmd(t_ms *ms, char *line);
 
 int		ft_echo(t_ms *ms, t_cmd *cmd);
