@@ -12,6 +12,7 @@ int		main(int argc, char **argv)
 		printf("valid_quote(%s) = %s\n",argv[1],(valid_quote(argv[1])?"ok":"KO"));
 		char	*str = "dd dd  \"fdf\" \" d\'f \'\"rer";
 		printf("\nis_in_quote(%s,%d) = %s\n", str, i, (is_in_quote(str,i)?"True":"False"));
+		printf("quote_in_quote = %s\n", (quote_in_quote(str, i)?"True":"False"));
 		// int j = 0;
 		// while(argv[1][j])
 		// {
@@ -21,8 +22,13 @@ int		main(int argc, char **argv)
 		// 		printf(".");
 		// 	j++;
 		// }
+		char	**words;
 		printf("\n");
-		parse(str);
+		words = parse(str);
+		while(*words)
+		{
+			printf("%s\n", *words++);
+		}
 	}
 	return (0);
 }

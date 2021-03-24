@@ -104,11 +104,117 @@ int			valid_quote(const char *str)
 	return ((cmpt % 2) == 0);
 }
 
-void		parse(const char *str)
+int			quote_in_quote(const char *str, int pos)
 {
-	int		i;
+	if (pos >= 0 && pos < ft_strlen(str))
+	{
+		return (is_quote(str[pos]) && is_in_quote(str, pos));
+	}
+	return (FALSE);
+}
+
+int			space_in_quote(const char *str, int pos)
+{
+	if (pos >=0 && pos < ft_strlen(str))
+	{
+		return (str[pos] == ' ' && is_in_quote(str, pos));
+	}
+	return (FALSE);
+}
+
+static char		*ft_strndup_split_(const char *s, size_t n)
+{
+	char		*str;
+	size_t		i;
 
 	i = 0;
+	str = (char *)malloc(sizeof(char) * n + 1);
+	if (!str)
+		return (NULL);
+	ft_bzero(str, n + 1);
+	while (s[i] && i < n)
+	{
+		str[i] = s[i];
+		i++;
+	}
+	return (str);
+}
+
+static void		free_split_(char **dest, int y)
+{
+	while (y >= 0)
+	{
+		free(dest[y]);
+		y--;
+	}
+	free(dest);
+}
+
+static char		**ft_fill_words_(char **dest, char const *s)
+{
+	int			i;
+	int			y;
+	int			j;
+
+	i = 0;
+	y = 0;
+	while (s[i])
+	{
+		while ((s[i] == ' ' && !space_in_quote(s, i))
+			||(is_quote(s[i]) && !quote_in_quote(s, i)))
+			i++;
+		j = i;
+		while (s[i] && (s[i] != ' ' || space_in_quote(s, i))
+			&& (!is_quote(s[i]) || quote_in_quote(s, i)))
+			i++;
+		if (i > j)
+		{
+			dest[y++] = ft_strndup_split_(s + j, i - j);
+			if (!dest[y - 1])
+			{
+				free_split_(dest, y - 2);
+				return (NULL);
+			}
+		}
+	}
+	dest[y] = NULL;
+	return (dest);
+}
+
+static int		nb_word_(char const *str)
+{
+	size_t		i;
+	int			cmpt;
+
+	i = 0;
+	cmpt = 0;
+	while (str[i])
+	{
+		while (str[i] == ' ' && !space_in_quote(str, i))
+			i++;
+		if (str[i])
+			cmpt++;
+		while (str[i] && (str[i] != ' ' || space_in_quote(str,i)))
+			i++;
+	}
+	return (cmpt);
+}
+
+char		**parse(const char *str)
+{
+	int		i;
+	char	**dest;
+	int		nb_word;
+
+	i = 0;
+	if (!str)
+		return (NULL);
+	nb_word = nb_word_(str);
+	//printf("Il y a %d mots dans la chaine\n", nb_word);
+	dest = (char **)malloc(sizeof(char *) * (nb_word + 1));
+	if (!dest)
+		return(NULL);
+	return (ft_fill_words_(dest, str));
 	while (str[i])
 	{
 		if((!ft_isspace(str[i]) && !is_quote(str[i])) || is_in_quote(str, i))

@@ -18,6 +18,7 @@
 # include <unistd.h>
 # include <term.h>
 # include <sys/ioctl.h>
+# include <sys/wait.h>
 # include <signal.h>
 # include <limits.h>
 # include "../libft/libft.h"
@@ -101,7 +102,8 @@ int					prompt(t_ms *ms);
 
 int					valid_quote(const char *str);
 int					is_in_quote(const char *str, int pos);
-void				parse(const char *str);
+int			quote_in_quote(const char *str, int pos);
+char				**parse(const char *str);
 /*
 *	history
 */
