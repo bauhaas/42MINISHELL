@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/21 00:42:31 by bahaas            #+#    #+#             */
-/*   Updated: 2021/03/23 15:09:36 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/03/24 12:36:19 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void		print_env(t_var *env, int mod)
 	{
 		if (!env->value)
 			return ;
-		if (env->value[0] == '\0')
+		if (env->value[0] == '\0' && env->export_display == 0) 
 		{
 			printf("%s=\n", env->name);
 		}
@@ -31,9 +31,9 @@ void		print_env(t_var *env, int mod)
 		if (env->value == NULL)
 			printf("\n");
 		else if (env->value[0] == '\0')
-			printf("=\"\"\n");
+			printf("=\'\'\n");
 		else
-			printf("=\"%s\"\n", env->value);
+			printf("=\'%s\'\n", env->value);
 	}
 }
 

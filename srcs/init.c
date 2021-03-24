@@ -6,7 +6,7 @@
 /*   By: clorin <clorin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 12:52:12 by clorin            #+#    #+#             */
-/*   Updated: 2021/03/23 16:51:46 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/03/24 12:07:41 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,13 @@ t_var	*init_envvar(char *env_var)
 	else
 		new->name=NULL;
 	if(split_var[1])
-	{
 		new->value=split_var[1];
-	}
 	else
 		new->value=NULL;
+	if(ft_strchr(env_var, '='))
+		new->export_display = 1;
+	else
+		new->export_display = 0;
 	return(new);
 }
 
@@ -52,12 +54,13 @@ void init_lstenv(t_ms *ms, t_list **lst_env, char **env)
 	t_var *var;
 	t_var *cpy;
 	
-	i = -1;
+	i = 0;
 	new = NULL;
 	var = NULL;
 	cpy = NULL;
-	while(env[++i])
+	while(env[i] != NULL)
 	{
+		printf("env : %s", env[i]);
 		var = init_envvar(env[i]);
 		cpy = malloc(sizeof(t_var));
 		cpy->name = ft_strdup(var->name);
@@ -68,6 +71,8 @@ void init_lstenv(t_ms *ms, t_list **lst_env, char **env)
 			ms->old_pwd = ft_strdup(var->value);
 		new = ft_lstnew(cpy);
 		ft_lstadd_back(lst_env, new);
+		printf(" end\n");
+		i++;
 	}
 }
 
@@ -96,6 +101,7 @@ void	init_ms(t_ms *ms, char **env)
 	ms->bltn = malloc(sizeof(t_bltn));
 	init_bltn(ms);
 	init_lstenv(ms, &ms->env, env);
+	printf("test");
 	init_location(ms);
 }
 

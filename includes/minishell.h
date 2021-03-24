@@ -6,7 +6,7 @@
 /*   By: clorin <clorin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 12:28:05 by clorin            #+#    #+#             */
-/*   Updated: 2021/03/24 10:57:03 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/03/24 11:19:33 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,7 @@ typedef	struct	s_var
 {
 	char *name;
 	char *value;
+	int export_display;
 }				t_var;
 
 /*
