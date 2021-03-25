@@ -100,9 +100,9 @@ void				print_line(t_termcaps *tc, t_ms *ms);
 void				del_char(t_termcaps *tc);
 int					prompt(t_ms *ms);
 
-int					valid_quote(const char *str);
-int					is_in_quote(const char *str, int pos);
-int			quote_in_quote(const char *str, int pos);
+int					valid_quotes(const char *str);
+int					is_in_quotes(const char *str, int pos);
+int					quote_in_quotes(const char *str, int pos);
 char				**parse(const char *str);
 /*
 *	history

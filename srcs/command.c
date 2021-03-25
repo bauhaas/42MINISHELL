@@ -19,14 +19,12 @@ void	tmp_line_to_cmd(t_ms *ms, char *line)
 	printf("(%d)line = %s\n", ms->exit, ms->line);
 	
 	cmd = malloc(sizeof(t_cmd));
-	cmd->content = ft_split(line, ' ');
+	// cmd->content = ft_split(line, ' ');
+	cmd->content = parse(line);
 	int i = 0;
 		printf("cmd = ");
 	while(cmd->content[i])
-	{
-		printf("\"%s\" ", cmd->content[i]);
-		i++;
-	}
+		printf("<%s> ", cmd->content[i++]);
 	printf("\n");
 	cmd->next = NULL;
 	cmd->ret_value = 0;

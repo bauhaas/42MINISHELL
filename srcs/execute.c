@@ -133,11 +133,14 @@ int	search_prog(t_ms *ms, t_cmd *cmd)
 void fork_exec(t_ms *ms, t_cmd *cmd)
 {
 	int pid;
+	int statut;
 
 	pid = 0;
 	pid = fork();
 	if(pid == 0)
 		search_prog(ms, cmd);
+	else
+		waitpid(pid, &statut, 0);
 }
 
 int	execute(t_ms *ms, t_cmd *cmd)
@@ -146,8 +149,8 @@ int	execute(t_ms *ms, t_cmd *cmd)
 	{
 		if (get_bltn(ms, cmd->content[0]))
 			launch_bltn(ms, cmd);
-		else
-			fork_exec(ms, cmd);	// TO DO LATER :)
+		//else
+			//fork_exec(ms, cmd);	// TO DO LATER :)
 		cmd = cmd->next;
 	}
 	return (0);
