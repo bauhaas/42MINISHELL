@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 /*
 \\ - backslash
 \a - alert (BEL)
@@ -25,23 +24,49 @@
 \0NNN - byte with octal value NNN (1 to 3 digits)
 \xHH - byte with hexadecimal value HH (1 to 2 digits)
 */
+
+/*
+**	if c is a quote return his ascii code, 0 otherwise
+*/
 #include "../includes/minishell.h"
 
-int			is_quote(const int c)
+int				is_quote(const int c)
 {
-	return (c == 39 || c== 34);
+	if (c == 39)
+		return (39);
+	if (c == 34)
+		return (34);
+	return (FALSE);
 }
 
 /*
 **	This function returns TRUE if the character c at position POS is preceded by /
 */
-int			is_echaped(const char *str, const int c, int pos)
+int				is_echaped(const char *str, const int c, int pos)
 {
 	if (pos > 0 && pos < ft_strlen(str))
 	{
 		return (((int)str[pos - 1] == 92) && (int)str[pos] == c);
 	}
 	return (FALSE);
+}
+
+/*
+**	this function return the first quote cast in int or 0 if nothing
+**	the *pos is the position of this quote.
+*/
+int			first_quote(const char *str, int *pos)
+{
+	if (!str || !str[0])
+		return (0);
+	while (*pos < ft_strlen(str))
+	{
+		if (is_quote((int)str[*pos]))
+			return ((int)str[*pos]);
+		(*pos)++;
+	}
+	*pos = 0;
+	return (0);
 }
 
 int			next_quote(const char *str, int c, int i)
@@ -58,84 +83,103 @@ int			next_quote(const char *str, int c, int i)
 }
 
 /*
-**	This function returns TRUE if pos is in a string surrounded by quotes.
+**	This function returns ascii code of the quote if pos is in
+**	a string surrounded by quotes.
 **	False otherwise.
 */
 int			is_in_quotes(const char *str, int pos)
 {
-	int		i;
-	int		j;
-	int		c;
-	//int		quote;
+	int		begin;
+	int		end;
+	int		quote;
 
-	i = 0;
-	//quote = FALSE;
-	//printf("debut ");
-	if (!str || *str == '\0')
+	begin = 0;
+	quote = TRUE;
+	if (!str || *str == '\0' || pos == ft_strlen(str) - 1)
 		return (FALSE);
-	//printf("\n");
-	while (str[i])
+	while (str[begin] && quote)
 	{
-		c = 0;
-		//printf("%d =>%c ",i, str[i]);
-		while (str[i] && !is_quote(str[i]))
+		quote = first_quote(str, &begin);
+		if (quote && !is_echaped(str, quote, begin))
 		{
-			i++;
-			//printf(".");
+			begin++;
+			end = next_quote(str, quote, begin) - 1;
+			//printf("[%d,%d]\n", begin, end);
+			if (pos >= begin && pos <= end)
+				return (quote);
+			end  += 2;
 		}
-		//printf("x");
-		if (!str[i] || pos <= i)
-			return (FALSE);
-		//printf("%d in [%d", pos, i);
-		c = str[i++];
-		j = next_quote(str, c, i);
-		//printf(",%d[\n", j);
-		if (pos >= i && pos < j)
-			return (TRUE);
-		i = j + 1;
+		begin = end;
 	}
 	return (FALSE);
 }
 
+/*
+** This function checks the the string str
+** if open return the ascii code of the quote
+** otherwise 0 if closed
+*/
+int		valid_quotes(const char *str)
+{
+	int	i;
+	int	open;
+
+	i = 0;
+	open = 0;
+	while (str[i])
+	{
+		if (i > 0 && str[i - 1] == '\\')
+			;
+		else if (open == 0 && str[i] == '\"')
+			open = 34;
+		else if (open == 0 && str[i] == '\'')
+			open = 39;
+		else if (open == 34 && str[i] == '\"')
+			open = 0;
+		else if (open == 39 && str[i] == '\'')
+			open = 0;
+		i++;
+	}
+	return (open);
+}
+// int			valid_quotes(const char *str)
+// {
+// 	int		i;
+// 	int		cmpt;
+
+// 	i = 0;
+// 	cmpt = 0;
+// 	if (!str || *str == '\0')
+// 		return (TRUE);
+// 	while (str[i])
+// 	{
+// 		if (is_quote(str[i]) && !is_echaped(str, str[i], i)
+// 			&& !quote_in_quotes(str, i))
+// 			cmpt++;
+// 		i++;
+// 	}
+// 	return ((cmpt % 2) == 0);
+// }
 
 
 /*
-** This function checks the number of " or '.
-returns FALSE if the first quote is odd. TRUE if even.
+**	this function return True if in str[pos] it's a quote
+**		- not echaped
+**		- in a string with diff quote
 */
-
-int			valid_quotes(const char *str)
-{
-	int		i;
-	int		j;
-	int		cmpt;
-	char	c;
-
-	i = 0;
-	cmpt = 0;
-	if (!str || *str == '\0')
-		return (TRUE);
-	while (str[i])
-	{
-		c = '\0';
-		while (str[i] && (!is_quote(str[i]) || is_echaped(str, str[i], i)))
-			i++;
-		if (!str[i])
-			return (TRUE);
-		c = str[i++];
-		j = next_quote(str, c, i);
-		if (j == ft_strlen(str))
-			return (FALSE);
-		i = j + 1;
-	}
-	return (TRUE);
-}
-
 int			quote_in_quotes(const char *str, int pos)
 {
+	int		quote;
 	if (pos >= 0 && pos < ft_strlen(str))
 	{
-		return (is_quote(str[pos]) && is_in_quotes(str, pos));
+		quote = is_quote(str[pos]);
+		if (is_echaped(str,quote, pos))
+			return (TRUE);
+		int q = is_in_quotes(str, pos);
+		//printf("quote = %c in %c\n", quote, q? q:'#');
+		if (!q)
+			return (FALSE);
+		return (quote != q);
 	}
 	return (FALSE);
 }
@@ -149,20 +193,36 @@ int			space_in_quotes(const char *str, int pos)
 	return (FALSE);
 }
 
-static char		*ft_strndup_split_(const char *s, size_t n)
+static char		*ft_strndup_split_(const char *s, int begin, int end)
 {
 	char		*str;
 	size_t		i;
 	int			j;
+	int			quote;
 
-	i = 0;
+	i = begin;
 	j = 0;
-	str = (char *)malloc(sizeof(char) * n + 1);
+	//printf("\nstrndup(%s,%d, %d)\n",s, begin, end);
+	str = ft_strnew(end - begin);
 	if (!str)
 		return (NULL);
-	ft_bzero(str, n + 1);
-	while (s[i] && i < n)
-		str[j++] = s[i++];
+	while (s[i] && i < end)
+	{
+		quote = is_in_quotes(s, (int)i);
+		if (quote)
+		{
+			//printf("On est dans une quote(%c) en %zu = %c\n", quote,i, s[i]);
+			if (s[i] == '\\' && (int)s[i + 1] == quote)
+				i++;
+			else
+				str[j++] = s[i++];
+		}
+		else if (!is_quote(str[i]))
+			str[j++] = s[i++];
+		else
+			i++;
+	}
+	//printf("fin\n");
 	return (str);
 }
 
@@ -195,7 +255,7 @@ static char		**ft_fill_words_(char **dest, char const *s)
 			i++;
 		if (i > j)
 		{
-			dest[y++] = ft_strndup_split_(s + j, i - j);
+			dest[y++] = ft_strndup_split_(s, j, i);
 			if (!dest[y - 1])
 			{
 				free_split_(dest, y - 2);
@@ -237,6 +297,11 @@ char		**parse(const char *str)
 	i = 0;
 	if (!str)
 		return (NULL);
+	if (valid_quotes(str) > 0)
+	{
+		printf("minishell: syntax error with open quotes\n");
+		return (NULL);
+	}
 	nb_word = nb_word_(str);
 	dest = (char **)malloc(sizeof(char *) * (nb_word + 1));
 	if (!dest)

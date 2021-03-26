@@ -24,12 +24,31 @@ int		main(int argc, char **argv)
 	}
 	else if (argv[1])
 	{
-		int i = ft_atoi(argv[1]);
-		//char	*str = "dd dd  \"fdf\" \" d\'f \'\\\"\"rer";
-		char *str = "\"  e \"";
+		//int i = ft_atoi(argv[1]);
+		int i = 0;
+		char	*str = "dd dd  \"fdf\" \" d\'f \'\\\" coucou \\\"\" rer \\ \' df \\\'\'";
+		//char *str = "\"  e \"";
 		printf("valid_quotes(%s) = %s\n",str,(valid_quotes(str)?"ok":"KO"));
-		
-		printf("\nis_in_quotes(%s,%d) = %s\n", str, i, (is_in_quotes(str,i)?"True":"False"));
+		while (str[i])
+		{
+			is_in_quotes(str,i)? printf("0"):printf(".");
+			i++;
+		}
+		//printf("\nis_in_quotes(%s,%d) = %s\n", str, i, (is_in_quotes(str,i)?"True":"False"));
+	}
+	else if (argc == 1)
+	{
+		int i = 0;
+		char *str = "echo \"essais\"";
+		while (str[i])
+		{
+			if (quote_in_quotes(str, i))
+				printf("\"");
+			else
+				printf("_");
+			i++;
+		}
+		//printf("quote_in_quotes = %s\n", (quote_in_quotes(str, i)?"True":"False"));
 	}
 
 	return (0);
