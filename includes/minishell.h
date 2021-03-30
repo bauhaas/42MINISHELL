@@ -100,15 +100,16 @@ void				print_line(t_termcaps *tc, t_ms *ms);
 void				del_char(t_termcaps *tc);
 int					prompt(t_ms *ms);
 
-int					valid_quotes(const char *str);
+int					valid_quotes(const char *str, int len);
 int					is_in_quotes(const char *str, int pos);
 int					quote_in_quotes(const char *str, int pos);
-char				**parse(const char *str);
+void				substitute(char *str, t_ms *mini);
+char				**parse(const char *str, t_ms *mini);
 /*
 *	history
 */
 t_hist				*add_history(t_hist **begin, char *line);
-void				up_history(t_termcaps *tc, t_ms *min);
+void				up_history(t_termcaps *tc, t_ms *mini);
 void				down_history(t_termcaps *tc, t_ms *mini);
 void				free_history(t_hist **begin);
 

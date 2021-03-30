@@ -27,6 +27,7 @@
 
 /*
 **	if c is a quote return his ascii code, 0 otherwise
+**	" = 34	' = 39
 */
 #include "../includes/minishell.h"
 
@@ -119,14 +120,14 @@ int			is_in_quotes(const char *str, int pos)
 ** if open return the ascii code of the quote
 ** otherwise 0 if closed
 */
-int		valid_quotes(const char *str)
+int		valid_quotes(const char *str, int len)
 {
 	int	i;
 	int	open;
 
 	i = 0;
 	open = 0;
-	while (str[i])
+	while (str[i] && i <= len)
 	{
 		if (i > 0 && str[i - 1] == '\\')
 			;
@@ -138,29 +139,57 @@ int		valid_quotes(const char *str)
 			open = 0;
 		else if (open == 39 && str[i] == '\'')
 			open = 0;
+		//printf("pour i = %d => open = %d\n", i,open);
 		i++;
 	}
 	return (open);
 }
-// int			valid_quotes(const char *str)
-// {
-// 	int		i;
-// 	int		cmpt;
 
-// 	i = 0;
-// 	cmpt = 0;
-// 	if (!str || *str == '\0')
-// 		return (TRUE);
-// 	while (str[i])
-// 	{
-// 		if (is_quote(str[i]) && !is_echaped(str, str[i], i)
-// 			&& !quote_in_quotes(str, i))
-// 			cmpt++;
-// 		i++;
-// 	}
-// 	return ((cmpt % 2) == 0);
-// }
+/*
+**	fonction qui recherche le nom d'une var après $
+*/
+char		*get_name_var(char *str)
+{
+	int		i;
+	int		j;
+	char	*dest;
 
+	i = 0;
+	if (!str)
+		return (NULL);
+	while (str[i] && str[i]!= '$')
+		i++;
+	if (str[i++] == '$')
+	{
+		j = i;
+		if (ft_isalpha(str[i++]))
+		{
+			while (str[i] && ft_isalnum(str[i]))
+				i++;
+			dest = ft_strndup(str + j, i - j);
+			return (dest);
+		}
+	}
+	return (NULL);
+}
+
+void		substitute(char *str, t_ms *mini)
+{
+	int		i;
+	
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '$' && !is_echaped(str, str[i], i) && str[i + 1] != ' ')
+		{
+			printf("%s", ft_getenv(&mini->env, get_name_var(str + i), TRUE));
+			i += ft_strlen(get_name_var(str + i));
+		}
+		else
+			printf("%c", str[i]);
+		i++;
+	}
+}
 
 /*
 **	this function return True if in str[pos] it's a quote
@@ -193,7 +222,7 @@ int			space_in_quotes(const char *str, int pos)
 	return (FALSE);
 }
 
-static char		*ft_strndup_split_(const char *s, int begin, int end)
+static char		*ft_strndup_split_(const char *s, int begin, int end, t_ms *mini)
 {
 	char		*str;
 	size_t		i;
@@ -202,27 +231,38 @@ static char		*ft_strndup_split_(const char *s, int begin, int end)
 
 	i = begin;
 	j = 0;
-	//printf("\nstrndup(%s,%d, %d)\n",s, begin, end);
 	str = ft_strnew(end - begin);
 	if (!str)
 		return (NULL);
 	while (s[i] && i < end)
 	{
-		quote = is_in_quotes(s, (int)i);
-		if (quote)
-		{
-			//printf("On est dans une quote(%c) en %zu = %c\n", quote,i, s[i]);
-			if (s[i] == '\\' && (int)s[i + 1] == quote)
-				i++;
-			else
-				str[j++] = s[i++];
-		}
-		else if (!is_quote(str[i]))
-			str[j++] = s[i++];
-		else
+		if (is_quote(s[i]) && !quote_in_quotes(s, i))
 			i++;
+		else if (valid_quotes(s, i) == 39)	//in simple quote
+		{
+			// on garde tout
+				str[j++] = s[i++];;
+		}
+		else if (valid_quotes(s, i) == 34)	// in double quote
+		{
+			//on verifie \ $ 
+			if ((is_echaped(s, '$', i))
+				|| (is_echaped(s, '\\', i))
+				|| (is_echaped(s, '\"', i))) 
+			{
+				i++;	// on affiche pas \$
+			}
+			else
+			{
+					str[j++] = s[i++];
+			} 
+		}
+		else
+				str[j++] = s[i++];;
 	}
-	//printf("fin\n");
+	//printf("$  =>%s\n", ft_getenv(&mini->env, get_name_var(str), TRUE));
+	//printf("on a %d car avant et %d apres\n", (int)ft_strlen(str), (int)ft_strlen(ft_getenv(&mini->env, get_name_var(str), TRUE)));;
+	//substitute(str, mini);
 	return (str);
 }
 
@@ -236,7 +276,7 @@ static void		free_split_(char **dest, int y)
 	free(dest);
 }
 
-static char		**ft_fill_words_(char **dest, char const *s)
+static char		**ft_fill_words_(char **dest, char const *s, t_ms *mini)
 {
 	int			i;
 	int			y;
@@ -246,16 +286,14 @@ static char		**ft_fill_words_(char **dest, char const *s)
 	y = 0;
 	while (s[i])
 	{
-		while ((s[i] == ' ' && !space_in_quotes(s, i))
-			||(is_quote(s[i]) && !quote_in_quotes(s, i)))
+		while (s[i] && (s[i] == ' ' || is_quote(s[i])))
 			i++;
 		j = i;
-		while (s[i] && (s[i] != ' ' || space_in_quotes(s, i))
-			&& (!is_quote(s[i]) || quote_in_quotes(s, i)))
+		while (s[i] && (s[i]!= ' ' || is_in_quotes(s, i)))
 			i++;
 		if (i > j)
 		{
-			dest[y++] = ft_strndup_split_(s, j, i);
+			dest[y++] = ft_strndup_split_(s, j, i, mini);
 			if (!dest[y - 1])
 			{
 				free_split_(dest, y - 2);
@@ -274,21 +312,32 @@ static int		nb_word_(char const *s)
 
 	i = 0;
 	cmpt = 0;
+	//printf("nb_word\n");
 	while (s[i])
 	{
-		while ((s[i] == ' ' && !space_in_quotes(s, i))
-			||(is_quote(s[i]) && !quote_in_quotes(s, i)))
-			i++;
+		while (s[i] && (s[i] == ' ' || is_quote(s[i])))
+		{
+			//printf(".");
+			i++;			
+		}
+
 		if (s[i])
+		{
+			//printf("|");
 			cmpt++;
-		while (s[i] && (s[i] != ' ' || space_in_quotes(s, i))
-			&& (!is_quote(s[i]) || quote_in_quotes(s, i)))
+		}
+		while (s[i] && (s[i]!= ' ' || is_in_quotes(s, i)))
+		{
+			//printf("x");
 			i++;
+		}
+		//printf("|");
 	}
+	//printf("nb = %d\n", cmpt);
 	return (cmpt);
 }
 
-char		**parse(const char *str)
+char		**parse(const char *str, t_ms *mini)
 {
 	int		i;
 	char	**dest;
@@ -297,7 +346,7 @@ char		**parse(const char *str)
 	i = 0;
 	if (!str)
 		return (NULL);
-	if (valid_quotes(str) > 0)
+	if (valid_quotes(str, ft_strlen(str)) > 0)
 	{
 		printf("minishell: syntax error with open quotes\n");
 		return (NULL);
@@ -306,5 +355,5 @@ char		**parse(const char *str)
 	dest = (char **)malloc(sizeof(char *) * (nb_word + 1));
 	if (!dest)
 		return(NULL);
-	return (ft_fill_words_(dest, str));
+	return (ft_fill_words_(dest, str, mini));
 }
