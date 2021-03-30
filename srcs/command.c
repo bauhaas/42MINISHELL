@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/21 14:52:26 by bahaas            #+#    #+#             */
-/*   Updated: 2021/03/30 01:32:59 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/03/30 15:05:34 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,12 +47,14 @@ void	tmp_line_to_cmd(t_ms *ms, char *line)
 	if(ret == 0)
 		ret = get_tokens(ms, &tokens, line);
 	int i = 0;
-	printf("tokens = \n");
+	printf("type_content : 0 = CMD, 1 = ARGS, 2 = PIPES, 3 = REDIR, 4 = END_CMD \n");
+	printf("type_quotes : 0 = NO_QUOTES, 34 = DQUOTE, QUOTE = 39\n");
+	printf("tokens : \n");
 	t_tokens *a;
 	a = tokens;
 	while(a)
 	{
-		printf("|%s|\n", a->content);
+		printf("|%s|  |type_quote : %d| |type_content : %d|\n", a->content, a->type_quote, a->type_content);
 		a = a->next;
 	}
 	//ret = token_to_cmd(ms, &cmd, tokens);

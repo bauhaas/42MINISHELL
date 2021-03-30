@@ -6,11 +6,22 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/29 17:32:41 by bahaas            #+#    #+#             */
-/*   Updated: 2021/03/30 01:47:17 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/03/30 14:53:13 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+
+void	set_token_type(t_tokens *new, char *sep)
+{
+	if(!ft_strcmp(";", sep))
+		new->type_content = END_CMD;
+	else if(!ft_strcmp(">", sep) || !ft_strcmp(">>", sep) || !ft_strcmp("<", sep))
+		new->type_content = REDIR;
+	else if(!ft_strcmp("|", sep))
+		new->type_content = PIPES;
+}
 
 /*
 ** Parse all the sep set and if we found that a sep is part of our line, we
@@ -32,6 +43,7 @@ int	is_sep_tok(t_ms *ms, t_tokens **tokens, char *line, size_t *i)
 				return (1);
 			*i += ft_strlen(ms->sep_set[j]);
 			new->content = ft_strdup(ms->sep_set[j]);
+			set_token_type(new, ms->sep_set[j]);
 		}
 		j++;
 	}
@@ -60,6 +72,7 @@ int	is_escaped_tok(t_ms *ms, t_tokens **tokens, char *line, size_t *i)
 		if (new->content == NULL)
 			return (1);
 		new->content[0] = line[*i + 1];
+		new->type_content = ARGS;
 		*i += 2;
 	}
 	else if (line[*i] == BSLASH)

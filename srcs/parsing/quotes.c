@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/29 17:45:35 by bahaas            #+#    #+#             */
-/*   Updated: 2021/03/30 12:36:00 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/03/30 14:55:41 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,15 +38,6 @@ size_t	word_len(char *line, size_t *len, char c)
 	i++;
 	while (line[i] && (line[i] != c || is_escaped(line[i], line, i)))
 		i++;
-	/*
-	while(line[i])
-	{
-		if(is_escaped(line[i], c))
-			i += 2;
-		if (line[i] == c)
-			break;
-		i++;
-	}*/
 	if (!line[i])
 		return (1);
 	*len = i + 1;
@@ -64,7 +55,6 @@ void		fill_word(char *word, char *line, char c)
 	size_t	k;
 
 	// decalage j k car line commence avec la quote
-	printf("test fill word : %s\n", line);
 	j = 1;
 	k = 0;
 	while (line[j] && line[j] != c)
@@ -111,6 +101,8 @@ int				is_dquote_tok(t_ms *ms, t_tokens **tokens, char *line, size_t *i)
 	if (new->content == NULL)
 		return (1);
 	fill_word(new->content, &line[*i], DQUOTE);
+	new->type_quote = DQUOTE;
+	new->type_content = ARGS;
 	*i += len;
 	return (0);
 }
@@ -135,6 +127,8 @@ int	is_quote_tok(t_ms *ms, t_tokens **tokens, char *line, size_t *i)
 	if (new->content == NULL)
 		return (1);
 	fill_word(new->content, &line[*i], QUOTE);
+	new->type_quote = QUOTE;
+	new->type_content = ARGS;
 	*i += len;
 	return (0);
 }

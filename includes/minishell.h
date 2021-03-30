@@ -6,7 +6,7 @@
 /*   By: clorin <clorin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 12:28:05 by clorin            #+#    #+#             */
-/*   Updated: 2021/03/30 14:06:57 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/03/30 14:53:15 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,13 @@
 # define QUOTE '\''
 # define DQUOTE '\"'
 # define BSLASH '\\'
+# define CMD 0
+# define ARGS 1
+# define REDIR 3
+# define PIPES 2
+# define END_CMD 4
 
+/*
 typedef enum e_token_type
 {
 	COMMAND,
@@ -55,6 +61,7 @@ typedef enum e_token_type
 	PIPES,
 	END_COMMAND
 }			t_token_type;
+*/
 
 typedef struct			s_termcaps
 {
