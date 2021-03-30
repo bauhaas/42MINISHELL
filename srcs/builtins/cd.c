@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/21 00:44:41 by bahaas            #+#    #+#             */
-/*   Updated: 2021/03/24 09:57:51 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/03/29 12:32:02 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,8 +115,8 @@ int	ft_cd(t_ms *ms, t_cmd *cmd)
 
 	i = 0;
 	old_pwd = malloc(2048);
+	old_pwd = getcwd(old_pwd, sizeof(char) * 2048);
 	new_pwd = malloc(2048);
-	old_pwd = getcwd(old_pwd, 2048);
 	//ft_arrlen idea to build instead of while.
 	while(cmd->content[i])
 		i++;
@@ -131,7 +131,7 @@ int	ft_cd(t_ms *ms, t_cmd *cmd)
 		if(!new_pwd)
 			return (0);
 		chdir(new_pwd);
-		new_pwd = getcwd(new_pwd, 2048);
+		new_pwd = getcwd(new_pwd, sizeof(char) * 2048);
 		set_location(ms, new_pwd, old_pwd);
 		return (0);
 	}
@@ -143,7 +143,7 @@ int	ft_cd(t_ms *ms, t_cmd *cmd)
 		printf("cd: No such file or direcotry: %s\n", new_pwd);
 		return(0);
 	}
-	new_pwd = getcwd(new_pwd, 2048);
+	new_pwd = getcwd(new_pwd, sizeof(char) * 2048);
 	set_location(ms, new_pwd, old_pwd);
 	return (0);
 }

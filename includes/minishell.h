@@ -6,7 +6,7 @@
 /*   By: clorin <clorin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 12:28:05 by clorin            #+#    #+#             */
-/*   Updated: 2021/03/24 11:19:33 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/03/30 01:56:38 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,12 @@
 # include <unistd.h>
 # include <term.h>
 # include <sys/ioctl.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <sys/stat.h>
 # include <signal.h>
 # include <limits.h>
+# include <stdbool.h>
 # include "../libft/libft.h"
 
 # define STDIN 0
@@ -38,6 +42,10 @@
 
 # define ENV 0
 # define EXPORT 1
+
+# define QUOTE '\''
+# define DQUOTE '\"'
+# define BSLASH '\\'
 
 typedef struct			s_termcaps
 {
@@ -64,6 +72,12 @@ typedef struct			s_hist
 	struct s_hist		*next;
 }						t_hist;
 
+typedef struct			s_tokens
+{
+	char *content;
+	struct s_tokens *next;
+}						t_tokens;
+
 /*
 ** Main structure
 */
@@ -76,9 +90,13 @@ typedef struct	s_ms
 	int		exit;
 
 	t_list	*env;
+	char **arr_env;
 	char	*pwd;
 	char	*old_pwd;
 	struct s_bltn	*bltn;
+	struct s_cmd	*cmd;
+	int i;
+	char *sep_set[6];
 }				t_ms;
 
 
@@ -137,13 +155,28 @@ typedef struct	s_bltn
 
 void	init_bltn(t_ms *ms);
 int		execute(t_ms *ms, t_cmd *cmd);
-char	**get_tokens(char *line);
 void	print_env(t_var *env, int mod);
 char	*ft_getenv(t_list **head_ref, char *elem, int i);
 
 void	init_ms(t_ms *ms, char **env);
 void	ft_lstswap(t_list *prev, t_list *next);
 void	tmp_line_to_cmd(t_ms *ms, char *line);
+
+int		get_tokens(t_ms *ms, t_tokens **tokens, char *line);
+t_tokens *create_token(t_tokens **tokens);
+
+size_t word_len(char *line, size_t *len, char c);
+void	fill_word(char *word, char *line, char c);
+
+int		is_linked(t_ms *ms, char *line);
+int		is_separator(char c);
+int		is_space(char c);
+
+int		is_dquote_tok(t_ms *ms, t_tokens **tokens, char *line, size_t *i);
+int		is_quote_tok(t_ms *ms, t_tokens **tokens, char *line, size_t *i);
+int		is_str_tok(t_ms *ms, t_tokens **tokens, char *line, size_t *i);
+int		is_sep_tok(t_ms *ms, t_tokens **tokens, char *line, size_t *i);
+int		is_escaped_tok(t_ms *ms, t_tokens **tokens, char *line, size_t *i);
 
 int		ft_echo(t_ms *ms, t_cmd *cmd);
 int		ft_pwd(t_ms *ms, t_cmd *cmd);
