@@ -25,3 +25,12 @@ int		is_space(char c)
 		return (1);
 	return (0);
 }
+
+int		is_escaped(char c, char *line, int i)
+{
+	if(i > 0 && i < ft_strlen(line))
+	{
+		return(line[i - 1] == '\\' && line[i] == c);
+	}
+	return(0);
+}

@@ -18,15 +18,6 @@
 ** we find the matching ' or ". If there is a closing quote, update word_len
 */
 
-int	is_escaped(char c, char *line, int i)
-{
-	if(i > 0 && i < ft_strlen(line))
-	{
-		return(line[i - 1] == '\\' && line[i] == c);
-	}
-	return(0);
-}
-
 size_t	word_len(char *line, size_t *len, char c)
 {
 	size_t	i;
