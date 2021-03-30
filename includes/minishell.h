@@ -6,7 +6,7 @@
 /*   By: clorin <clorin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 12:28:05 by clorin            #+#    #+#             */
-/*   Updated: 2021/03/30 14:53:15 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/03/30 16:04:18 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@
 
 # define ENV 0
 # define EXPORT 1
+# define FALSE 0
+# define TRUE 1
 
 # define QUOTE '\''
 # define DQUOTE '\"'
