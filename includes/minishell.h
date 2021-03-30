@@ -6,7 +6,7 @@
 /*   By: clorin <clorin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 12:28:05 by clorin            #+#    #+#             */
-/*   Updated: 2021/03/30 01:56:38 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/03/30 14:06:57 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,15 @@
 # define DQUOTE '\"'
 # define BSLASH '\\'
 
+typedef enum e_token_type
+{
+	COMMAND,
+	ARGS,
+	REDIRECTION,
+	PIPES,
+	END_COMMAND
+}			t_token_type;
+
 typedef struct			s_termcaps
 {
 	struct termios		term;
@@ -75,6 +84,8 @@ typedef struct			s_hist
 typedef struct			s_tokens
 {
 	char *content;
+	int type_content;
+	int type_quote;
 	struct s_tokens *next;
 }						t_tokens;
 

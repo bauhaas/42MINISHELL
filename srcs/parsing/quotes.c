@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/29 17:45:35 by bahaas            #+#    #+#             */
-/*   Updated: 2021/03/30 02:03:12 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/03/30 12:36:00 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,15 @@
 ** we find the matching ' or ". If there is a closing quote, update word_len
 */
 
+int	is_escaped(char c, char *line, int i)
+{
+	if(i > 0 && i < ft_strlen(line))
+	{
+		return(line[i - 1] == '\\' && line[i] == c);
+	}
+	return(0);
+}
+
 size_t	word_len(char *line, size_t *len, char c)
 {
 	size_t	i;
@@ -27,8 +36,17 @@ size_t	word_len(char *line, size_t *len, char c)
 	if (line[i] != c)
 		return (0);
 	i++;
-	while (line[i] && line[i] != c)
+	while (line[i] && (line[i] != c || is_escaped(line[i], line, i)))
 		i++;
+	/*
+	while(line[i])
+	{
+		if(is_escaped(line[i], c))
+			i += 2;
+		if (line[i] == c)
+			break;
+		i++;
+	}*/
 	if (!line[i])
 		return (1);
 	*len = i + 1;
