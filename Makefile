@@ -6,22 +6,23 @@
 #    By: clorin <clorin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/03/17 12:01:33 by clorin            #+#    #+#              #
-#    Updated: 2021/03/24 11:02:53 by bahaas           ###   ########.fr        #
+#    Updated: 2021/03/30 16:02:10 by bahaas           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		= minishell
 
-SRC		= srcs/main.c srcs/init.c srcs/command.c srcs/tokens.c srcs/execute.c srcs/expansion.c \
+SRC		= srcs/main.c srcs/init.c srcs/command.c srcs/execute.c\
 		srcs/termcaps/cursor.c srcs/termcaps/termcaps.c srcs/termcaps/keyboard.c \
 		srcs/termcaps/print_utils.c srcs/termcaps/prompt.c srcs/termcaps/history.c \
 		srcs/builtins/pwd.c srcs/builtins/echo.c srcs/builtins/export.c	srcs/builtins/env.c \
-		srcs/builtins/unset.c srcs/builtins/exit.c srcs/builtins/cd.c srcs/utils.c
+		srcs/builtins/unset.c srcs/builtins/exit.c srcs/builtins/cd.c srcs/utils.c \
+		srcs/parsing/expansion.c srcs/parsing/quotes.c srcs/parsing/tokens.c srcs/parsing/word.c srcs/parsing/utils.c srcs/parsing/sep_and_escaped.c
 
 CC		= clang
 
 #FLAGS		= -Wall -Werror -Wextra
-FLAGS		=
+FLAGS		= -g
 
 HEADER		= -I includes/
 
