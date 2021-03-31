@@ -12,21 +12,29 @@
 
 #include "../includes/minishell.h"
 
-static char		*home_prompt(t_ms *ms, char *pt)
+static char		*home_prompt(t_ms *ms, char *pwd)
 {
 	char	*dest;
 	char	*home;
 	int		i;
+	int		diff;
 
 	i = 0;
 	home = ft_getenv(&ms->env, "HOME", TRUE);
-	while (home[i] == pt[i])
-		i++;
-	if (i > 0)
+	diff = ft_strcmp(pwd,home);
+	if (diff > 0)
 	{
-		dest = ft_strnew(ft_strlen(pt + i) + 1);
+		while (home[i] == pwd[i])
+			i++;
+		//printf("i = %d\n", i);
+		dest = ft_strnew(ft_strlen(pwd + i) + 1);
 		dest[0] = '~';
-		ft_strcat(dest, pt + i);
+		ft_strcat(dest, pwd + i);
+	}
+	else if (diff == 0)
+	{
+		dest = ft_strnew(1);
+		dest[0] = '~';
 	}
 	else
 		dest = ft_strdup(ms->pwd);
