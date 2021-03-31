@@ -6,11 +6,15 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/21 14:52:26 by bahaas            #+#    #+#             */
-/*   Updated: 2021/03/31 15:52:47 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/01 01:50:17 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+/*
+** Create a new command in our cmd linked list.
+*/
 
 t_cmd		*create_cmd(t_cmd **cmd)
 {
@@ -30,39 +34,51 @@ t_cmd		*create_cmd(t_cmd **cmd)
 	return (new);
 }
 
-t_cmd	*tokens_to_cmd(t_ms *ms, t_cmd **cmd, t_tokens **tokens)
+void tokens_to_cmd(t_ms *ms, t_cmd **cmd, t_tokens **tokens)
 {
 	t_cmd *new_cmd;
 	t_tokens *count;
 	t_tokens *head;
-
-	new_cmd = malloc(sizeof(t_cmd));
 	int i = 0;
-	head = *tokens;
+
 	count = *tokens;
+	printf("\nCOMMAND IN CREATION\n");
+	new_cmd = create_cmd(cmd);
+	// 1st loop, we are searchin the total of strings to malloc in our cmd->content;
 	while(count)
 	{
 		if(count->type_content == CMD || count->type_content == ARGS || count->type_content == REDIR)
+		{
+			count = count->next;
 			i++;
+		}
 		else
 			break;
-		count = count->next;
 	}
-	printf("test i : %d\n", i);
-	new_cmd->content = malloc(sizeof(char **));
-	new_cmd->next = NULL;
-	int j = 0;
-	while(j < i)
+	printf("number of strings to malloc in cmd->content: %d\n", i);
+	new_cmd->content = malloc(sizeof(char *) * i + 1);
+	i = 0;
+	//after malloc, we fill our cmd->content token by token until we found a pipe/;/redirection
+	while((*tokens))
 	{
-		//printf("tokens->content : %s\n", head->content);
-		new_cmd->content[j] = ft_strdup(head->content);
-		printf("new_cmd->content[%d] : %s\n", j, new_cmd->content[j]);
-		head = head->next;
-		j++;
+		if((*tokens)->type_content == CMD || (*tokens)->type_content == ARGS || (*tokens)->type_content == REDIR)
+		{
+			new_cmd->content[i] = ft_strdup((*tokens)->content);
+			printf("*tokens->content : %s\n", (*tokens)->content);
+			*tokens = (*tokens)->next;
+			i++;
+		}
+		//if our token is a pipe/;/redirection we skip that token and go to the next one
+		//comme on skip ce token, on pourrait faire en sorte de set une nouvelle variable ds cmd pr lui indiquer le type de token qu'on a skip
+		//pr ensuite s'en souvenir et lier les in & out des différentes cmd.
+		else
+		{
+			*tokens = (*tokens)->next;
+			break;
+		}
 	}
-	printf("test j : %d\n", j);
-	new_cmd->content[j] = NULL;
-	return (new_cmd);
+	//je sais pas si on doit set les autres variables (ret_value etc à ce moment)
+	new_cmd->content[i] = NULL;
 }
 
 void	tmp_line_to_cmd(t_ms *ms, char *line)
@@ -72,65 +88,15 @@ void	tmp_line_to_cmd(t_ms *ms, char *line)
 	t_cmd *cmd;
 
 	tokens = NULL;
+	cmd = NULL;
 	ret = 0;
+
 	printf("(%d)line = %s\n", ms->exit, ms->line);
 	if(ret == 0)
 		ret = get_tokens(ms, &tokens, line);
-	int i = 0;
-	printf("type_content : 0 = CMD, 1 = ARGS, 2 = PIPES, 3 = REDIR, 4 = END_CMD \n");
-	printf("type_quotes : 0 = NO_QUOTES, 34 = DQUOTE, QUOTE = 39\n");
-	printf("TOKENS =  \n");
-	t_tokens *a;
-	a = tokens;
-	while(a)
-	{
-		printf("|%s|  |type_quote : %d| |type_content : %d|\n", a->content, a->type_quote, a->type_content);
-		/*
-		if(a->prev)
-			printf("|previous token type_content : %d|\n", a->prev->type_content);
-		else
-			printf("|previous token doesn't exist|\n");*/
-		a = a->next;
-	}
-	printf("COMMAND = \n");
-	cmd = tokens_to_cmd(ms, &cmd, &tokens);
-	int k;
-	int cmd_nb = 0;
-	t_cmd *tmp = cmd;
-	while(tmp)
-	{
-		k = 0;
-		printf("cmd_nb : %d\n", cmd_nb);
-		int count = 0;
-		while(tmp->content[k])
-		{
-			printf("cmd->content[%d] : %s\n", k, tmp->content[k]);
-			k++;
-		}
-		cmd_nb++;
-		tmp = tmp->next;
-	}
+	print_tokens(tokens);
+	while(tokens)
+		tokens_to_cmd(ms, &cmd, &tokens);
+	print_cmd(cmd);
 	execute(ms, cmd);
-/*	
-	cmd = malloc(sizeof(t_cmd));
-	// cmd->content = ft_split(line, ' ');
-	cmd->content = parse(line);
-	int i = 0;
-		printf("cmd = ");
-	while(cmd->content[i])
-		printf("<%s> ", cmd->content[i++]);
-	printf("\n");
-	cmd->next = NULL;
-	cmd->ret_value = 0;
-	execute(ms, cmd);
-*/	
-	//CHECK UPDATE PWD & OLDPWD with cd use
-	/*
-	printf("ms.pwd = %s\n", ms->pwd);
-	printf("ms.oldpwd = %s\n", ms->old_pwd);
-	char *pwd_env = ft_getenv(&ms->env, "PWD", 1);
-	char *oldpwd_env = ft_getenv(&ms->env, "OLDPWD", 1);
-	printf("ms->env->pwd = %s\n", pwd_env);
-	printf("ms->env->oldpwd = %s\n", oldpwd_env);
-	*/
 }

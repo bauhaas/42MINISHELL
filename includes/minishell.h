@@ -6,7 +6,7 @@
 /*   By: clorin <clorin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 12:28:05 by clorin            #+#    #+#             */
-/*   Updated: 2021/03/31 01:39:20 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/01 01:26:59 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -208,4 +208,11 @@ int		ft_unset(t_ms *ms, t_cmd *cmd);
 int		ft_env(t_ms *ms, t_cmd *cmd);
 int		ft_cd(t_ms *ms, t_cmd *cmd);
 int		ft_exit(t_ms *ms, t_cmd *cmd);
+
+/*
+** print.c
+*/
+
+void print_tokens(t_tokens *tokens);
+void print_cmd(t_cmd *cmd);
 #endif
