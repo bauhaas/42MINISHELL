@@ -192,6 +192,7 @@ void	fill_word(char *word, char *line, char c);
 int		is_linked(t_ms *ms, char *line);
 int		is_separator(char c);
 int		is_space(char c);
+int		is_escaped(char c, char *line, int i);
 
 int		is_dquote_tok(t_ms *ms, t_tokens **tokens, char *line, size_t *i);
 int		is_quote_tok(t_ms *ms, t_tokens **tokens, char *line, size_t *i);

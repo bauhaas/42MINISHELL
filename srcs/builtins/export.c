@@ -76,7 +76,7 @@ int	ft_export(t_ms *ms, t_cmd *cmd)
 	}
 	else
 	{
-		printf("TODO !\n");
+		printf("TODO\n");
 	}
 	return (0);
 }
