@@ -54,6 +54,13 @@ void	tmp_line_to_cmd(t_ms *ms, char *line)
 	a = tokens;
 	while(a)
 	{
+		if (a->type_quote != QUOTE)
+		{
+			char *new_content;
+			new_content = substitute(a->content, ms);
+			ft_strdel(&a->content);
+			a->content = new_content;
+		}
 		printf("|%s|  |type_quote : %d| |type_content : %d|\n", a->content, a->type_quote, a->type_content);
 		/*
 		if(a->prev)
