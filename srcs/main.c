@@ -23,7 +23,7 @@ int					main(int argc, char **argv, char **envp)
 	init_ms(&minishell, envp);
 	minishell.i = 0;
 	minishell.exit = 1;
-	printf("\n ~~~~~~~ Minishell42 ~~~~~~~\n  by (Bahaas / Clorin)\n           V0.1:\n");
+	printf("\n ~~~~~~~ Minishell42 ~~~~~~~\n  by (Bahaas / Clorin)\n           V%.1f:\n", VERSION);
 	while (minishell.exit)
 	{
 		minishell.exit = get_line(&minishell);

@@ -12,6 +12,8 @@
 
 NAME		= minishell
 
+VERSION		= 0.2
+
 SRC		= srcs/main.c srcs/init.c srcs/command.c srcs/execute.c\
 		srcs/termcaps/cursor.c srcs/termcaps/termcaps.c srcs/termcaps/keyboard.c \
 		srcs/termcaps/print_utils.c srcs/termcaps/prompt.c srcs/termcaps/history.c \
@@ -22,7 +24,7 @@ SRC		= srcs/main.c srcs/init.c srcs/command.c srcs/execute.c\
 CC		= clang
 
 #FLAGS		= -Wall -Werror -Wextra
-FLAGS		= -g
+FLAGS		= -g -D VERSION=$(VERSION)
 
 HEADER		= -I includes/
 
