@@ -6,17 +6,17 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/29 17:45:35 by bahaas            #+#    #+#             */
-/*   Updated: 2021/03/30 14:55:41 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/03/31 13:01:00 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 /*
-** Check if the first char of our position in string isn't the char c, if
-** not, there is an error matching char c. Otherswise, increment until
-** we find the matching ' or ". If there is a closing quote, update word_len
-*/
+ ** Check if the first char of our position in string isn't the char c, if
+ ** not, there is an error matching char c. Otherswise, increment until
+ ** we find the matching ' or ". If there is a closing quote, update word_len
+ */
 
 size_t	word_len(char *line, size_t *len, char c)
 {
@@ -27,8 +27,16 @@ size_t	word_len(char *line, size_t *len, char c)
 	if (line[i] != c)
 		return (0);
 	i++;
-	while (line[i] && (line[i] != c || is_escaped(line[i], line, i)))
-		i++;
+	if(c == DQUOTE)
+	{
+		while (line[i] && (line[i] != c || is_escaped(line[i], line, i)))
+				i++;
+	}
+	else if (c == QUOTE)
+	{
+		while (line[i] && (line[i] != c))
+				i++;
+	}
 	if (!line[i])
 		return (1);
 	*len = i + 1;
@@ -36,9 +44,9 @@ size_t	word_len(char *line, size_t *len, char c)
 }
 
 /*
-** Copy the content inside quote until we are on the closing quote. 
-** Exception with \n we have to increment twice to skip n char.
-*/
+ ** Copy the content inside quote until we are on the closing quote. 
+ ** Exception with \n we have to increment twice to skip n char.
+ */
 
 void		fill_word(char *word, char *line, char c)
 {
@@ -54,6 +62,10 @@ void		fill_word(char *word, char *line, char c)
 		{
 			if (line[j + 1] == '\n')
 				j++;
+			else if (c == QUOTE && line[j + 1] == '\'')
+				;
+			else if (c == DQUOTE && line[j + 1] == '\"')
+				j++;
 			else
 			{
 				word[k] = line[j];
@@ -68,9 +80,9 @@ void		fill_word(char *word, char *line, char c)
 }
 
 /*
-** First, check if there is no error with quotes and set the string length.
-** Then set a new token and fill it with the content found in quotes.
-*/
+ ** First, check if there is no error with quotes and set the string length.
+ ** Then set a new token and fill it with the content found in quotes.
+ */
 
 //TO DO : SMASH BOTH FUNCTION IN ONE (just QUOTE/DQUOTE is modified)
 int				is_dquote_tok(t_ms *ms, t_tokens **tokens, char *line, size_t *i)
