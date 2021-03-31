@@ -6,7 +6,7 @@
 /*   By: clorin <clorin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 13:13:22 by clorin            #+#    #+#             */
-/*   Updated: 2021/03/31 10:58:57 by clorin           ###   ########.fr       */
+/*   Updated: 2021/03/31 16:00:05 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -270,7 +270,7 @@ static int			cat_value(t_ms *mini, char *str, char *dest)
 
 	name = get_name_var(str);
 	len = ft_strlen(name);
-	if (*str != '$' || (*str == '$' && *(str + 1) == '$' || !*(str + 1)))
+	if (*str != '$' || (*str == '$' && (*(str + 1) == '$' || !*(str + 1))))
 	{
 		ft_strncat(dest, str, 1);
 		ft_strdel(&name);
