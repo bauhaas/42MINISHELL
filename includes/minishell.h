@@ -134,6 +134,7 @@ void				clear_line(t_termcaps *tc);
 void				print_line(t_termcaps *tc, t_ms *ms);
 void				del_char(t_termcaps *tc);
 int					prompt(t_ms *ms);
+char				*substitute(char *str, t_ms *mini);
 
 /*
 *	history

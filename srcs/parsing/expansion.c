@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: clorin <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: clorin <clorin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 13:13:22 by clorin            #+#    #+#             */
-/*   Updated: 2021/03/24 13:13:27 by clorin           ###   ########.fr       */
+/*   Updated: 2021/03/31 10:58:57 by clorin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,9 +146,9 @@
 // }
 
 /*
-**	fonction qui recherche le nom d'une var après $
+**	this function returns the name's var after $ or NULL if nothing
 */
-char		*get_name_var(char *str)
+static char		*get_name_var(char *str)
 {
 	int		i;
 	int		j;
@@ -157,8 +157,6 @@ char		*get_name_var(char *str)
 	i = 0;
 	if (!str || !*str)
 		return (NULL);
-	while (str[i] && (str[i]!= '$' || is_escaped('$', str, i)))
-		i++;
 	if (str[i++] == '$')
 	{
 		j = i;
@@ -173,7 +171,10 @@ char		*get_name_var(char *str)
 	return (NULL);
 }
 
-int			len_substitut(char *str, t_ms *mini)
+/*
+**	this function retrieves the value of the environment variable and returns its length
+*/
+static int			len_substitut(char *str, t_ms *mini)
 {
 	int		len_total;
 	int		i;
@@ -202,58 +203,118 @@ int			len_substitut(char *str, t_ms *mini)
 	return (len_total);
 }
 
+// char		*substitute2(char *str, t_ms *mini)
+// {
+// 	int		i;
+// 	int		len_total_subs;
+// 	int		j;
+// 	char	*dest;
+// 	char	*name;
+	
+// 	printf("-- substitute string <%s> --\n", str);
+// 	//printf("longueur au depart = %d\n", (int)ft_strlen(str));
+// 	i = 0;
+// 	// premier passe pour la longueur total
+// 	//printf("first pass >>>\t");
+// 	len_total_subs = len_substitut(str, mini);
+// 	if (len_total_subs == 0)
+// 		return (NULL);
+// 	printf("Longueur substitute = %d\n", (int)len_total_subs);
+// 	dest = ft_strnew(len_total_subs);
+// 	// deuxieme pass pour subsitute var
+// 	//printf("Second pass >>>\n");
+// 	i = 0;
+// 	j = 0;
+// 	while (str[i])
+// 	{
+// 		name = get_name_var(str + i);
+// 		printf("name trouve = %s\n", name);
+// 		if (str[i] == '$' && str[i + 1] == '?')
+// 		{
+// 			ft_strcat(dest, "TODO_$?");
+// 			j += ft_strlen("TODO_$?");
+// 			i += 2;
+// 		}
+// 		else if (str[i] != '$' || (str[i] == '$' && (str[i + 1] == '$' || !str[i + 1])))
+// 			dest[j++] = str[i++];
+// 		else if (name && ft_getenv(&mini->env, name, TRUE))
+// 		{
+// 			//printf("ft_strcat(%s,%s)=>", dest, ft_getenv(&mini->env, name, TRUE));
+// 			ft_strcat(dest, ft_getenv(&mini->env, name, TRUE));
+// 			//len_temp = ft_strlen(ft_getenv(&mini->env, name, TRUE));
+// 			j += ft_strlen(ft_getenv(&mini->env, name, TRUE));
+// 			i += ft_strlen(name) + 1;
+// 			//printf("%s\n", dest);
+// 		}
+// 		else if (name && !ft_getenv(&mini->env, name, TRUE))
+// 		{
+// 			i += ft_strlen(name) + 1;
+// 		}
+// 		else
+// 			printf("else\n");
+// 		ft_strdel(&name);
+// 	}
+// 	//printf("nouvelle chaine = %s\n", dest);
+// 	return (dest);
+// }
+
+/*
+**	concate the value of *name in *dest
+**	and returns the length of *name
+*/
+
+static int			cat_value(t_ms *mini, char *str, char *dest)
+{
+	char			*name;
+	int				len;
+
+	name = get_name_var(str);
+	len = ft_strlen(name);
+	if (*str != '$' || (*str == '$' && *(str + 1) == '$' || !*(str + 1)))
+	{
+		ft_strncat(dest, str, 1);
+		ft_strdel(&name);
+		return (1);
+	}
+	if (*str == '$' && *(str + 1) == '?')
+	{
+		ft_strcat(dest, "TODO_$?");
+		ft_strdel(&name);
+		return (2);
+	}
+	if (name && ft_getenv(&mini->env, name, TRUE))
+		ft_strcat(dest, ft_getenv(&mini->env, name, TRUE));
+	ft_strdel(&name);
+	return (len + 1);
+}
+
+// static int			cat_value2(t_ms *mini, char *name, char *dest, int exit)
+// {
+// 	if (exit)
+// 	{
+// 		ft_strcat(dest, "TODO_$?");
+// 		return (2);
+// 	}
+// 	if (ft_getenv(&mini->env, name, TRUE))
+// 		ft_strcat(dest, ft_getenv(&mini->env, name, TRUE));	
+// 	return (ft_strlen(name) + 1);
+// }
+
 char		*substitute(char *str, t_ms *mini)
 {
 	int		i;
 	int		len_total_subs;
-	int		j;
 	char	*dest;
-	char	*name;
 	
-	//printf("-- substitute string <%s> --\n", str);
-	//printf("longueur au depart = %d\n", (int)ft_strlen(str));
 	i = 0;
-	// premier passe pour la longueur total
-	//printf("first pass >>>\t");
 	len_total_subs = len_substitut(str, mini);
 	if (len_total_subs == 0)
 		return (NULL);
-	//printf("Longueur substitute = %d\n", (int)len_total_subs);
 	dest = ft_strnew(len_total_subs);
-	// deuxieme pass pour subsitute var
-	//printf("Second pass >>>\n");
-	i = 0;
-	j = 0;
+	if (!dest)
+		return (NULL);
 	while (str[i])
-	{
-		name = get_name_var(str + i);
-		if (str[i] == '$' && str[i + 1] == '?')
-		{
-			ft_strcat(dest, "TODO_$?");
-			j += ft_strlen("TODO_$?");
-			i += 2;
-		}
-		else if (name && ft_getenv(&mini->env, name, TRUE))
-		{
-			//printf("ft_strcat(%s,%s)=>", dest, ft_getenv(&mini->env, name, TRUE));
-			ft_strcat(dest, ft_getenv(&mini->env, name, TRUE));
-			//len_temp = ft_strlen(ft_getenv(&mini->env, name, TRUE));
-			j += ft_strlen(ft_getenv(&mini->env, name, TRUE));
-			i += ft_strlen(name) + 1;
-			//printf("%s\n", dest);
-		}
-		else if (name && !ft_getenv(&mini->env, name, TRUE))
-		{
-			i += ft_strlen(name) + 1;
-		}
-		else
-		{
-			dest[j++] = str[i++];
-			//printf("dest = %s\n", dest);
-		}
-		ft_strdel(&name);
-	}
-	//printf("nouvelle chaine = %s\n", dest);
+		i += cat_value(mini, str + i, dest);
 	return (dest);
 }
 
