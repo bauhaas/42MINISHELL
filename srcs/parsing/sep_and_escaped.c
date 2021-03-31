@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/29 17:32:41 by bahaas            #+#    #+#             */
-/*   Updated: 2021/03/30 14:53:13 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/03/31 03:41:21 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,9 @@ int	is_sep_tok(t_ms *ms, t_tokens **tokens, char *line, size_t *i)
 	j = 0;
 	while (ms->sep_set[j] != NULL)
 	{
+		// it holds case with >>.
+		if(ft_strnequ(ms->sep_set[j], &line[*i], ft_strlen(ms->sep_set[j])) && j == 1 && line[*i + 1] == '>')
+			j++;
 		if (ft_strnequ(ms->sep_set[j], &line[*i], ft_strlen(ms->sep_set[j])))
 		{
 			new = create_token(tokens);

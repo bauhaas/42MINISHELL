@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/21 14:52:26 by bahaas            #+#    #+#             */
-/*   Updated: 2021/03/30 15:05:34 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/03/31 03:29:17 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,11 @@ void	tmp_line_to_cmd(t_ms *ms, char *line)
 	while(a)
 	{
 		printf("|%s|  |type_quote : %d| |type_content : %d|\n", a->content, a->type_quote, a->type_content);
+		/*
+		if(a->prev)
+			printf("|previous token type_content : %d|\n", a->prev->type_content);
+		else
+			printf("|previous token doesn't exist|\n");*/
 		a = a->next;
 	}
 	//ret = token_to_cmd(ms, &cmd, tokens);

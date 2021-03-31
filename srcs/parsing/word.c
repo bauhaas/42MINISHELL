@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/20 14:29:47 by bahaas            #+#    #+#             */
-/*   Updated: 2021/03/30 14:44:27 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/03/31 03:27:46 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,5 +68,7 @@ int		is_str_tok(t_ms *ms, t_tokens **tokens, char *line, size_t *i)
 	fill_str_tok(ms, new->content, &line[*i]);
 	*i += len;
 	new->type_content = ARGS;
+	if(!new->prev || new->prev->type_content == PIPES || new->prev->type_content == END_CMD)
+		new->type_content = CMD;
 	return (0);
 }

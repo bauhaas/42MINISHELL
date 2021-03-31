@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/20 14:29:47 by bahaas            #+#    #+#             */
-/*   Updated: 2021/03/30 14:54:17 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/03/31 03:17:44 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,10 @@ t_tokens	*create_token(t_tokens **tokens)
 	if (tmp == NULL)
 		*tokens = new;
 	else
+	{
 		tmp->next = new;
+		new->prev = tmp;
+	}
 	return (new);
 }
 

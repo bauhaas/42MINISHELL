@@ -6,7 +6,7 @@
 /*   By: clorin <clorin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 12:28:05 by clorin            #+#    #+#             */
-/*   Updated: 2021/03/30 16:04:18 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/03/31 01:39:20 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ typedef struct			s_tokens
 	char *content;
 	int type_content;
 	int type_quote;
+	struct s_tokens *prev;
 	struct s_tokens *next;
 }						t_tokens;
 
