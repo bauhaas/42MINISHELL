@@ -162,6 +162,8 @@ typedef struct		s_cmd
 {
 	char			**content;
 	int 			ret_value;
+	int				is_pipe;
+	struct s_cmd	*prev;
 	struct s_cmd	*next;
 }					t_cmd;
 

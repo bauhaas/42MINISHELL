@@ -25,12 +25,16 @@ t_cmd		*create_cmd(t_cmd **cmd)
 	new = ft_memalloc(sizeof(t_cmd));
 	if (new == NULL)
 		return (NULL);
+	new->is_pipe = FALSE;
 	while (tmp != NULL && tmp->next != NULL)
 		tmp = tmp->next;
 	if (tmp == NULL)
 		*cmd = new;
 	else
+	{
 		tmp->next = new;
+		new->prev = tmp;
+	}
 	return (new);
 }
 
@@ -74,6 +78,7 @@ void tokens_to_cmd(t_ms *ms, t_cmd **cmd, t_tokens **tokens)
 		else
 		{
 			*tokens = (*tokens)->next;
+			new_cmd->is_pipe = TRUE;
 			break;
 		}
 	}

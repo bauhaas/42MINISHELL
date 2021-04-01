@@ -24,7 +24,7 @@ SRC		= srcs/main.c srcs/init.c srcs/command.c srcs/execute.c\
 
 CC		= clang
 
-#FLAGS		= -Wall -Werror -Wextra
+#FLAGS		= -Wall -Werror -Wextra -D VERSION=$(VERSION)
 FLAGS		= -g -D VERSION=$(VERSION)
 
 HEADER		= -I includes/

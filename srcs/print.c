@@ -42,6 +42,8 @@ void	print_cmd(t_cmd *cmd)
 		i = 0;
 		while(tmp->content[i])
 		{
+			if (tmp->prev)
+				printf("%s",(tmp->prev->is_pipe)?" | ":"");
 			printf("cmd(%d)->content[%d] : %s\n", cmd_id, i, tmp->content[i]);
 			i++;
 		}
