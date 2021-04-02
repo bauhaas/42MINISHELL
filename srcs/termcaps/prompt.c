@@ -6,7 +6,7 @@
 /*   By: clorin <clorin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/18 13:56:39 by clorin            #+#    #+#             */
-/*   Updated: 2021/03/29 18:19:30 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/02 16:46:43 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,24 @@ int			prompt(t_ms *ms)
 	prompt_ = home_prompt(ms, ms->pwd);
 	ret = ft_strlen(prompt_);
 	if(ms->last_ret)
-		ft_putstr_fd("🤬 ", STDOUT);
+	{
+		ft_putstr_fd("\033[7;31m 🤬 \033[0m", STDOUT);
+		ft_putstr_fd("\033[0;31;44m \033[0m", STDOUT);
+	}
 	else
-		ft_putstr_fd("\033[32m😀\033[0m ", STDOUT);
-	write(1, prompt_, ret);
-		write (1, "$> ", 3);
+	{
+		ft_putstr_fd("\033[7;32m 😀 \033[0m", STDOUT);
+		ft_putstr_fd("\033[0;32;44m \033[0m", STDOUT);
+	}
+	ft_putstr_fd("\033[7;34m", 1);
+	ft_putstr_fd(prompt_, 1);
+	ft_putstr_fd("\033[0;34;43m", 1);
+	ft_putstr_fd("\033[0m", 1);
+	ft_putstr_fd("\033[7;33m", 1);
+	write (1, "$>", 2);
+	ft_putstr_fd("\033[0m", 1);
+	ft_putstr_fd("\033[0;33;33m", 1);
+	ft_putstr_fd("\033[0m", 1);
 	ft_strdel(&prompt_);
-	return (ret + 6);
+	return (ret + 10);
 }
