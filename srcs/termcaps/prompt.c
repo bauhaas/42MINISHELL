@@ -53,7 +53,7 @@ int			prompt(t_ms *ms)
 	if(ms->last_ret)
 		ft_putstr_fd("🤬 ", STDOUT);
 	else
-		ft_putstr_fd("😎 ", STDOUT);
+		ft_putstr_fd("\033[32m😀\033[0m ", STDOUT);
 	write(1, prompt_, ret);
 		write (1, "$> ", 3);
 	ft_strdel(&prompt_);

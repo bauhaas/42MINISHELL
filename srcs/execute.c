@@ -143,13 +143,14 @@ static void		error_file(t_ms *ms, t_cmd *cmd)
 {
 	ft_putstr_fd("Minishell: ", STDERR);
 	ft_putstr_fd(cmd->content[0], STDERR);
-	ft_putstr_fd(": ", STDERR);
 	if (cmd->ret_value == 1)
-		ft_putstr_fd("Command not found\n", STDERR);
+		ft_putstr_fd(": No such file or directory\n", STDERR);
 	else if (cmd->ret_value == 2)
-		ft_putstr_fd("Permission denied\n", STDERR);
+		ft_putstr_fd(": Permission denied\n", STDERR);
 	else if (cmd->ret_value == 3)
-		ft_putstr_fd("is a directory\n", STDERR);
+		ft_putstr_fd(": is a directory\n", STDERR);
+	else if (cmd->ret_value == 4)
+		ft_putstr_fd(": Command not found\n", STDERR);
 }
 
 /*
@@ -172,15 +173,15 @@ static void		find_absolute_path(t_ms *ms, t_cmd *cmd)
 		program = ft_strdup(path_to_check[i]);
 		program = ft_strjoin(path_to_check[i], "/");
 		program = ft_strjoin(program, cmd->content[0]);
-		printf("path checked : %s\n", program);
 		if(file_exist(program))
 		{
 			ft_strdel(&cmd->content[0]);
 			cmd->content[0] = program;
-			break;
+			return;
 		}
 		i++;
 	}
+	cmd->ret_value = 4;
 }
 
 /*
@@ -192,11 +193,10 @@ static void		search_prog(t_ms *ms, t_cmd *cmd)
 	char 		*path_env;
 	int i;
 
-	if (cmd->content[0][0] == '.')
-		valid_file(cmd);
-	else
+	if (cmd->content[0][0] != '.')
 		find_absolute_path(ms, cmd);
-	valid_file(cmd);
+	else
+		valid_file(cmd);
 	ms->last_ret = cmd->ret_value;
 }
 
@@ -229,7 +229,11 @@ int	execute(t_ms *ms, t_cmd *cmd)
 	while (cmd != NULL)
 	{
 		if (get_bltn(ms, cmd->content[0]))
+		{
+			cmd->ret_value = 0;
+			ms->last_ret = 0;
 			launch_bltn(ms, cmd);
+		}
 		else
 			fork_exec(ms, cmd);
 		cmd = cmd->next;
