@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 12:52:12 by clorin            #+#    #+#             */
-/*   Updated: 2021/03/29 14:33:38 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/01 19:54:00 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,24 +17,26 @@ int					main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	(void)envp;
-	t_ms			minishell;
+	t_ms			ms;
 
-	ft_bzero(&minishell, sizeof(t_ms));
-	init_ms(&minishell, envp);
-	minishell.i = 0;
-	minishell.exit = 1;
+	ft_bzero(&ms, sizeof(t_ms));
+	init_ms(&ms, envp);
+	ms.cmd = NULL;
+	ms.i = 0;
+	ms.exit = 1;
 	printf("\n ~~~~~~~ Minishell42 ~~~~~~~\n  by (Bahaas / Clorin)\n           V%.1f:\n", VERSION);
-	while (minishell.exit)
+	while (ms.exit)
 	{
-		minishell.exit = get_line(&minishell);
-		if (minishell.line && minishell.exit)
+		ms.exit = get_line(&ms);
+		if (ms.line && ms.exit)
 		{
-			tmp_line_to_cmd(&minishell, minishell.line);
-			minishell.i += 1;
-			ft_strdel(&minishell.line);
+			line_to_cmd(&ms, ms.line, ms.cmd);
+			ms.i += 1;
+			ft_strdel(&ms.line);
+			free_cmd(ms.cmd);
 		}
 	}
-	ft_strdel(&minishell.line);
-	free_history(&minishell.history);
-	printf("exit\n");
+	ft_strdel(&ms.line);
+	free_history(&ms.history);
+	printf("exit in main\n");
 }

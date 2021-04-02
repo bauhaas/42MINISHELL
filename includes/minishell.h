@@ -6,7 +6,7 @@
 /*   By: clorin <clorin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 12:28:05 by clorin            #+#    #+#             */
-/*   Updated: 2021/04/01 01:26:59 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/01 19:54:24 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,11 +180,10 @@ typedef struct	s_bltn
 void	init_bltn(t_ms *ms);
 int		execute(t_ms *ms, t_cmd *cmd);
 void	print_env(t_var *env, int mod);
-char	*ft_getenv(t_list **head_ref, char *elem, int i);
 
 void	init_ms(t_ms *ms, char **env);
 void	ft_lstswap(t_list *prev, t_list *next);
-void	tmp_line_to_cmd(t_ms *ms, char *line);
+void	line_to_cmd(t_ms *ms, char *line, t_cmd *cmd);
 
 int		get_tokens(t_ms *ms, t_tokens **tokens, char *line);
 t_tokens *create_token(t_tokens **tokens);
@@ -203,6 +202,10 @@ int		is_str_tok(t_ms *ms, t_tokens **tokens, char *line, size_t *i);
 int		is_sep_tok(t_ms *ms, t_tokens **tokens, char *line, size_t *i);
 int		is_escaped_tok(t_ms *ms, t_tokens **tokens, char *line, size_t *i);
 
+/*
+** BUiltins folder
+*/
+
 int		ft_echo(t_ms *ms, t_cmd *cmd);
 int		ft_pwd(t_ms *ms, t_cmd *cmd);
 int		ft_export(t_ms *ms, t_cmd *cmd);
@@ -210,6 +213,7 @@ int		ft_unset(t_ms *ms, t_cmd *cmd);
 int		ft_env(t_ms *ms, t_cmd *cmd);
 int		ft_cd(t_ms *ms, t_cmd *cmd);
 int		ft_exit(t_ms *ms, t_cmd *cmd);
+void	free_cmd(t_cmd *cmd);
 
 /*
 ** print.c
@@ -217,4 +221,18 @@ int		ft_exit(t_ms *ms, t_cmd *cmd);
 
 void print_tokens(t_tokens *tokens);
 void print_cmd(t_cmd *cmd);
+
+/*
+** tokens.c
+*/
+
+void	free_tokens(t_tokens *tokens);
+
+/*
+** utils.c
+*/
+
+void	free_split(char ***split);
+char	*ft_getenv(t_list **head_ref, char *elem, int i);
+
 #endif

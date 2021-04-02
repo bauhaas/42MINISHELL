@@ -6,11 +6,26 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/21 00:44:41 by bahaas            #+#    #+#             */
-/*   Updated: 2021/03/24 10:22:53 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/01 18:30:42 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+void		free_split(char ***split)
+{
+	int i;
+
+	i = -1;
+	while ((*split)[++i])
+	{
+		free((*split)[i]);
+		(*split)[i] = NULL;
+	}
+	free(*split);
+	*split = NULL;
+}
+
 
 char *ft_getenv(t_list **head_ref, char *elem, int i)
 {
