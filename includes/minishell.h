@@ -118,6 +118,7 @@ typedef struct	s_ms
 	struct s_cmd	*cmd;
 	int i;
 	char *sep_set[6];
+	int		last_ret;
 }				t_ms;
 
 

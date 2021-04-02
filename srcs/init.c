@@ -106,4 +106,5 @@ void	init_ms(t_ms *ms, char **env)
 	init_lstenv(ms, &ms->env, env);
 	init_bltn(ms);
 	init_sep(ms);
+	ms->last_ret = 0;
 }

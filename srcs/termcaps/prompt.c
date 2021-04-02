@@ -46,35 +46,16 @@ int			prompt(t_ms *ms)
 	int 	ret;
 	char	*prompt_;
 
-	//ret = ft_strlen(ms->pwd);
-	char checkmark[] = { 0xe2, 0x9c, 0x93 };
-	char cross[] = { 0xe2, 0x9d, 0x8c };
-	//if(!ms->i)
-	//{
+	//char checkmark[] = { 0xe2, 0x9c, 0x93 };
+	//char cross[] = { 0xe2, 0x9d, 0x8c };
 	prompt_ = home_prompt(ms, ms->pwd);
-	ret = ft_strlen(prompt_);		//write (1, ms->pwd, ret);
+	ret = ft_strlen(prompt_);
+	if(ms->last_ret)
+		ft_putstr_fd("🤬 ", STDOUT);
+	else
+		ft_putstr_fd("😎 ", STDOUT);
 	write(1, prompt_, ret);
 		write (1, "$> ", 3);
 	ft_strdel(&prompt_);
-	return (ret + 3);
-	//}
-	/*
-	if(ms->cmd->ret_value)
-	{
-		write(1, "\e[0;31m", 7);
-		write(1, cross, 3);
-		write (1, ms->pwd, ret);
-		write (1, "$> ", 3);
-		write(1, "\e[0m", 4);
-	}*/
-	/*
-	else
-	{
-		write(1, "\e[0;32m", 7);
-		write(1, checkmark, 3);
-		write (1, ms->pwd, ret);
-		write (1, "$> ", 3);
-		write(1, "\e[0m", 4);
-	}*/
-	//return (ret + 5);
+	return (ret + 6);
 }
