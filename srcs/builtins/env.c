@@ -18,7 +18,7 @@ void		print_env(t_var *env, int mod)
 	{
 		if (!env->value)
 			return ;
-		if (env->value[0] == '\0' && env->export_display == 0) 
+		if (env->value[0] == '\0') 
 		{
 			printf("%s=\n", env->name);
 		}

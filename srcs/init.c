@@ -35,10 +35,6 @@ t_var	*init_envvar(char *env_var)
 		new->value=ft_strdup(split_var[1]);
 	else
 		new->value = NULL;
-	if (ft_strchr(env_var, '='))
-		new->export_display = 1;
-	else
-		new->export_display = 0;
 	free_split(&split_var);
 	return (new);
 }

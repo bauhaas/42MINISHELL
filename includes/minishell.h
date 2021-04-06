@@ -152,7 +152,6 @@ typedef	struct	s_var
 {
 	char *name;
 	char *value;
-	int export_display;
 }				t_var;
 
 /*
