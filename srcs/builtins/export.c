@@ -41,7 +41,7 @@ void			*list_sort(t_list **dest, t_list *list)
 		tmp = list;
 		while (tmp)
 		{
-			ft_lstadd_back(dest, ft_memdup(tmp, sizeof(tmp)));
+			ft_lstadd_front(dest, ft_memdup(tmp, sizeof(tmp)));
 			tmp = tmp->next;
 		}
 		ft_list_sort(dest);
