@@ -84,8 +84,9 @@ void tokens_to_cmd(t_ms *ms, t_cmd **cmd, t_tokens **tokens)
 	{
 		if((*tokens)->type_content == CMD || (*tokens)->type_content == ARGS)
 		{
-			printf("*tokens->content : %s\n", (*tokens)->content);
-			new_cmd->content[i] = ft_strdup((*tokens)->content);
+			printf("*tokens->content : %s\n", substitute((*tokens)->content, ms));
+			//new_cmd->content[i] = ft_strdup((*tokens)->content);
+			new_cmd->content[i] = substitute((*tokens)->content, ms);
 			*tokens = (*tokens)->next;
 			i++;
 		}

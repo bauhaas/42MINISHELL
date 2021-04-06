@@ -102,7 +102,8 @@ int				get_line(t_ms *mini)
 		write (1, "\n", 1);
 	ft_strdel(&mini->line);
 	if (tc.line)
-		mini->line = substitute(tc.line, mini);
+		mini->line = ft_strdup(tc.line);
+		// mini->line = substitute(tc.line, mini);
 	free_termcaps(&tc);
 	return (status);
 }
