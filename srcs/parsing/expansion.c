@@ -160,8 +160,9 @@ static char		*get_name_var(char *str)
 	if (str[i++] == '$')
 	{
 		j = i;
-		if (ft_isalpha(str[i++]))
+		if (ft_isalpha(str[i]) || str[i] == '_')
 		{
+			i++;
 			while (str[i] && (ft_isalnum(str[i]) || str[i] == '_'))
 				i++;
 			dest = ft_strndup(str + j, i - j);
@@ -187,7 +188,7 @@ static int			len_substitut(char *str, t_ms *mini)
 		name = get_name_var(str + i);
 		if (str[i] == '$' && str[i + 1] == '?')
 		{
-			len_total += ft_strlen("TODO_$?");
+			len_total += ft_intlen(mini->last_ret);
 			i++;
 		}
 		else if (name)
@@ -278,7 +279,7 @@ static int			cat_value(t_ms *mini, char *str, char *dest)
 	}
 	if (*str == '$' && *(str + 1) == '?')
 	{
-		ft_strcat(dest, "TODO_$?");
+		ft_strcat(dest, ft_itoa(mini->last_ret));
 		ft_strdel(&name);
 		return (2);
 	}
