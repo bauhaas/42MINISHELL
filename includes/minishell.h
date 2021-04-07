@@ -6,7 +6,7 @@
 /*   By: clorin <clorin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 12:28:05 by clorin            #+#    #+#             */
-/*   Updated: 2021/04/01 19:54:24 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/06 16:34:26 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,22 +48,18 @@
 # define QUOTE '\''
 # define DQUOTE '\"'
 # define BSLASH '\\'
-# define CMD 0
-# define ARGS 1
+# define NO_END 0
+# define CMD 1
+# define ARGS 2
 # define REDIR 3
-# define PIPES 2
-# define END_CMD 4
+# define PIPES 4
+# define END_CMD 5
+# define LEFT 6
+# define RIGHT 7
+# define DRIGHT 8
 
-/*
-typedef enum e_token_type
-{
-	COMMAND,
-	ARGS,
-	REDIRECTION,
-	PIPES,
-	END_COMMAND
-}			t_token_type;
-*/
+# define NOSKIP 0
+# define SKIP 1
 
 typedef struct			s_termcaps
 {
@@ -119,6 +115,20 @@ typedef struct	s_ms
 	int i;
 	char *sep_set[6];
 	int		last_ret;
+
+	struct s_cmd	*start;
+	int		no_exec;
+	int		pipin;
+	int		pipout;
+	int		pid;
+	int		parent;
+	int		last;
+	int		charge;
+	int		ret;
+	int		fdin;
+	int		fdout;
+	int		in;
+	int		out;
 }				t_ms;
 
 
@@ -162,7 +172,7 @@ typedef struct		s_cmd
 {
 	char			**content;
 	int 			ret_value;
-	int				is_pipe;
+	int				type_link;
 	struct s_cmd	*prev;
 	struct s_cmd	*next;
 }					t_cmd;
@@ -214,13 +224,24 @@ int		ft_env(t_ms *ms, t_cmd *cmd);
 int		ft_cd(t_ms *ms, t_cmd *cmd);
 int		ft_exit(t_ms *ms, t_cmd *cmd);
 void	free_cmd(t_cmd *cmd);
+void	init_bltn(t_ms *ms);
+int		get_bltn(t_ms *ms, char *cmd);
+int		launch_bltn(t_ms *ms, t_cmd *cmd);
 
+/*
+** Exec folder
+*/ 
+
+void	error_file(t_ms *ms, t_cmd *cmd);
+void	search_prog(t_ms *ms, t_cmd *cmd);
 /*
 ** print.c
 */
 
 void print_tokens(t_tokens *tokens);
 void print_cmd(t_cmd *cmd);
+void print_action(t_cmd *cmd);
+void print_action_exec_condition(t_cmd *cmd, int pipe, t_ms *ms);
 
 /*
 ** tokens.c
@@ -234,5 +255,10 @@ void	free_tokens(t_tokens *tokens);
 
 void	free_split(char ***split);
 char	*ft_getenv(t_list **head_ref, char *elem, int i);
+int		is_type(t_cmd *cmd, int type);
+int		has_pipe(t_cmd *cmd);
+
+void	setup_execution(t_ms *ms, t_cmd *cmd);
+
 
 #endif

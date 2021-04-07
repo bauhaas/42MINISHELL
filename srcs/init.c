@@ -6,7 +6,7 @@
 /*   By: clorin <clorin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 12:52:12 by clorin            #+#    #+#             */
-/*   Updated: 2021/04/01 18:50:05 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/06 15:28:05 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,10 +97,33 @@ void	init_sep(t_ms *ms)
 	ms->sep_set[5] = NULL;
 }
 
+char **lst_to_arr(t_list *env)
+{
+	char **arr_env;
+	t_list *tmp = env;
+	t_var *var;
+	int i = 0;
+	arr_env = malloc(sizeof(char *) * ft_lstsize(tmp) + 1);
+	if(!arr_env)
+		return (NULL);
+	while(tmp)
+	{
+		var = (t_var *)tmp->content;
+		arr_env[i] = ft_strdup(var->name);
+		arr_env[i] = ft_strjoin(arr_env[i], "=");
+		arr_env[i] = ft_strjoin(arr_env[i], var->value);
+		tmp = tmp->next;
+		i++;
+	}
+	arr_env[i] = NULL;
+	return (arr_env);
+}
+
 void	init_ms(t_ms *ms, char **env)
 {
 	init_lstenv(ms, &ms->env, env);
 	init_bltn(ms);
 	init_sep(ms);
 	ms->last_ret = 0;
+	ms->arr_env = lst_to_arr(ms->env);
 }
