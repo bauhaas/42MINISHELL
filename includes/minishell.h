@@ -24,6 +24,7 @@
 # include <signal.h>
 # include <limits.h>
 # include <stdbool.h>
+# include <fcntl.h>
 # include "../libft/libft.h"
 
 # define STDIN 0

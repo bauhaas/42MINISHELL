@@ -1,0 +1,4 @@
+ls -l
+echo coucou
+env
+pwd

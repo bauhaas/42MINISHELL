@@ -24,18 +24,43 @@ int					main(int argc, char **argv, char **envp)
 	ms.cmd = NULL;
 	ms.exit = 1;
 	printf("\n ~~~~~~~ Minishell42 ~~~~~~~\n  by (Bahaas / Clorin)\n           V%.1f:\n", VERSION);
-	while (ms.exit)
-	{
-		ms.exit = get_line(&ms);
-		if (ms.line && ms.exit)
+	if (argc == 1)
 		{
-			ms.no_exec = 0;
+		while (ms.exit)
+		{
+			ms.exit = get_line(&ms);
+			if (ms.line && ms.exit)
+			{
+				ms.no_exec = 0;
+				line_to_cmd(&ms, ms.line, ms.cmd);
+				ft_strdel(&ms.line);
+				free_cmd(ms.cmd);
+			}
+		}
+		ft_strdel(&ms.line);
+		free_history(&ms.history);
+		printf("exit in main\n");
+		return (0);
+	}
+	else
+	{
+		int		r;
+		char	*line;
+
+		line = NULL;
+		int fd = open(argv[2], O_RDONLY);
+		while ((r = get_next_line(fd, &line)) > 0)
+		{
+			printf("%s\n", line);
+			ms.line = ft_strdup(line);
 			line_to_cmd(&ms, ms.line, ms.cmd);
 			ft_strdel(&ms.line);
 			free_cmd(ms.cmd);
+			free(line);
+			line = NULL;
 		}
+		printf("%s", line);
+		free(line);
+		line = NULL;
 	}
-	ft_strdel(&ms.line);
-	free_history(&ms.history);
-	printf("exit in main\n");
 }
