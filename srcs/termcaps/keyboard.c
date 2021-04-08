@@ -29,6 +29,8 @@ void			keys_tree(long c, t_termcaps *tc, t_ms *mini)
 	}
 	else if ((c == BACKSPACE) && tc->cur_pos > 0)
 	 	del_back(tc);
+	else if ((c == EOF_KEY && tc->cur_pos < (int)ft_strlen(tc->line)))
+		del_char(tc);
 	else if (c == LEFT_ARROW && tc->cur_pos > 0)
 		tc->cur_pos--;
 	else if (c == RIGHT_ARROW && tc->cur_pos < (int)ft_strlen(tc->line))
