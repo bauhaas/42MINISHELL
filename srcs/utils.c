@@ -73,7 +73,7 @@ int		is_type(t_cmd *cmd, int type)
 
 int		has_pipe(t_cmd *cmd)
 {
-	while (cmd && is_type(cmd, END) == 0)
+	while (cmd && is_type(cmd, END_CMD) == 0)
 	{
 		if (is_type(cmd, PIPES))
 			return (1);
