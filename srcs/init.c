@@ -119,6 +119,20 @@ char **lst_to_arr(t_list *env)
 	return (arr_env);
 }
 
+void	upgrade_shlvl(t_ms *ms)
+{
+	int		old_shlvl;
+	t_var	*shlvl;
+
+	shlvl = ft_get_t_var(&ms->env, "SHLVL");
+	if (shlvl)
+	{
+		old_shlvl = ft_atoi(shlvl->value);
+		ft_strdel(&shlvl->value);
+		shlvl->value =  ft_itoa(old_shlvl + 1);
+	}
+}
+
 void	init_ms(t_ms *ms, char **env)
 {
 	init_lstenv(ms, &ms->env, env);
@@ -126,4 +140,5 @@ void	init_ms(t_ms *ms, char **env)
 	init_sep(ms);
 	ms->last_ret = 0;
 	ms->arr_env = lst_to_arr(ms->env);
+	upgrade_shlvl(ms);
 }
