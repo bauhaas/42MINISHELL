@@ -42,6 +42,11 @@ void			del_char(t_termcaps *tc)
 
 	if (!tc->line)
 		return ;
+	if (tc->cur_pos == (int)ft_strlen(tc->line))
+	{
+		write(1, "\a", 1);
+		return ;
+	}
 	len = ft_strlen(tc->line);
 	if (len == 1)
 	{

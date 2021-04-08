@@ -39,7 +39,10 @@ t_hist			*add_history(t_hist **begin, char *line)
 void			up_history(t_termcaps *tc, t_ms *mini)
 {
 	if (!mini->history)
+	{
+		write(1, "\a", 1);
 		return ;
+	}
 	if (!tc->line && mini->cur_histo)
 	{
 		ft_strdel(&tc->line);
@@ -57,12 +60,20 @@ void			up_history(t_termcaps *tc, t_ms *mini)
 void			down_history(t_termcaps *tc, t_ms *mini)
 {
 	if (!mini->history)
+	{
+		write(1, "\a", 1);
 		return ;
+	}
 	if (mini->cur_histo->prev)
 	{
 		mini->cur_histo = mini->cur_histo->prev;
 		ft_strdel(&tc->line);
 		tc->line = ft_strdup(mini->cur_histo->line);
+	}
+	else if (!tc->line)
+	{
+		write(1, "\a", 1);
+		return ;
 	}
 	else
 		ft_strdel(&tc->line);
