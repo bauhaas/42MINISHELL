@@ -144,7 +144,7 @@ int					tc_putchar(int c);
 void				create_line(long c, t_termcaps *tc);
 void				clear_line(t_termcaps *tc);
 void				print_line(t_termcaps *tc, t_ms *ms);
-void				del_char(t_termcaps *tc);
+void				del_back(t_termcaps *tc);
 int					prompt(t_ms *ms);
 char				*substitute(char *str, t_ms *mini);
 

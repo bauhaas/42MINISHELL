@@ -12,7 +12,7 @@
 
 #include "../includes/minishell.h"
 
-void			del_char(t_termcaps *tc)
+void			del_back(t_termcaps *tc)
 {
 	char	*str;
 	int		len;
