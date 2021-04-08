@@ -38,8 +38,9 @@
 # define RIGHT_ARROW 4414235
 # define UP_ARROW 4283163
 # define DOWN_ARROW 4348699
-# define HOME 4741915
-# define END 4610843
+// # define HOME 4741915
+// # define END 4610843
+# define DEL 2117294875
 
 # define ENV 0
 # define EXPORT 1
