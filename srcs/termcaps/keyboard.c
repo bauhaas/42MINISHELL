@@ -27,7 +27,7 @@ void			keys_tree(long c, t_termcaps *tc, t_ms *mini)
 		create_line(c, tc);
 		tc->cur_pos++;
 	}
-	else if (c == BACKSPACE && tc->cur_pos > 0)
+	else if (c == BACKSPACE)
 	 	del_back(tc);
 	else if (c == EOF_KEY)
 		del_char(tc);
