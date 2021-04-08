@@ -52,7 +52,13 @@ fclean :	clean
 		@rm -rf $(NAME)
 		@echo "Delete minishell : \033[32mOK\033[0m"
 
-re :		fclean all
+re :	fclean all
+
+test:	$(NAME)
+		./minishell -c test
+
+run:	$(NAME)
+		./minishell
 
 .PHOMY :	all clean fclean re
 	
