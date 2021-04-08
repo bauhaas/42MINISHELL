@@ -256,6 +256,8 @@ void	free_tokens(t_tokens *tokens);
 
 void	free_split(char ***split);
 char	*ft_getenv(t_list **head_ref, char *elem, int i);
+t_var	*ft_get_t_var(t_list **head_ref, char *elem);
+int		valid_name(char *name);
 int		is_type(t_cmd *cmd, int type);
 int		has_pipe(t_cmd *cmd);
 

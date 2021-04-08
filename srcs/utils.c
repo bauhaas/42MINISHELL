@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/21 00:44:41 by bahaas            #+#    #+#             */
-/*   Updated: 2021/04/06 16:01:08 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/08 09:56:17 by clorin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,12 @@ void		free_split(char ***split)
 }
 
 
-char *ft_getenv(t_list **head_ref, char *elem, int i)
+char 		*ft_getenv(t_list **head_ref, char *elem, int i)
 {
-	t_var *var;
-	t_list *tmp = *head_ref;
+	t_var 	*var;
+	t_list 	*tmp;
+
+	tmp = *head_ref;
 	while(tmp)
 	{
 		var = (t_var *)tmp->content;
@@ -41,6 +43,22 @@ char *ft_getenv(t_list **head_ref, char *elem, int i)
 			return (var->name);
 		}
 		tmp = tmp->next;
+	}
+	return (NULL);
+}
+
+t_var		*ft_get_t_var(t_list **head_ref, char *elem)
+{
+	t_list	*tmp;
+	t_var	*dest;
+
+	tmp = *head_ref;
+	while (tmp)
+	{
+		dest = (t_var*)tmp->content;
+		if (!ft_strcmp(dest->name, elem))
+			return (dest);
+		tmp =tmp->next;
 	}
 	return (NULL);
 }

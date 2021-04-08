@@ -145,6 +145,27 @@
 // 	return (open);
 // }
 
+int				valid_name(char *name)
+{
+	int			i;
+
+	i = 0;
+	if (!name || !*name)
+		return (FALSE);
+	if (name[i] == '$')
+		i++;
+	if (!ft_isalpha(name[i]) && name[i] != '_')
+		return (FALSE);
+	i++;
+	while (name[i])
+	{
+		if (!ft_isalnum(name[i]) && name[i] != '_')
+			return (FALSE);
+		i++;
+	}
+	return (TRUE);
+}
+
 /*
 **	this function returns the name's var after $ or NULL if nothing
 */
