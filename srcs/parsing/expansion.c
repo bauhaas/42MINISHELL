@@ -6,7 +6,7 @@
 /*   By: clorin <clorin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 13:13:22 by clorin            #+#    #+#             */
-/*   Updated: 2021/03/31 16:00:05 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/08 22:48:47 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -309,6 +309,7 @@ char		*substitute(char *str, t_ms *mini)
 	
 	i = 0;
 	len_total_subs = len_substitut(str, mini);
+	printf("test len_total_subs : %d\n", len_total_subs);
 	if (len_total_subs == 0)
 		return (NULL);
 	dest = ft_strnew(len_total_subs);
@@ -316,6 +317,7 @@ char		*substitute(char *str, t_ms *mini)
 		return (NULL);
 	while (str[i])
 		i += cat_value(mini, str + i, dest);
+	printf("test dest : %s\n", dest);
 	return (dest);
 }
 

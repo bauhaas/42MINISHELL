@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/21 14:52:26 by bahaas            #+#    #+#             */
-/*   Updated: 2021/04/07 14:30:32 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/07 14:58:39 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,18 +118,8 @@ void tokens_to_cmd(t_ms *ms, t_cmd **cmd, t_tokens **tokens)
 	{
 		if((*tokens)->type_content == CMD || (*tokens)->type_content == ARGS)
 		{
-		//	printf("*tokens->content : %s\n", (*tokens)->content);
 			new_cmd->content[i] = ft_strdup((*tokens)->content);
-			/*if((*tokens)->type_content == PIPES)
-				new_cmd->type_link = PIPES;
-			else if((*tokens)->type_content == END_CMD)
-				new_cmd->type_link = END_CMD;
-			else if((*tokens)->type_content == REDIR)
-				set_type_link(new_cmd, tokens);
-			else
-				new_cmd->type_link = NO_END;*/
 			new_cmd->type_link = CMD;
-		//	printf("test type_link : %d\n", new_cmd->type_link);
 			i++;
 			*tokens = (*tokens)->next;
 		}
@@ -150,7 +140,7 @@ void	line_to_cmd(t_ms *ms, char *line, t_cmd *cmd)
 	ret = 0;
 	if(ret == 0)
 		ret = get_tokens(ms, &tokens, line);
-//	print_tokens(tokens);
+	print_tokens(tokens);
 	head = tokens;
 	while(head)
 	{
@@ -158,7 +148,7 @@ void	line_to_cmd(t_ms *ms, char *line, t_cmd *cmd)
 		tokens_to_cmd(ms, &cmd, &head);
 	}
 	free_tokens(tokens);
-	print_cmd(cmd);
+//	print_cmd(cmd);
 	ms->start = cmd;
 	setup_execution(ms, cmd);
 }

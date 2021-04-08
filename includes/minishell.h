@@ -6,7 +6,7 @@
 /*   By: clorin <clorin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 12:28:05 by clorin            #+#    #+#             */
-/*   Updated: 2021/04/06 16:34:26 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/08 16:00:19 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,11 +206,12 @@ int		is_separator(char c);
 int		is_space(char c);
 int		is_escaped(char c, char *line, int i);
 
-int		is_dquote_tok(t_ms *ms, t_tokens **tokens, char *line, size_t *i);
-int		is_quote_tok(t_ms *ms, t_tokens **tokens, char *line, size_t *i);
-int		is_str_tok(t_ms *ms, t_tokens **tokens, char *line, size_t *i);
-int		is_sep_tok(t_ms *ms, t_tokens **tokens, char *line, size_t *i);
-int		is_escaped_tok(t_ms *ms, t_tokens **tokens, char *line, size_t *i);
+int		is_dquote_tok(t_ms *ms, t_tokens **tokens, char *line, size_t *i, int *join);
+int		is_quote_tok(t_ms *ms, t_tokens **tokens, char *line, size_t *i, int *join);
+int		is_str_tok(t_ms *ms, t_tokens **tokens, char *line, size_t *i, int *join);
+int		is_sep_tok(t_ms *ms, t_tokens **tokens, char *line, size_t *i, int *join);
+int		is_escaped_tok(t_ms *ms, t_tokens **tokens, char *line, size_t *i, int *join);
+int		is_expand_tok(t_ms *ms, t_tokens **tokens, char *line, size_t *i, int *join);
 
 /*
 ** BUiltins folder

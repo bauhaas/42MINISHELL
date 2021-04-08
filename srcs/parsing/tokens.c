@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/20 14:29:47 by bahaas            #+#    #+#             */
-/*   Updated: 2021/04/01 18:59:14 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/08 16:12:42 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,21 +55,25 @@ t_tokens	*create_token(t_tokens **tokens)
 int	get_tokens(t_ms *ms, t_tokens **tokens, char *line)
 {
 	size_t	i;
+	int		join;
 
 	i = 0;
+	join = 0;
 	while (line[i])
 	{
 		while (is_space(line[i]))
 			i++;
-		if (is_str_tok(ms, tokens, line, &i))
+		if (is_str_tok(ms, tokens, line, &i, &join))
 			return (1);
-		if (is_sep_tok(ms, tokens, line, &i))
+		if (is_sep_tok(ms, tokens, line, &i, &join))
 			return (1);
-		if (is_quote_tok(ms, tokens, line, &i))
+		if (is_quote_tok(ms, tokens, line, &i, &join))
 			return (1);
-		if (is_dquote_tok(ms, tokens, line, &i))
+		if (is_dquote_tok(ms, tokens, line, &i, &join))
 			return (1);
-		if (is_escaped_tok(ms, tokens, line, &i))
+		if (is_escaped_tok(ms, tokens, line, &i, &join))
+			return (1);
+		if (is_expand_tok(ms, tokens, line, &i, &join))
 			return (1);
 	}
 	return (0);

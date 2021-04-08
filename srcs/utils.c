@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/21 00:44:41 by bahaas            #+#    #+#             */
-/*   Updated: 2021/04/06 16:01:08 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/08 13:57:03 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int		is_type(t_cmd *cmd, int type)
 
 int		has_pipe(t_cmd *cmd)
 {
-	while (cmd && is_type(cmd, END) == 0)
+	while (cmd && is_type(cmd, END_CMD) == 0)
 	{
 		if (is_type(cmd, PIPES))
 			return (1);
