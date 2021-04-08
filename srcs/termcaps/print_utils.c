@@ -111,7 +111,7 @@ void			print_line(t_termcaps *tc, t_ms *ms)
 	start = prompt(ms);
 	if (tc->line)
 		write(STDOUT, tc->line, ft_strlen(tc->line));
-	get_cursor_position(&tc->col, &tc->row);
+	//get_cursor_position(&tc->col, &tc->row);
 	clear_line(tc);
 	pos_x = (start + tc->cur_pos) % tc->size_col;
 	pos_y = ((start + tc->cur_pos) / tc->size_col) + tc->start_row;
