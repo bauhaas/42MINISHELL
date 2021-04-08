@@ -131,6 +131,15 @@ void	upgrade_shlvl(t_ms *ms)
 		ft_strdel(&shlvl->value);
 		shlvl->value =  ft_itoa(old_shlvl + 1);
 	}
+	else
+	{
+		shlvl = malloc(sizeof(t_var));
+		if (!shlvl)
+			return ;
+		shlvl->name = ft_strdup("SHLVL");
+		shlvl->value = ft_strdup("1");
+		ft_lstadd_back(&ms->env,ft_lstnew(shlvl));
+	}
 }
 
 void	init_ms(t_ms *ms, char **env)
