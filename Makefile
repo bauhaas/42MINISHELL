@@ -6,7 +6,7 @@
 #    By: clorin <clorin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/03/17 12:01:33 by clorin            #+#    #+#              #
-#    Updated: 2021/04/06 15:35:49 by bahaas           ###   ########.fr        #
+#    Updated: 2021/04/08 23:03:17 by bahaas           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,6 +56,9 @@ re :	fclean all
 
 test:	$(NAME)
 		./minishell -c test
+
+echo:	$(NAME)
+		./minishell -c echo_test
 
 run:	$(NAME)
 		./minishell

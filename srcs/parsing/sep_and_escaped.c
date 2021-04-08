@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/29 17:32:41 by bahaas            #+#    #+#             */
-/*   Updated: 2021/04/08 21:49:43 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/08 23:58:44 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ int	is_escaped_tok(t_ms *ms, t_tokens **tokens, char *line, size_t *i, int *join
 {
 	printf("\nGO IN ESCAPED\n");
 	printf("current line: %s\n", &line[*i]);
+	printf("current join: %d\n", *join);
 	int had_to_tok = 0;
 	t_tokens	*new;
 	if (line[*i] == BSLASH && ft_strlen(&line[*i]) >= 2)
@@ -123,13 +124,18 @@ int len_var(char *line)
 void	fill_exp_tok(t_ms *ms, char *word, char *line)
 {
 	size_t	j;
+	size_t	i;
 
 	j = 0;
+	i = 0;
 	while (line[j] != '\0' && !is_separator(line[j]) && !is_space(line[j])
 			&& line[j] != QUOTE && line[j] != DQUOTE && line[j] != BSLASH)
 	{
-		word[j] = line[j];
+		word[i] = line[j];
+		i++;
 		j++;
+		if(line[j] == '$')
+			break;
 	}
 }
 
@@ -139,6 +145,7 @@ int	is_expand_tok(t_ms *ms, t_tokens **tokens, char *line, size_t *i, int *join)
 	printf("current line: %s\n", &line[*i]);
 	t_tokens	*new;
 	int len;
+	int had_to_tok = 0;
 	if(line[*i] == '$')
 	 	len = len_var(&line[*i]);
 	else
@@ -163,6 +170,7 @@ int	is_expand_tok(t_ms *ms, t_tokens **tokens, char *line, size_t *i, int *join)
 			new->content = substitute(new->content, ms);
 			printf("token after substitute  : %s\n", new->content);
 			new->type_content = ARGS;
+			had_to_tok = 1;
 		}
 		else
 		{
@@ -178,9 +186,19 @@ int	is_expand_tok(t_ms *ms, t_tokens **tokens, char *line, size_t *i, int *join)
 			tmp_token = substitute(tmp_token, ms);
 			printf("token after substitute  : %s\n", tmp_token);
 			tmp->content = ft_strjoin(tmp->content, tmp_token);
+			had_to_tok = 1;
 		}
 	  }
 	  printf("test len : %d\n", len);
 	 *i += len;
+	if(line[*i] == ' ' && had_to_tok == 1)
+	{
+		while(line[*i] == ' ')
+			*i += 1;
+		*join = 0;
+	}
+	else if(had_to_tok == 1)
+		*join = 1;
+
 	return (0);
 }

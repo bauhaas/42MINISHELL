@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/29 17:45:35 by bahaas            #+#    #+#             */
-/*   Updated: 2021/04/08 16:24:30 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/09 00:04:06 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ size_t	word_len(char *line, size_t *len, char c)
 	if (!line[i])
 		return (1);
 	*len = i + 1;
-//	printf("word len : %zu\n", *len);
+	//	printf("word len : %zu\n", *len);
 	return (0);
 }
 
@@ -59,7 +59,7 @@ void		fill_word(char *word, char *line, char c)
 	k = 0;
 	while (line[j] && line[j] != c)
 	{
-	//	printf("char in fill_word : %c\n", line[j]);
+		//	printf("char in fill_word : %c\n", line[j]);
 		if (line[j] == BSLASH)
 		{
 			if (line[j + 1] == '\n')
@@ -89,7 +89,7 @@ void		fill_word(char *word, char *line, char c)
 //TO DO : SMASH BOTH FUNCTION IN ONE (just QUOTE/DQUOTE is modified)
 int				is_dquote_tok(t_ms *ms, t_tokens **tokens, char *line, size_t *i, int *join)
 {
-	
+
 	printf("\nGO IN DQUOTE\n");
 	printf("current line : %s\n", &line[*i]);
 	size_t	len;
@@ -111,12 +111,22 @@ int				is_dquote_tok(t_ms *ms, t_tokens **tokens, char *line, size_t *i, int *jo
 		new->content = ft_strnew(len);
 		if (new->content == NULL)
 			return (1);
-	//	printf("line before fill word : %s\n", &line[*i]);
-	//	printf("len before fill word  : %zu\n", len);
+		printf("test len %zu\n", len);
 		fill_word(new->content, &line[*i], DQUOTE);
+		printf("test token filled %s\n", new->content);
+		if (new->content[0] == '$' && ft_strlen(&new->content[0]) >= 2)
+		{
+			printf("test\n");
+			if(*join == 0)
+			{
+				printf("token before substitute : %s\n", new->content);
+				new->content = substitute(new->content, ms);
+				printf("token after substitute  : %s\n", new->content);
+				new->type_content = ARGS;
+			}
+		}
 		new->type_quote = DQUOTE;
 		new->type_content = ARGS;
-	//	printf("token create : %s\n", new->content);
 	}
 	else
 	{
@@ -125,13 +135,9 @@ int				is_dquote_tok(t_ms *ms, t_tokens **tokens, char *line, size_t *i, int *jo
 		tmp = *tokens;
 		while(tmp->next)
 			tmp = tmp->next;
-	//	printf("token that need join : %s\n", tmp->content);
 		char *tmp_token;
 		tmp_token = ft_strnew(len);
-	//	printf("line before fill word : %s\n", &line[*i]);
-	//	printf("len before fill word  : %zu\n", len);
 		fill_word(tmp_token, &line[*i], DQUOTE);
-	//	printf("token 2nd part of join : %s\n", tmp_token);
 		tmp->content = ft_strjoin(tmp->content, tmp_token);
 	}
 	*i += len;
@@ -149,7 +155,7 @@ int				is_dquote_tok(t_ms *ms, t_tokens **tokens, char *line, size_t *i, int *jo
 
 int	is_quote_tok(t_ms *ms, t_tokens **tokens, char *line, size_t *i, int *join)
 {
-	
+
 	printf("\nGO IN QUOTE\n");
 	printf("current line : %s\n", &line[*i]);
 	size_t	len;
@@ -171,11 +177,9 @@ int	is_quote_tok(t_ms *ms, t_tokens **tokens, char *line, size_t *i, int *join)
 		new->content = ft_strnew(len);
 		if (new->content == NULL)
 			return (1);
-		//printf("line before fill word : %s\n", &line[*i]);
 		fill_word(new->content, &line[*i], QUOTE);
 		new->type_quote = QUOTE;
 		new->type_content = ARGS;
-		//printf("token create : %s\n", new->content);
 	}
 	else
 	{
@@ -184,10 +188,8 @@ int	is_quote_tok(t_ms *ms, t_tokens **tokens, char *line, size_t *i, int *join)
 		tmp = *tokens;
 		while(tmp->next)
 			tmp = tmp->next;
-	//	printf("token that need join : %s\n", tmp->content);
 		char *tmp_token;
 		tmp_token = ft_strnew(len);
-	//	printf("line before fill word : %s\n", &line[*i]);
 		fill_word(tmp_token, &line[*i], QUOTE);
 		tmp->content = ft_strjoin(tmp->content, tmp_token);
 	}
