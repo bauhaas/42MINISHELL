@@ -19,7 +19,7 @@ void			del_back(t_termcaps *tc)
 
 	if (!tc->line || tc->cur_pos == 0)
 	{
-		write(1, "\a", 1);
+		beep();
 		return ;
 	}
 	len = ft_strlen(tc->line);
@@ -43,11 +43,9 @@ void			del_char(t_termcaps *tc)
 	char		*str;
 	int			len;
 
-	if (!tc->line)
-		return ;
 	if (!tc->line || tc->cur_pos == (int)ft_strlen(tc->line))
 	{
-		write(1, "\a", 1);
+		beep();
 		return ;
 	}
 	len = ft_strlen(tc->line);

@@ -132,11 +132,12 @@ typedef struct	s_ms
 	int		out;
 }				t_ms;
 
-
+/*
+*	Termcaps
+*/
 void				get_cursor_position(int *col, int *rows);
 void				set_cursor_position(t_termcaps *tc, int col, int row);
 void				keys_tree(long c, t_termcaps *tc, t_ms *mini);
-
 void				init_termcaps(t_termcaps *tc);
 void				window_size(t_termcaps *tc);
 int					get_line(t_ms *mini);
@@ -147,8 +148,10 @@ void				print_line(t_termcaps *tc, t_ms *ms);
 void				del_back(t_termcaps *tc);
 void				del_char(t_termcaps *tc);
 int					prompt(t_ms *ms);
+void				left(t_termcaps *tc);
+void				right(t_termcaps *tc);
 char				*substitute(char *str, t_ms *mini);
-
+void				beep();
 /*
 *	history
 */

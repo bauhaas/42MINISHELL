@@ -12,7 +12,7 @@
 
 #include "../includes/minishell.h"
 
-void	get_cursor_position(int *col, int *rows)
+void		get_cursor_position(int *col, int *rows)
 {
 	int		a;
 	int		i;
@@ -44,4 +44,25 @@ void	get_cursor_position(int *col, int *rows)
 void		set_cursor_position(t_termcaps *tc, int col, int row)
 {
 	tputs(tgoto(tc->cm, col, row), 1, tc_putchar);
+}
+
+void		beep()
+{
+	write(1, "\a", 1);
+}
+
+void		left(t_termcaps *tc)
+{
+	if (tc->cur_pos > 0)
+		tc->cur_pos--;
+	else
+		beep();
+}
+
+void		right(t_termcaps *tc)
+{
+	if (tc->cur_pos < (int)ft_strlen(tc->line))
+		tc->cur_pos++;
+	else
+		beep();
 }

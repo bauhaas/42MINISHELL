@@ -31,10 +31,10 @@ void			keys_tree(long c, t_termcaps *tc, t_ms *mini)
 	 	del_back(tc);
 	else if (c == EOF_KEY)
 		del_char(tc);
-	else if (c == LEFT_ARROW && tc->cur_pos > 0)
-		tc->cur_pos--;
-	else if (c == RIGHT_ARROW && tc->cur_pos < (int)ft_strlen(tc->line))
-		tc->cur_pos++;
+	else if (c == LEFT_ARROW)
+		left(tc);
+	else if (c == RIGHT_ARROW)
+		right(tc);
 	else if (c == UP_ARROW)
 	 	up_history(tc, mini);
 	else if (c == DOWN_ARROW)
@@ -51,5 +51,7 @@ void			keys_tree(long c, t_termcaps *tc, t_ms *mini)
 		tc->row = 0;
 		tc->col = 0;
 	}
+	else
+		printf("KEY = %lu\n", c);
 	print_line(tc, mini);
 }
