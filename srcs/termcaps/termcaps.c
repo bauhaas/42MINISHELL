@@ -25,8 +25,8 @@ void			init_termcaps(t_termcaps *tc)
 		tcgetattr(0, &tc->term);
 		tcgetattr(0, &tc->old_termcaps);
 		tc->term.c_lflag &= ~(ICANON | ECHO);
-		tc->term.c_cc[VMIN] = 1;
-		tc->term.c_cc[VTIME] = 0;
+		tc->term.c_cc[VMIN] = 0;
+		tc->term.c_cc[VTIME] = 1;
 		tcsetattr(0, TCSANOW, &tc->term);
 		tc->cm = tgetstr("cm", NULL);
 		tc->ce = tgetstr("ce", NULL);
@@ -59,6 +59,12 @@ static int		boucle(t_termcaps *tc, t_ms *mini)
 	c = 0;
 	while (read(STDIN, &c, sizeof(c)) >= 0)
 	{
+		if (g_signal)
+		{
+			ft_strdel(&tc->line);
+			tc->cur_pos = 0;
+			g_signal = FALSE;
+		}
 		window_size(tc);
 		get_cursor_position(&tc->col, &tc->row);
 		if (tc->col == (tc->size_col - 1) && c != BACKSPACE

@@ -120,30 +120,35 @@
 ** if open return the ascii code of the quote
 ** otherwise 0 if closed
 */
-// int		valid_quotes(const char *str, int len)
-// {
-// 	int	i;
-// 	int	open;
+int		valid_quotes(const char *s, int len)
+{
+	int	i;
+	int	open;
+	char *str;
 
-// 	i = 0;
-// 	open = 0;
-// 	while (str[i] && i <= len)
-// 	{
-// 		if (i > 0 && str[i - 1] == '\\')
-// 			;
-// 		else if (open == 0 && str[i] == '\"')
-// 			open = 34;
-// 		else if (open == 0 && str[i] == '\'')
-// 			open = 39;
-// 		else if (open == 34 && str[i] == '\"')
-// 			open = 0;
-// 		else if (open == 39 && str[i] == '\'')
-// 			open = 0;
-// 		//printf("pour i = %d => open = %d\n", i,open);
-// 		i++;
-// 	}
-// 	return (open);
-// }
+	i = 0;
+	open = 0;
+	str = ft_strdup(s);
+	while (str[i] && i <= len)
+	{
+		if (i > 0 && str[i - 1] == '\\')
+		{
+			if(str[i] == '\\')
+				str[i] = '_';
+		}
+		else if (open == 0 && str[i] == '\"')
+			open = 34;
+		else if (open == 0 && str[i] == '\'')
+			open = 39;
+		else if (open == 34 && str[i] == '\"')
+			open = 0;
+		else if (open == 39 && str[i] == '\'')
+			open = 0;
+		i++;
+	}
+	ft_strdel(&str);
+	return (open);
+}
 
 int				valid_name(char *name)
 {

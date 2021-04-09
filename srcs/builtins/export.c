@@ -144,6 +144,7 @@ int	ft_export(t_ms *ms, t_cmd *cmd)
 			copy = copy->next;
 		}
 		ft_lstclear(&copy, &free_);
+		ms->last_ret = 0;
 	}
 	else
 	{

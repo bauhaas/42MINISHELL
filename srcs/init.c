@@ -13,9 +13,9 @@
 #include "../includes/minishell.h"
 
 /*
- ** Split the env variable string on the '=' sign, and set the var to the 1st
- ** string of our split, the 2nd is the value. Making sure that our strings after
- ** split exist.
+ ** Split the env variable string on the first '=' sign, 
+ ** and set the var to the 1st string of our split, 
+ ** the 2nd is the value. Making sure that our strings after split exist.
  */
 
 t_var	*init_envvar(char *env_var)
@@ -26,7 +26,7 @@ t_var	*init_envvar(char *env_var)
 	new = malloc(sizeof(t_var));
 	if (!new)
 		return (NULL);
-	split_var = ft_split(env_var, '=');
+	split_var = ft_nsplit(env_var, '=', 1);
 	if (split_var[0])
 		new->name = ft_strdup(split_var[0]);
 	else
