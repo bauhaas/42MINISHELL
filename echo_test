@@ -22,3 +22,6 @@ echo "\\"
 echo "\\\\\"
 echo "$"
 echo $?
+export TOTO="42"
+export TITI=$TOTO
+echo $TITI
