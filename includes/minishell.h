@@ -133,6 +133,7 @@ typedef struct	s_ms
 	int		out;
 }				t_ms;
 
+int			g_signal;
 /*
 *	Termcaps
 */
