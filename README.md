@@ -1,7 +1,7 @@
 # 42MINISHELL
 ## List of content
 ...
-
+[![norminette Actions Status](https://github.com/Korkrane/42MINISHELL/workflows/norminette/badge.svg)](https://github.com/Korkrane/42MINISHELL/actions)
 ## Git structure
 ### Commit mssg
 - `ADD: ...` to implement new function/files
