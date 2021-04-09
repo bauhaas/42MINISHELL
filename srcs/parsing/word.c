@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/20 14:29:47 by bahaas            #+#    #+#             */
-/*   Updated: 2021/04/08 21:41:37 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/09 11:22:01 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ size_t	strlen_tok(char *line)
 	if(line[i] == '$')
 		return (i);
 	while (line[i] && !is_separator(line[i]) && !is_space(line[i])
-			&& line[i] != QUOTE && line[i] != DQUOTE && line[i] != BSLASH)
+			&& line[i] != QUOTE && line[i] != DQUOTE && line[i] != BSLASH && line[i] != '$')
 		i++;
 	return (i);
 }
@@ -40,7 +40,7 @@ void	fill_str_tok(t_ms *ms, char *word, char *line)
 
 	j = 0;
 	while (line[j] != '\0' && !is_separator(line[j]) && !is_space(line[j])
-			&& line[j] != QUOTE && line[j] != DQUOTE && line[j] != BSLASH)
+			&& line[j] != QUOTE && line[j] != DQUOTE && line[j] != BSLASH && line[j] != '$')
 	{
 		word[j] = line[j];
 		j++;

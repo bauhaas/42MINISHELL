@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/29 17:32:41 by bahaas            #+#    #+#             */
-/*   Updated: 2021/04/08 23:58:44 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/09 15:34:24 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,10 @@ int	is_sep_tok(t_ms *ms, t_tokens **tokens, char *line, size_t *i, int *join)
 {
 	size_t				j;
 	t_tokens			*new;
+	/*
 	printf("\nGO IN SEP\n");
 	printf("current line : %s\n", &line[*i]);
+	*/
 	j = 0;
 	while (ms->sep_set[j] != NULL)
 	{
@@ -57,9 +59,11 @@ int	is_sep_tok(t_ms *ms, t_tokens **tokens, char *line, size_t *i, int *join)
 
 int	is_escaped_tok(t_ms *ms, t_tokens **tokens, char *line, size_t *i, int *join)
 {
+	/*
 	printf("\nGO IN ESCAPED\n");
 	printf("current line: %s\n", &line[*i]);
 	printf("current join: %d\n", *join);
+	*/
 	int had_to_tok = 0;
 	t_tokens	*new;
 	if (line[*i] == BSLASH && ft_strlen(&line[*i]) >= 2)
@@ -71,7 +75,7 @@ int	is_escaped_tok(t_ms *ms, t_tokens **tokens, char *line, size_t *i, int *join
 		}
 		if(*join == 0)
 		{
-			printf("create a token\n");
+			//printf("create a token\n");
 			new = create_token(tokens);
 			if (new == NULL)
 				return (1);
@@ -83,7 +87,7 @@ int	is_escaped_tok(t_ms *ms, t_tokens **tokens, char *line, size_t *i, int *join
 		}
 		else
 		{
-			printf("join to prev token\n");
+			//printf("join to prev token\n");
 			t_tokens *tmp;
 			tmp = *tokens;
 			while(tmp->next)
@@ -141,8 +145,10 @@ void	fill_exp_tok(t_ms *ms, char *word, char *line)
 
 int	is_expand_tok(t_ms *ms, t_tokens **tokens, char *line, size_t *i, int *join)
 {
+	/*
 	printf("\nGO IN EXPAND\n");
 	printf("current line: %s\n", &line[*i]);
+	*/
 	t_tokens	*new;
 	int len;
 	int had_to_tok = 0;
@@ -150,15 +156,13 @@ int	is_expand_tok(t_ms *ms, t_tokens **tokens, char *line, size_t *i, int *join)
 	 	len = len_var(&line[*i]);
 	else
 		len = 0;
-	 printf("test\n");
-	  printf("test len : %d\n", len);
-	 printf("value of line: %s\n", &line[*i]);
+	//printf("test len : %d\n", len);
+	//printf("value of line: %s\n", &line[*i]);
 	  if (line[*i] == '$' && ft_strlen(&line[*i]) >= 2)
 	  {
-		  printf("test\n");
 		if(*join == 0)
 		{
-			printf("create a token\n");
+			//printf("create a token\n");
 			new = create_token(tokens);
 			if (new == NULL)
 				return (1);
@@ -166,15 +170,15 @@ int	is_expand_tok(t_ms *ms, t_tokens **tokens, char *line, size_t *i, int *join)
 			if (new->content == NULL)
 				return (1);
 			fill_exp_tok(ms, new->content, &line[*i]);
-			printf("token before substitute : %s\n", new->content);
+			//printf("token before substitute : %s\n", new->content);
 			new->content = substitute(new->content, ms);
-			printf("token after substitute  : %s\n", new->content);
+			//printf("token after substitute  : %s\n", new->content);
 			new->type_content = ARGS;
 			had_to_tok = 1;
 		}
 		else
 		{
-			printf("join to prev token\n");
+			//printf("join to prev token\n");
 			t_tokens *tmp;
 			tmp = *tokens;
 			while(tmp->next)
@@ -182,14 +186,14 @@ int	is_expand_tok(t_ms *ms, t_tokens **tokens, char *line, size_t *i, int *join)
 			char *tmp_token;
 			tmp_token = ft_strnew(len);
 			fill_exp_tok(ms, tmp_token, &line[*i]);
-			printf("token before substitute : %s\n", tmp_token);
+			//printf("token before substitute : %s\n", tmp_token);
 			tmp_token = substitute(tmp_token, ms);
-			printf("token after substitute  : %s\n", tmp_token);
+			//printf("token after substitute  : %s\n", tmp_token);
 			tmp->content = ft_strjoin(tmp->content, tmp_token);
 			had_to_tok = 1;
 		}
 	  }
-	  printf("test len : %d\n", len);
+	  //printf("test len : %d\n", len);
 	 *i += len;
 	if(line[*i] == ' ' && had_to_tok == 1)
 	{

@@ -6,7 +6,7 @@
 /*   By: clorin <clorin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 12:28:05 by clorin            #+#    #+#             */
-/*   Updated: 2021/04/08 16:00:19 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/09 15:23:04 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -205,7 +205,7 @@ int		get_tokens(t_ms *ms, t_tokens **tokens, char *line);
 t_tokens *create_token(t_tokens **tokens);
 
 size_t word_len(char *line, size_t *len, char c);
-void	fill_word(char *word, char *line, char c);
+void	fill_word(char *word, char *line, char c, size_t *i);
 
 int		is_linked(t_ms *ms, char *line);
 int		is_separator(char c);
@@ -268,6 +268,7 @@ int		is_type(t_cmd *cmd, int type);
 int		has_pipe(t_cmd *cmd);
 
 void	setup_execution(t_ms *ms, t_cmd *cmd);
+ int		valid_quotes(const char *str, int len);
 
 
 #endif
