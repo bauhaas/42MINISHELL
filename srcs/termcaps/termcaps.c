@@ -64,6 +64,7 @@ static int		boucle(t_termcaps *tc, t_ms *mini)
 			ft_strdel(&tc->line);
 			tc->cur_pos = 0;
 			g_signal = FALSE;
+			get_cursor_position(&tc->start_col, &tc->start_row);
 		}
 		window_size(tc);
 		get_cursor_position(&tc->col, &tc->row);
