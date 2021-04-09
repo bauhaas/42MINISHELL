@@ -219,7 +219,7 @@ int		is_str_tok(t_ms *ms, t_tokens **tokens, char *line, size_t *i, int *join);
 int		is_sep_tok(t_ms *ms, t_tokens **tokens, char *line, size_t *i, int *join);
 int		is_escaped_tok(t_ms *ms, t_tokens **tokens, char *line, size_t *i, int *join);
 int		is_expand_tok(t_ms *ms, t_tokens **tokens, char *line, size_t *i, int *join);
-
+int		valid_quotes(const char *str, int len);
 /*
 ** BUiltins folder
 */

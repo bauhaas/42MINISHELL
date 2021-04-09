@@ -40,7 +40,10 @@ int					main(int argc, char **argv, char **envp)
 			if (ms.line && ms.exit)
 			{
 				ms.no_exec = 0;
-				line_to_cmd(&ms, ms.line, ms.cmd);
+				if(!valid_quotes(ms.line, ft_strlen(ms.line)))
+					line_to_cmd(&ms, ms.line, ms.cmd);
+				else
+					printf("ERREUR QUOTE\n");
 				ft_strdel(&ms.line);
 				free_cmd(ms.cmd);
 			}
