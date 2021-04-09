@@ -19,7 +19,7 @@ char		*ft_strdup(const char *str)
 	size_t	i;
 
 	i = 0;
-	if(!str)
+	if (!str)
 		len_str = 1;
 	else
 		len_str = ft_strlen(str) + 1;
@@ -27,7 +27,7 @@ char		*ft_strdup(const char *str)
 	if (!dest)
 		return (NULL);
 	ft_bzero(dest, len_str);
-	if(str)
+	if (str)
 	{
 		while (str[i])
 		{
