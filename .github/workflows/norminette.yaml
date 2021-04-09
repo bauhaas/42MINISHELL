@@ -1,0 +1,32 @@
+name: norminette
+
+on: pull_request
+ 
+jobs:
+  linter:
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Checkout to project repository
+        uses: actions/checkout@v2
+      - name: Checkout linter from public repository
+        uses: actions/checkout@v2
+        with:
+          repository: 42sp/norminette-client
+          path: linter
+      - name: Set up Ruby version
+        uses: actions/setup-ruby@v1
+        with:
+          ruby-version: '2.6'
+      - name: Install ruby gem bundler
+        run: gem install bundler
+      - name: Install norminette ruby gem
+        run: (cd linter; bundle)
+      - name: Runs norminette linter
+        run: |
+          LOGS=$(mktemp)
+          ./linter/norminette.rb $(find -regex '.*/.*\.\(c\|h\)$' -not -path '*/test/*') | tee $LOGS
+          echo "ERRORS=$(grep -E 'Error|Warning' $LOGS | wc -l)" >> $GITHUB_ENV
+      - name: Checks norminette linter result
+        run: |
+          echo "Norminette errors found: $ERRORS"
+          [[ $ERRORS == 0 ]]
