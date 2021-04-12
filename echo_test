@@ -22,6 +22,12 @@ echo "\\"
 echo "\\\\\"
 echo "$"
 echo $?
-export TOTO="42"
-export TITI=$TOTO
 echo $TITI
+echo \\\
+echo '\\\'
+echo "\\\"
+echo -n -nnn hello -n ; echo a
+echo "bip | bip ; coyotte > < \" "
+echo "" abc
+echo test > file test1
+echo\ a
