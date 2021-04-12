@@ -335,7 +335,7 @@ char		*substitute(char *str, t_ms *mini)
 	
 	i = 0;
 	len_total_subs = len_substitut(str, mini);
-	printf("test len_total_subs : %d\n", len_total_subs);
+	//printf("test len_total_subs : %d\n", len_total_subs);
 	if (len_total_subs == 0)
 		return (NULL);
 	dest = ft_strnew(len_total_subs);
@@ -343,7 +343,7 @@ char		*substitute(char *str, t_ms *mini)
 		return (NULL);
 	while (str[i])
 		i += cat_value(mini, str + i, dest);
-	printf("test dest : %s\n", dest);
+	//printf("test dest : %s\n", dest);
 	return (dest);
 }
 
@@ -481,23 +481,140 @@ char		*substitute(char *str, t_ms *mini)
 // 	return (cmpt);
 // }
 
-// char		**parse(const char *str, t_ms *mini)
-// {
-// 	int		i;
-// 	char	**dest;
-// 	int		nb_word;
+static char			*value(t_ms *mini, char *str, int *i)
+{
+	char			*name;
+	int				len;
+	char			*dest;
 
-// 	i = 0;
-// 	if (!str)
-// 		return (NULL);
-// 	if (valid_quotes(str, ft_strlen(str)) > 0)
-// 	{
-// 		printf("minishell: syntax error with open quotes\n");
-// 		return (NULL);
-// 	}
-// 	nb_word = nb_word_(str);
-// 	dest = (char **)malloc(sizeof(char *) * (nb_word + 1));
-// 	if (!dest)
-// 		return(NULL);
-// 	return (ft_fill_words_(dest, str, mini));
-// }
+	dest = NULL;
+	name = get_name_var(str);
+	len = ft_strlen(name);
+	if (*str == '$' && *(str + 1) == '?')
+	{
+		dest = ft_strnew(ft_strlen(ft_itoa(mini->last_ret)));
+		ft_strcat(dest, ft_itoa(mini->last_ret));
+		ft_strdel(&name);
+		*i += 2;
+		return (dest);
+	}
+	else if (name && ft_getenv(&mini->env, name, TRUE))
+	{
+		dest = ft_strnew(ft_strlen(ft_getenv(&mini->env, name, TRUE)));
+		ft_strcat(dest, ft_getenv(&mini->env, name, TRUE));
+		ft_strdel(&name);
+		*i += len + 1;
+		return (dest);
+	}
+	else if (*str != '$' || (*str == '$' && (*(str + 1) == '$' || !*(str + 1))))
+	{
+		dest = ft_strnew(1);
+		ft_strncat(dest, str, 1);
+		ft_strdel(&name);
+		*i += 1;
+		return (dest);
+	}
+	else
+	{
+		dest = ft_strnew(1);
+		dest[0] = '$';
+		ft_strdel(&name);
+		*i += 1;
+		return (dest);
+	}	
+
+}
+static int	is_spec_car(char c)
+{
+	return (c == '\\' || c == '$' || c == '"' || c == '\'' || c == ' ' || c== '\t'
+		|| c == ';' || c == '|' || c == '>' || c == '<');
+}
+
+void	parse(char *str, t_ms *mini)
+{
+	int		i;
+	// char	**dest;
+	// int		nb_word;
+
+	if (!str)
+		return ;
+	if (valid_quotes(str, ft_strlen(str)) > 0)
+	{
+		printf("minishell: syntax error with open quotes\n");
+		return ;
+	}
+	i = 0;
+	char *tmp;
+	tmp = NULL;
+	while (str[i])
+	{
+		if(!is_spec_car(str[i]))
+		{
+			write(1, &str[i], 1);
+			i++;
+		}
+		else
+		{
+			if (str[i] == '\\')
+			{
+				if (valid_quotes(str, i) == 0)
+				{
+					i++;
+					write(1, &str[i], 1);
+					i++;
+				}
+				else if (valid_quotes(str, i) == DQUOTE)
+				{
+					i++;
+					if(str[i] != '$' && str[i] != '\\')
+						write(1, "\\", 1);
+					write(1, &str[i], 1);
+					i++;
+				}
+				else
+				{
+					write(1, &str[i], 1);
+					i++;
+				}
+			}
+			else if (str[i] == ' ' || str[i] == '\t' || str[i] == ';'
+				|| str[i] == '>' || str[i] =='|' || str[i] == '<')
+			{
+				if (valid_quotes(str, i ) == 0)
+					write(1, "\n", 1);
+				else
+					write (1, &str[i], 1);
+				i++;
+			}
+			else if (str[i] == '"')
+			{
+				if (valid_quotes(str, i) == QUOTE)
+				{
+					write(1, "\"", 1);
+					i++;
+				}
+				else
+				{
+					i++;
+				}
+			}
+			else if (str[i] == '\'')
+			{
+				if (valid_quotes(str, i) == DQUOTE)
+				{
+					write(1, "'", 1);
+					i++;
+				}
+				else
+					i++;
+			}
+			else if (str[i] == '$' && valid_quotes(str, i) != QUOTE)
+				ft_putstr(value(mini, str + i, &i));
+			else
+			{
+				write(1,&str[i],1);
+				i++;
+			}
+		}
+	}
+}

@@ -269,7 +269,7 @@ int		is_type(t_cmd *cmd, int type);
 int		has_pipe(t_cmd *cmd);
 
 void	setup_execution(t_ms *ms, t_cmd *cmd);
- int		valid_quotes(const char *str, int len);
-
+int		valid_quotes(const char *str, int len);
+void	parse(char *str, t_ms *ms);
 
 #endif

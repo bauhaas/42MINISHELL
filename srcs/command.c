@@ -138,6 +138,7 @@ void	line_to_cmd(t_ms *ms, char *line, t_cmd *cmd)
 	tokens = NULL;
 	cmd = NULL;
 	ret = 0;
+	parse(line, ms);
 	if(ret == 0)
 		ret = get_tokens(ms, &tokens, line);
 	print_tokens(tokens);
