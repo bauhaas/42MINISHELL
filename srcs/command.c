@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/21 14:52:26 by bahaas            #+#    #+#             */
-/*   Updated: 2021/04/07 14:58:39 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/12 14:50:29 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,14 +92,14 @@ void tokens_to_cmd(t_ms *ms, t_cmd **cmd, t_tokens **tokens)
 
 	new_cmd = create_cmd(cmd);
 	i = token_number_in_cmd(tokens);
-//	printf("\nCOMMAND IN CREATION\n");
-//	printf("number of strings to malloc in cmd->content: %d\n", i);
+	//	printf("\nCOMMAND IN CREATION\n");
+	//	printf("number of strings to malloc in cmd->content: %d\n", i);
 	new_cmd->content = malloc(sizeof(char *) * (i + 1));
 	i = 0;
 	if((*tokens)->type_content != CMD && (*tokens)->type_content != ARGS)
 	{
-	//	printf("NOT ARG OR CMD\n");
-	//	printf("*tokens->content : %s\n", (*tokens)->content);
+		//	printf("NOT ARG OR CMD\n");
+		//	printf("*tokens->content : %s\n", (*tokens)->content);
 		new_cmd->content[i] = ft_strdup((*tokens)->content);
 		if((*tokens)->type_content == PIPES)
 			new_cmd->type_link = PIPES;
@@ -133,29 +133,18 @@ void	line_to_cmd(t_ms *ms, char *line, t_cmd *cmd)
 {
 	t_tokens *tokens;
 	t_tokens *head;
-	int ret;
 
 	tokens = NULL;
 	cmd = NULL;
-	ret = 0;
 	t_list *list;
 	list = parse(line, ms);
-	while(list)
-	{
-		printf("word => <%s>\n", (char*)list->content);
-		list=list->next;
-	}
-	// if(ret == 0)
-	// 	ret = get_tokens(ms, &tokens, line);
-	// print_tokens(tokens);
-	// head = tokens;
-	// while(head)
-	// {
-	// 	//printf("first sent to t_to_c : %s", head->content);
-	// 	tokens_to_cmd(ms, &cmd, &head);
-	// }
-	// free_tokens(tokens);
-//	print_cmd(cmd);
-	// ms->start = cmd;
-	// setup_execution(ms, cmd);
+	get_tokens(ms, &tokens, list);
+	print_tokens(tokens);
+	head = tokens;
+	while(head)
+		tokens_to_cmd(ms, &cmd, &head);
+	free_tokens(tokens);
+	print_cmd(cmd);
+	ms->start = cmd;
+	setup_execution(ms, cmd);
 }

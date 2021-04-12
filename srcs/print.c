@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/01 01:25:44 by bahaas            #+#    #+#             */
-/*   Updated: 2021/04/07 14:55:59 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/12 14:51:29 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,10 @@ void	print_tokens(t_tokens *tokens)
 
 	tmp = tokens;
 	printf("type_content : 1 = CMD, 2 = ARGS, 3 = REDIR, 4 = PIPES, 5 = END_CMD\n");
-	printf("type_quotes : 0 = NO_QUOTES, 34 = DQUOTE, QUOTE = 39\n");
 	printf("\nTOKENS\n");
 	while(tmp)
 	{
-		printf("|%s|  |type_quote : %d| |type_content : %d|\n", tmp->content, tmp->type_quote, tmp->type_content);
+		printf("|%s| |type_content : %d|\n", tmp->content, tmp->type_content);
 		tmp = tmp->next;
 	}
 }

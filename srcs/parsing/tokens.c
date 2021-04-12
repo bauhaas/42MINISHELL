@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/20 14:29:47 by bahaas            #+#    #+#             */
-/*   Updated: 2021/04/08 16:12:42 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/12 14:52:06 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ t_tokens	*create_token(t_tokens **tokens)
 ** Then, we'll iterate on each type of token.
 */
 
+/*
 int	get_tokens(t_ms *ms, t_tokens **tokens, char *line)
 {
 	size_t	i;
@@ -77,4 +78,37 @@ int	get_tokens(t_ms *ms, t_tokens **tokens, char *line)
 			return (1);
 	}
 	return (0);
+}*/
+
+
+int		set_token_type_aaa(t_list *word_list, t_tokens *token)
+{
+	int type;
+
+	type = CMD;
+	if(!strcmp((char *)word_list->content, "|"))
+		type = PIPES;
+	else if(!strcmp((char *)word_list->content, ";"))
+		type = END_CMD;
+	else if((!strcmp((char *)word_list->content, ">")) ||
+		(!strcmp((char *)word_list->content, ">>")) ||
+		(!strcmp((char *)word_list->content, "<")))
+		type = REDIR;
+	return(type);
+}
+
+void	get_tokens(t_ms *ms, t_tokens **tokens, t_list *word_list)
+{
+	t_tokens *new;
+
+	new = *tokens;
+	while(word_list)
+	{
+		new = create_token(tokens);
+		if(new == NULL)
+			return ;
+		new->content = ft_strdup((char *)word_list->content);
+		new->type_content = set_token_type_aaa(word_list, new);
+		word_list = word_list->next;
+	}
 }

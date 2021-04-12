@@ -14,7 +14,6 @@ echo \$HOMEabc'def'$PWD
 echo \\
 echo "$"HOME
 echo a\\b
-echo \
 echo a\\b"cd\\h"
 echo '$HOME'
 echo "\\\\\e"
@@ -23,7 +22,6 @@ echo "\\\\\"
 echo "$"
 echo $?
 echo $TITI
-echo \\\
 echo '\\\'
 echo "\\\"
 echo -n -nnn hello -n ; echo a
@@ -31,3 +29,7 @@ echo "bip | bip ; coyotte > < \" "
 echo "" abc
 echo test > file test1
 echo\ a
+echo "\s"; echo "\\s"
+echo \>
+echo "test">>abc
+echo a > b > c

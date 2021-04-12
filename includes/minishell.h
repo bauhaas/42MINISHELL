@@ -6,7 +6,7 @@
 /*   By: clorin <clorin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 12:28:05 by clorin            #+#    #+#             */
-/*   Updated: 2021/04/09 15:23:04 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/12 14:12:34 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,7 +202,8 @@ void	init_ms(t_ms *ms, char **env);
 void	ft_lstswap(t_list *prev, t_list *next);
 void	line_to_cmd(t_ms *ms, char *line, t_cmd *cmd);
 
-int		get_tokens(t_ms *ms, t_tokens **tokens, char *line);
+//int		get_tokens(t_ms *ms, t_tokens **tokens, char *line);
+void		get_tokens(t_ms *ms, t_tokens **tokens, t_list *word_list);
 t_tokens *create_token(t_tokens **tokens);
 
 size_t word_len(char *line, size_t *len, char c);
