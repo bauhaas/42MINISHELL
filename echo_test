@@ -18,12 +18,10 @@ echo a\\b"cd\\h"
 echo '$HOME'
 echo "\\\\\e"
 echo "\\"
-echo "\\\\\"
 echo "$"
 echo $?
 echo $TITI
 echo '\\\'
-echo "\\\"
 echo -n -nnn hello -n ; echo a
 echo "bip | bip ; coyotte > < \" "
 echo "" abc
