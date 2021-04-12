@@ -595,7 +595,7 @@ t_list	*parse(char *str, t_ms *mini)
 				{
 					i++;
 					if(str[i] != '$' && str[i] != '\\' && str[i] != '"')
-						word = ft_add_char(word, str[i]);
+						word = ft_add_char(word, '\\');
 					word = ft_add_char(word, str[i]);
 					i++;
 				}
