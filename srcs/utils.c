@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/21 00:44:41 by bahaas            #+#    #+#             */
-/*   Updated: 2021/04/08 22:58:09 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/12 17:56:27 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,19 +26,18 @@ void		free_split(char ***split)
 	*split = NULL;
 }
 
-
-char 		*ft_getenv(t_list **head_ref, char *elem, int i)
+char		*ft_getenv(t_list **head_ref, char *elem, int i)
 {
-	t_var 	*var;
-	t_list 	*tmp;
+	t_var	*var;
+	t_list	*tmp;
 
 	tmp = *head_ref;
-	while(tmp)
+	while (tmp)
 	{
 		var = (t_var *)tmp->content;
-		if(!ft_strcmp(var->name, elem))
+		if (!ft_strcmp(var->name, elem))
 		{
-			if(i)
+			if (i)
 				return (var->value);
 			return (var->name);
 		}
@@ -58,12 +57,12 @@ t_var		*ft_get_t_var(t_list **head_ref, char *elem)
 		dest = (t_var*)tmp->content;
 		if (!ft_strcmp(dest->name, elem))
 			return (dest);
-		tmp =tmp->next;
+		tmp = tmp->next;
 	}
 	return (NULL);
 }
 
-int		is_type(t_cmd *cmd, int type)
+int			is_type(t_cmd *cmd, int type)
 {
 	if (cmd && cmd->type_link == type)
 		return (1);
@@ -71,7 +70,7 @@ int		is_type(t_cmd *cmd, int type)
 		return (0);
 }
 
-int		has_pipe(t_cmd *cmd)
+int			has_pipe(t_cmd *cmd)
 {
 	while (cmd && is_type(cmd, END_CMD) == 0)
 	{
@@ -81,4 +80,3 @@ int		has_pipe(t_cmd *cmd)
 	}
 	return (0);
 }
-

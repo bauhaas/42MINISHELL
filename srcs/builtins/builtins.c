@@ -6,15 +6,15 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 15:16:41 by bahaas            #+#    #+#             */
-/*   Updated: 2021/04/06 15:17:20 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/12 17:28:27 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 /*
- ** Set our bltn structure with pointer function and names linked to it.
- */
+** Set our bltn structure with pointer function and names linked to it.
+*/
 
 void	init_bltn(t_ms *ms)
 {
@@ -25,11 +25,11 @@ void	init_bltn(t_ms *ms)
 	ms->bltn->bltn_cmd[1] = &ft_cd;
 	ms->bltn->bltn_name[2] = ft_strdup("pwd");
 	ms->bltn->bltn_cmd[2] = &ft_pwd;
-	ms->bltn->bltn_name[3] =  ft_strdup("export");
+	ms->bltn->bltn_name[3] = ft_strdup("export");
 	ms->bltn->bltn_cmd[3] = &ft_export;
-	ms->bltn->bltn_name[4] =  ft_strdup("unset");
+	ms->bltn->bltn_name[4] = ft_strdup("unset");
 	ms->bltn->bltn_cmd[4] = &ft_unset;
-	ms->bltn->bltn_name[5] =ft_strdup("env");
+	ms->bltn->bltn_name[5] = ft_strdup("env");
 	ms->bltn->bltn_cmd[5] = &ft_env;
 	ms->bltn->bltn_name[6] = ft_strdup("exit");
 	ms->bltn->bltn_cmd[6] = &ft_exit;
@@ -38,10 +38,10 @@ void	init_bltn(t_ms *ms)
 }
 
 /*
- ** Detecte if the command used is a builtin or not.
- */
+** Detecte if the command used is a builtin or not.
+*/
 
-int	get_bltn(t_ms *ms, char *cmd)
+int		get_bltn(t_ms *ms, char *cmd)
 {
 	int	i;
 
@@ -55,24 +55,21 @@ int	get_bltn(t_ms *ms, char *cmd)
 }
 
 /*
- ** Execute the builtin function and store the ret value in our struct cmd
- */
+** Execute the builtin function and store the ret value in our struct cmd
+*/
 
 int		launch_bltn(t_ms *ms, t_cmd *cmd)
 {
-
-	int i;
+	int	i;
 
 	i = -1;
 	while (ms->bltn->bltn_name[++i])
 	{
 		if (!ft_strcmp(ms->bltn->bltn_name[i], cmd->content[0]))
 		{
-			//printf("bltn name cmd: %s\n", ms->bltn->bltn_name[i]);
 			cmd->ret_value = ms->bltn->bltn_cmd[i](ms, cmd);
 			return (cmd->ret_value);
 		}
 	}
 	return (1);
 }
-

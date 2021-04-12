@@ -6,7 +6,7 @@
 /*   By: clorin <clorin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/19 11:01:39 by clorin            #+#    #+#             */
-/*   Updated: 2021/03/19 11:10:21 by clorin           ###   ########.fr       */
+/*   Updated: 2021/04/12 17:52:44 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,11 @@ void			up_history(t_termcaps *tc, t_ms *mini)
 		ft_strdel(&tc->line);
 		tc->line = ft_strdup(mini->cur_histo->line);
 	}
-	 else if (mini->cur_histo->next)
+	else if (mini->cur_histo->next)
 	{
 		mini->cur_histo = mini->cur_histo->next;
 		ft_strdel(&tc->line);
-		tc->line = ft_strdup(mini->cur_histo->line);	
+		tc->line = ft_strdup(mini->cur_histo->line);
 	}
 	tc->cur_pos = ft_strlen(tc->line);
 }

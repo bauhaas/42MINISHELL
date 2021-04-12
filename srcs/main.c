@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 12:52:12 by clorin            #+#    #+#             */
-/*   Updated: 2021/04/06 15:09:03 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/12 17:58:36 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void				sig_(int code)
 {
-	write(1,"^C\n",3);
+	write(1, "^C\n" ,3);
 	g_signal = code;
 }
 
@@ -33,14 +33,14 @@ int					main(int argc, char **argv, char **envp)
 	//signal(SIGINT, &sig_);
 	g_signal = FALSE;
 	if (argc == 1)
-		{
+	{
 		while (ms.exit)
 		{
 			ms.exit = get_line(&ms);
 			if (ms.line && ms.exit)
 			{
 				ms.no_exec = 0;
-				if(!valid_quotes(ms.line, ft_strlen(ms.line)))
+				if (!valid_quotes(ms.line, ft_strlen(ms.line)))
 					line_to_cmd(&ms, ms.line, ms.cmd);
 				else
 					printf("minishell: syntax error with open quotes\n");
@@ -57,9 +57,10 @@ int					main(int argc, char **argv, char **envp)
 	{
 		int		r;
 		char	*line;
+		int		fd;
 
 		line = NULL;
-		int fd = open(argv[2], O_RDONLY);
+		fd = open(argv[2], O_RDONLY);
 		while ((r = get_next_line(fd, &line)) > 0)
 		{
 			printf("%s\n", line);

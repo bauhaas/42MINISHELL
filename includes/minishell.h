@@ -6,7 +6,7 @@
 /*   By: clorin <clorin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 12:28:05 by clorin            #+#    #+#             */
-/*   Updated: 2021/04/12 15:38:06 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/12 18:11:41 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,7 @@
 # define QUOTE '\''
 # define DQUOTE '\"'
 # define BSLASH '\\'
-# define NO_END 0
-# define CMD 1
-# define ARGS 2
+# define CMD_ARGS 1
 # define REDIR 3
 # define PIPES 4
 # define END_CMD 5
@@ -272,6 +270,6 @@ void	setup_execution(t_ms *ms, t_cmd *cmd);
 int		valid_quotes(const char *str, int len);
 //t_list	*parse(char *str, t_ms *ms);
 void	parse(char *str, t_ms *ms, t_tokens **tokens);
-int		set_token_type_aaa(char *word_list, t_tokens *token);
+int		set_token_type(char *word_list, t_tokens *token);
 
 #endif

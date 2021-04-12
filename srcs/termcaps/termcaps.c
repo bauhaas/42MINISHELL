@@ -6,7 +6,7 @@
 /*   By: clorin <clorin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 15:11:21 by clorin            #+#    #+#             */
-/*   Updated: 2021/03/22 22:03:05 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/12 17:48:21 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void			init_termcaps(t_termcaps *tc)
 	}
 	else
 	{
-		printf("minishell: Error termcaps %d\n",ret);
+		printf("minishell: Error termcaps %d\n", ret);
 		exit(-1);
 	}
 }
@@ -69,9 +69,9 @@ static int		boucle(t_termcaps *tc, t_ms *mini)
 		window_size(tc);
 		get_cursor_position(&tc->col, &tc->row);
 		if (tc->col == (tc->size_col - 1) && c != BACKSPACE
-			&& c != LEFT_ARROW && c != RIGHT_ARROW 
+			&& c != LEFT_ARROW && c != RIGHT_ARROW
 			&& tc->row + 1 == tc->size_row)
-			tc->start_row --;
+			tc->start_row--;
 		if (c == '\n')
 		{
 			if (!tc->line)
@@ -95,8 +95,8 @@ static int		boucle(t_termcaps *tc, t_ms *mini)
 
 int				get_line(t_ms *mini)
 {
-	int status;
 	t_termcaps	tc;
+	int			status;
 
 	init_termcaps(&tc);
 	get_cursor_position(&tc.start_col, &tc.start_row);
@@ -106,11 +106,10 @@ int				get_line(t_ms *mini)
 	set_cursor_position(&tc, tc.col, tc.row);
 	tcsetattr(0, TCSANOW, &tc.old_termcaps);
 	if (status == 1)
-		write (1, "\n", 1);
+		write(1, "\n", 1);
 	ft_strdel(&mini->line);
 	if (tc.line)
 		mini->line = ft_strdup(tc.line);
-		// mini->line = substitute(tc.line, mini);
 	free_termcaps(&tc);
 	return (status);
 }

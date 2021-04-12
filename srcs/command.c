@@ -6,15 +6,15 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/21 14:52:26 by bahaas            #+#    #+#             */
-/*   Updated: 2021/04/12 15:39:55 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/12 18:06:30 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 /*
- ** Create a new node in our cmd linked list.
- */
+** Create a new node in our cmd linked list.
+*/
 
 t_cmd		*create_cmd(t_cmd **cmd)
 {
@@ -38,33 +38,32 @@ t_cmd		*create_cmd(t_cmd **cmd)
 	return (new);
 }
 
-void set_type_link(t_cmd *cmd, t_tokens **tokens)
+void		set_redirection_type(t_cmd *cmd, t_tokens **tokens)
 {
-	if((*tokens)->type_content == REDIR)
+	if ((*tokens)->type_content == REDIR)
 	{
-		if(!strcmp((*tokens)->content, ">"))
+		cmd->type_link = 6;
+		if (!strcmp((*tokens)->content, ">"))
 			cmd->type_link = 7;
-		else if(!strcmp((*tokens)->content, ">>"))
+		else if (!strcmp((*tokens)->content, ">>"))
 			cmd->type_link = 8;
-		else
-			cmd->type_link = 6;
 	}
 }
 
 /*
- ** Find the number of stings to malloc in our cmd->content based on token type.
- */
+** Find the number of strings to malloc in our cmd->content based on token type.
+*/
 
-int	token_number_in_cmd(t_tokens **tokens)
+int			token_number_in_cmd(t_tokens **tokens)
 {
 	t_tokens	*count;
 	int			i;
 
 	count = *tokens;
 	i = 0;
-	while(count)
+	while (count)
 	{
-		if(count->type_content == CMD || count->type_content == ARGS)
+		if (count->type_content == CMD_ARGS)
 		{
 			count = count->next;
 			i++;
@@ -72,19 +71,19 @@ int	token_number_in_cmd(t_tokens **tokens)
 		else
 		{
 			i++;
-			break;
+			break ;
 		}
 	}
-	return (i);	
+	return (i);
 }
 
 /*
- ** We translate a grp of tokens into a cmd. We find number of tokens until
- ** tokens isn't a CMD/ARGS. Then we create a cmd and fill content with our
- ** tokens. We also set flags to know if our cmd is piped or redirected.
- */
+** We translate a grp of tokens into a cmd. We find number of tokens until
+** tokens isn't a CMD/ARGS. Then we create a cmd and fill content with our
+** tokens. We also set flags to know if our cmd is piped or redirected.
+*/
 
-void tokens_to_cmd(t_ms *ms, t_cmd **cmd, t_tokens **tokens)
+void		tokens_to_cmd(t_ms *ms, t_cmd **cmd, t_tokens **tokens)
 {
 	t_cmd		*new_cmd;
 	t_tokens	*head;
@@ -92,21 +91,17 @@ void tokens_to_cmd(t_ms *ms, t_cmd **cmd, t_tokens **tokens)
 
 	new_cmd = create_cmd(cmd);
 	i = token_number_in_cmd(tokens);
-	//	printf("\nCOMMAND IN CREATION\n");
-	//	printf("number of strings to malloc in cmd->content: %d\n", i);
 	new_cmd->content = malloc(sizeof(char *) * (i + 1));
 	i = 0;
-	if((*tokens)->type_content != CMD && (*tokens)->type_content != ARGS)
+	if ((*tokens)->type_content != CMD_ARGS)
 	{
-		//	printf("NOT ARG OR CMD\n");
-		//	printf("*tokens->content : %s\n", (*tokens)->content);
 		new_cmd->content[i] = ft_strdup((*tokens)->content);
-		if((*tokens)->type_content == PIPES)
+		if ((*tokens)->type_content == PIPES)
 			new_cmd->type_link = PIPES;
-		else if((*tokens)->type_content == END_CMD)
+		else if ((*tokens)->type_content == END_CMD)
 			new_cmd->type_link = END_CMD;
-		else if((*tokens)->type_content == REDIR)
-			set_type_link(new_cmd, tokens);
+		else if ((*tokens)->type_content == REDIR)
+			set_redirection_type(new_cmd, tokens);
 		else
 			new_cmd->type_link = NO_END;
 		i++;
@@ -114,34 +109,32 @@ void tokens_to_cmd(t_ms *ms, t_cmd **cmd, t_tokens **tokens)
 		*tokens = (*tokens)->next;
 		return ;
 	}
-	while((*tokens))
+	while ((*tokens))
 	{
-		if((*tokens)->type_content == CMD || (*tokens)->type_content == ARGS)
+		if ((*tokens)->type_content == CMD_ARGS)
 		{
 			new_cmd->content[i] = ft_strdup((*tokens)->content);
-			new_cmd->type_link = CMD;
+			new_cmd->type_link = CMD_ARGS;
 			i++;
 			*tokens = (*tokens)->next;
 		}
 		else
-			break;
+			break ;
 	}
 	new_cmd->content[i] = NULL;
 }
 
-void	line_to_cmd(t_ms *ms, char *line, t_cmd *cmd)
+void		line_to_cmd(t_ms *ms, char *line, t_cmd *cmd)
 {
 	t_tokens *tokens;
 	t_tokens *head;
 
 	tokens = NULL;
 	cmd = NULL;
-	t_list *list;
 	parse(line, ms, &tokens);
-//	get_tokens(ms, &tokens, list);
 	print_tokens(tokens);
 	head = tokens;
-	while(head)
+	while (head)
 		tokens_to_cmd(ms, &cmd, &head);
 	free_tokens(tokens);
 	print_cmd(cmd);

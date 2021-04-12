@@ -6,7 +6,7 @@
 /*   By: clorin <clorin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/18 10:06:58 by clorin            #+#    #+#             */
-/*   Updated: 2021/03/22 17:36:10 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/12 17:54:20 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 void			window_size(t_termcaps *tc)
 {
-	struct		winsize window;
+	struct winsize	window;
+
 	ioctl(STDOUT_FILENO, TIOCGWINSZ, &window);
 	tc->size_col = window.ws_col;
 	tc->size_row = window.ws_row;
@@ -28,7 +29,7 @@ void			keys_tree(long c, t_termcaps *tc, t_ms *mini)
 		tc->cur_pos++;
 	}
 	else if (c == BACKSPACE)
-	 	del_back(tc);
+		del_back(tc);
 	else if (c == EOF_KEY || c == DEL)
 		del_char(tc);
 	else if (c == LEFT_ARROW)
@@ -36,13 +37,13 @@ void			keys_tree(long c, t_termcaps *tc, t_ms *mini)
 	else if (c == RIGHT_ARROW)
 		right(tc);
 	else if (c == UP_ARROW)
-	 	up_history(tc, mini);
+		up_history(tc, mini);
 	else if (c == DOWN_ARROW)
 		down_history(tc, mini);
-	// else if (c == HOME)
-	// 	tc->cur_pos = 0;
-	// else if (c == END)
-	// 	tc->cur_pos = ft_strlen(tc->line);
+	//else if (c == HOME)
+	//tc->cur_pos = 0;
+	//else if (c == END)
+	//tc->cur_pos = ft_strlen(tc->line);
 	else if (c == CTR_L)
 	{
 		write(1, "\33[H\33[2J", 7);
@@ -51,7 +52,5 @@ void			keys_tree(long c, t_termcaps *tc, t_ms *mini)
 		tc->row = 0;
 		tc->col = 0;
 	}
-	// else
-	// 	printf("KEY = %lu\n", c);
 	print_line(tc, mini);
 }

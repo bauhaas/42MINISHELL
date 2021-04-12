@@ -6,18 +6,18 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/20 20:09:25 by bahaas            #+#    #+#             */
-/*   Updated: 2021/03/21 00:40:30 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/12 17:20:52 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void			ft_list_sort(t_list **begin_list)
+void		ft_list_sort(t_list **begin_list)
 {
-	t_list		*actuel_node;
-	t_list 		*next_node;
-	t_var		*env;
-	t_var		*env_next;
+	t_list	*actuel_node;
+	t_list	*next_node;
+	t_var	*env;
+	t_var	*env_next;
 
 	actuel_node = *begin_list;
 	while (actuel_node->next)
@@ -26,7 +26,7 @@ void			ft_list_sort(t_list **begin_list)
 		env_next = (t_var*)actuel_node->next->content;
 		if (strcmp(env->name, env_next->name) > 0)
 		{
-			ft_lstswap(actuel_node,actuel_node->next);
+			ft_lstswap(actuel_node, actuel_node->next);
 			actuel_node = *begin_list;
 		}
 		else
@@ -34,33 +34,33 @@ void			ft_list_sort(t_list **begin_list)
 	}
 }
 
-void			*list_sort(t_list **dest, t_list *list)
+void		*list_sort(t_list **dest, t_list *list)
 {
-		t_list	*tmp;
+	t_list	*tmp;
 
-		tmp = list;
-		while (tmp)
-		{
-			ft_lstadd_front(dest, ft_memdup(tmp, sizeof(tmp)));
-			tmp = tmp->next;
-		}
-		ft_list_sort(dest);
-		return (dest);
+	tmp = list;
+	while (tmp)
+	{
+		ft_lstadd_front(dest, ft_memdup(tmp, sizeof(tmp)));
+		tmp = tmp->next;
+	}
+	ft_list_sort(dest);
+	return (dest);
 }
 
-void			free_(void *env)
+void		free_(void *env)
 {
-	t_var *e;
+	t_var	*e;
 
 	e = (t_var*)env;
 	ft_strdel(&e->name);
 	ft_strdel(&e->value);
 }
 
-void			arg_to_var(char *arg, t_ms *ms)
+void		arg_to_var(char *arg, t_ms *ms)
 {
-	char		**arg_split;
-	t_var		*new;
+	char	**arg_split;
+	t_var	*new;
 
 	if (!arg_split)
 		return ;
@@ -81,11 +81,11 @@ void			arg_to_var(char *arg, t_ms *ms)
 			{
 				new->name = ft_strdup(arg);
 				new->value = NULL;
-				ft_lstadd_back(&ms->env,ft_lstnew(new));
+				ft_lstadd_back(&ms->env, ft_lstnew(new));
 			}
 		}
 	}
-	else	
+	else
 	{
 		arg_split = ft_split(arg, '=');
 		if (valid_name(arg_split[0]))
@@ -103,7 +103,7 @@ void			arg_to_var(char *arg, t_ms *ms)
 					new->value = ft_strdup(arg_split[1]);
 				else
 					new->value = ft_strnew(0);
-				ft_lstadd_back(&ms->env,ft_lstnew(new));
+				ft_lstadd_back(&ms->env, ft_lstnew(new));
 			}
 			else
 			{
@@ -126,11 +126,11 @@ void			arg_to_var(char *arg, t_ms *ms)
 	ms->last_ret = 0;
 }
 
-int	ft_export(t_ms *ms, t_cmd *cmd)
+int			ft_export(t_ms *ms, t_cmd *cmd)
 {
-	t_list 		*tmp;
-	t_list		*copy;
-	int			i;
+	t_list	*tmp;
+	t_list	*copy;
+	int		i;
 
 	tmp = ms->env;
 	copy = NULL;
@@ -138,7 +138,7 @@ int	ft_export(t_ms *ms, t_cmd *cmd)
 	if (!cmd->content[i])
 	{
 		list_sort(&copy, tmp);
-		while(copy)
+		while (copy)
 		{
 			print_env((t_var *)copy->content, EXPORT);
 			copy = copy->next;
@@ -148,7 +148,7 @@ int	ft_export(t_ms *ms, t_cmd *cmd)
 	}
 	else
 	{
-		while(cmd->content[i])
+		while (cmd->content[i])
 			arg_to_var(cmd->content[i++], ms);
 	}
 	return (0);

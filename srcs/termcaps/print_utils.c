@@ -6,7 +6,7 @@
 /*   By: clorin <clorin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/18 10:14:39 by clorin            #+#    #+#             */
-/*   Updated: 2021/03/22 17:36:27 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/12 17:52:18 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,8 @@ void			create_line(long c, t_termcaps *tc)
 {
 	char	car[2];
 	char	*new;
-	int	i;
+	int		i;
+	int		j;
 
 	car[0] = c;
 	car[1] = '\0';
@@ -78,8 +79,8 @@ void			create_line(long c, t_termcaps *tc)
 		new = (char*)malloc(sizeof(char) * (ft_strlen(tc->line) + 2));
 		if (!new)
 			return ;
-		int j = 0;
-		while(j < i)
+		j = 0;
+		while (j < i)
 		{
 			new[j] = tc->line[j];
 			j++;
@@ -98,7 +99,6 @@ void			clear_line(t_termcaps *tc)
 {
 	(void)tc;
 	write(1, "\033[0J", 4);
-	//tputs(tc->ce, 1, tc_putchar);
 }
 
 void			print_line(t_termcaps *tc, t_ms *ms)
@@ -111,10 +111,8 @@ void			print_line(t_termcaps *tc, t_ms *ms)
 	start = prompt(ms);
 	if (tc->line)
 		write(STDOUT, tc->line, ft_strlen(tc->line));
-	//get_cursor_position(&tc->col, &tc->row);
 	clear_line(tc);
 	pos_x = (start + tc->cur_pos) % tc->size_col;
 	pos_y = ((start + tc->cur_pos) / tc->size_col) + tc->start_row;
-	//set_cursor_position(tc, start + tc->cur_pos, tc->row);
-	set_cursor_position(tc,pos_x, pos_y);
+	set_cursor_position(tc, pos_x, pos_y);
 }

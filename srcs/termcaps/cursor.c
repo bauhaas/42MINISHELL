@@ -6,7 +6,7 @@
 /*   By: clorin <clorin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 14:32:50 by clorin            #+#    #+#             */
-/*   Updated: 2021/03/17 14:59:40 by clorin           ###   ########.fr       */
+/*   Updated: 2021/04/12 17:50:39 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void		set_cursor_position(t_termcaps *tc, int col, int row)
 	tputs(tgoto(tc->cm, col, row), 1, tc_putchar);
 }
 
-void		beep()
+void		beep(void)
 {
 	write(1, "\a", 1);
 }
