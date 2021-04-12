@@ -270,6 +270,6 @@ int		has_pipe(t_cmd *cmd);
 
 void	setup_execution(t_ms *ms, t_cmd *cmd);
 int		valid_quotes(const char *str, int len);
-void	parse(char *str, t_ms *ms);
+t_list	*parse(char *str, t_ms *ms);
 
 #endif

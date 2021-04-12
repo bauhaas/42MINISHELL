@@ -138,18 +138,24 @@ void	line_to_cmd(t_ms *ms, char *line, t_cmd *cmd)
 	tokens = NULL;
 	cmd = NULL;
 	ret = 0;
-	parse(line, ms);
-	if(ret == 0)
-		ret = get_tokens(ms, &tokens, line);
-	print_tokens(tokens);
-	head = tokens;
-	while(head)
+	t_list *list;
+	list = parse(line, ms);
+	while(list)
 	{
-		//printf("first sent to t_to_c : %s", head->content);
-		tokens_to_cmd(ms, &cmd, &head);
+		printf("word => <%s>\n", (char*)list->content);
+		list=list->next;
 	}
-	free_tokens(tokens);
+	// if(ret == 0)
+	// 	ret = get_tokens(ms, &tokens, line);
+	// print_tokens(tokens);
+	// head = tokens;
+	// while(head)
+	// {
+	// 	//printf("first sent to t_to_c : %s", head->content);
+	// 	tokens_to_cmd(ms, &cmd, &head);
+	// }
+	// free_tokens(tokens);
 //	print_cmd(cmd);
-	ms->start = cmd;
-	setup_execution(ms, cmd);
+	// ms->start = cmd;
+	// setup_execution(ms, cmd);
 }

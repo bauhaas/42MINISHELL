@@ -138,7 +138,7 @@ int		valid_quotes(const char *s, int len)
 		}
 		else if (open == 0 && str[i] == '\"')
 			open = 34;
-		else if (open == 0 && str[i] == '\'')
+		else if (open == 0 && str[i] == '\'' && str[i - 1] != '\\')
 			open = 39;
 		else if (open == 34 && str[i] == '\"')
 			open = 0;
@@ -314,18 +314,6 @@ static int			cat_value(t_ms *mini, char *str, char *dest)
 	ft_strdel(&name);
 	return (len + 1);
 }
-
-// static int			cat_value2(t_ms *mini, char *name, char *dest, int exit)
-// {
-// 	if (exit)
-// 	{
-// 		ft_strcat(dest, "TODO_$?");
-// 		return (2);
-// 	}
-// 	if (ft_getenv(&mini->env, name, TRUE))
-// 		ft_strcat(dest, ft_getenv(&mini->env, name, TRUE));	
-// 	return (ft_strlen(name) + 1);
-// }
 
 char		*substitute(char *str, t_ms *mini)
 {
@@ -531,33 +519,66 @@ static char			*value(t_ms *mini, char *str, int *i)
 	}	
 
 }
+
+static char	*ft_add_str(char *s1, const char *s2)
+{
+	char *dest;
+	int	i;
+	int j;
+
+	i = 0;
+	j = 0;
+	dest = ft_strnew(ft_strlen(s1) + ft_strlen(s2));
+	while (s1 && s1[i])
+		dest[j++] = s1[i++];
+	i = 0;
+	while (s2[i])
+		dest[j++] = s2[i++];
+	ft_strdel(&s1);
+	return (dest);
+}
+static char	*ft_add_char(char *str, char c)
+{
+	int		len;
+	char	*new;
+
+	len = ft_strlen(str);
+	new = ft_strnew(len + 1);
+	ft_memcpy(new, str, len);
+	new[len] = c;
+	ft_strdel(&str);
+	return (new);
+}
+
 static int	is_spec_car(char c)
 {
 	return (c == '\\' || c == '$' || c == '"' || c == '\'' || c == ' ' || c== '\t'
 		|| c == ';' || c == '|' || c == '>' || c == '<');
 }
 
-void	parse(char *str, t_ms *mini)
+t_list	*parse(char *str, t_ms *mini)
 {
 	int		i;
-	// char	**dest;
-	// int		nb_word;
+	char	*word;
+	t_list	*list_word;
 
 	if (!str)
-		return ;
+		return (NULL);
 	if (valid_quotes(str, ft_strlen(str)) > 0)
 	{
 		printf("minishell: syntax error with open quotes\n");
-		return ;
+		return (NULL);
 	}
 	i = 0;
-	char *tmp;
-	tmp = NULL;
+
+	word = NULL;
+	list_word = NULL;
+	//printf("debut\n");
 	while (str[i])
 	{
 		if(!is_spec_car(str[i]))
 		{
-			write(1, &str[i], 1);
+			word = ft_add_char(word, str[i]);
 			i++;
 		}
 		else
@@ -567,20 +588,20 @@ void	parse(char *str, t_ms *mini)
 				if (valid_quotes(str, i) == 0)
 				{
 					i++;
-					write(1, &str[i], 1);
+					word = ft_add_char(word, str[i]);
 					i++;
 				}
 				else if (valid_quotes(str, i) == DQUOTE)
 				{
 					i++;
 					if(str[i] != '$' && str[i] != '\\' && str[i] != '"')
-						write(1, "\\", 1);
-					write(1, &str[i], 1);
+						word = ft_add_char(word, str[i]);
+					word = ft_add_char(word, str[i]);
 					i++;
 				}
 				else
 				{
-					write(1, &str[i], 1);
+					word = ft_add_char(word, str[i]);
 					i++;
 				}
 			}
@@ -589,51 +610,72 @@ void	parse(char *str, t_ms *mini)
 			{
 				if (valid_quotes(str, i ) == 0)
 				{
-					write(1, "\n", 1);
+					if (word)
+					{
+						ft_lstadd_back(&list_word,ft_lstnew(ft_strdup(word)));
+						//printf("word = %s\n", word);
+					}
+					ft_strdel(&word);
 					if (str[i] == '>')
 					{
 						if (str[i + 1] == '>')
 						{
-							write(1, ">", 1);
+							word = ft_strdup(">>");
 							i++;
 						}
+						else
+							word = ft_strdup(">");
 					}
-					write(1, &str[i], 1);
-					write(1, "\n", 1);	
+					else if (str[i] != '\t' && str[i] != ' ')
+					{
+						word = ft_add_char(word, str[i]);
+					}
+					if (word)
+						ft_lstadd_back(&list_word,ft_lstnew(ft_strdup(word)));
+					//printf("sep = '%s'\n", word);
+					ft_strdel(&word);
 				}
 				else
-					write (1, &str[i], 1);
+					word = ft_add_char(word, str[i]);
 				i++;
+				
 			}
 			else if (str[i] == '"')
 			{
 				if (valid_quotes(str, i) == QUOTE)
 				{
-					write(1, "\"", 1);
+					word = ft_add_char(word, str[i]);
 					i++;
 				}
 				else
-				{
 					i++;
-				}
 			}
 			else if (str[i] == '\'')
 			{
 				if (valid_quotes(str, i) == DQUOTE)
 				{
-					write(1, "'", 1);
+					word = ft_add_char(word, str[i]);
 					i++;
 				}
 				else
 					i++;
 			}
 			else if (str[i] == '$' && valid_quotes(str, i) != QUOTE)
-				ft_putstr(value(mini, str + i, &i));
+				word = ft_add_str(word, value(mini, str + i, &i));
 			else
 			{
-				write(1,&str[i],1);
+				word = ft_add_char(word, str[i]);
 				i++;
 			}
 		}
 	}
+	if(word)
+	{
+		ft_lstadd_back(&list_word,ft_lstnew(ft_strdup(word)));
+		//printf("word = %s\n", word);
+	}
+
+	ft_strdel(&word);
+	//printf("fin\n");
+	return (list_word);
 }
