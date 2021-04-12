@@ -131,7 +131,7 @@ int		valid_quotes(const char *s, int len)
 	str = ft_strdup(s);
 	while (str[i] && i <= len)
 	{
-		if (i > 0 && str[i - 1] == '\\')
+		if (i > 0 && str[i - 1] == '\\' && str[i] != '\'')
 		{
 			if(str[i] == '\\')
 				str[i] = '_';
@@ -489,6 +489,7 @@ static char			*value(t_ms *mini, char *str, int *i)
 
 	dest = NULL;
 	name = get_name_var(str);
+	// printf("name = %s\n", name);
 	len = ft_strlen(name);
 	if (*str == '$' && *(str + 1) == '?')
 	{
@@ -503,6 +504,12 @@ static char			*value(t_ms *mini, char *str, int *i)
 		dest = ft_strnew(ft_strlen(ft_getenv(&mini->env, name, TRUE)));
 		ft_strcat(dest, ft_getenv(&mini->env, name, TRUE));
 		ft_strdel(&name);
+		*i += len + 1;
+		return (dest);
+	}
+	else if (name && !ft_getenv(&mini->env, name, TRUE))
+	{
+		dest = ft_strnew(1);
 		*i += len + 1;
 		return (dest);
 	}
@@ -566,7 +573,7 @@ void	parse(char *str, t_ms *mini)
 				else if (valid_quotes(str, i) == DQUOTE)
 				{
 					i++;
-					if(str[i] != '$' && str[i] != '\\')
+					if(str[i] != '$' && str[i] != '\\' && str[i] != '"')
 						write(1, "\\", 1);
 					write(1, &str[i], 1);
 					i++;
@@ -581,7 +588,19 @@ void	parse(char *str, t_ms *mini)
 				|| str[i] == '>' || str[i] =='|' || str[i] == '<')
 			{
 				if (valid_quotes(str, i ) == 0)
+				{
 					write(1, "\n", 1);
+					if (str[i] == '>')
+					{
+						if (str[i + 1] == '>')
+						{
+							write(1, ">", 1);
+							i++;
+						}
+					}
+					write(1, &str[i], 1);
+					write(1, "\n", 1);	
+				}
 				else
 					write (1, &str[i], 1);
 				i++;
