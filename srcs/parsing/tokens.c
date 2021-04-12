@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/20 14:29:47 by bahaas            #+#    #+#             */
-/*   Updated: 2021/04/12 14:52:06 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/12 15:31:26 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,18 +81,18 @@ int	get_tokens(t_ms *ms, t_tokens **tokens, char *line)
 }*/
 
 
-int		set_token_type_aaa(t_list *word_list, t_tokens *token)
+int		set_token_type_aaa(char *word_list, t_tokens *token)
 {
 	int type;
 
 	type = CMD;
-	if(!strcmp((char *)word_list->content, "|"))
+	if(!strcmp(word_list, "|"))
 		type = PIPES;
-	else if(!strcmp((char *)word_list->content, ";"))
+	else if(!strcmp(word_list, ";"))
 		type = END_CMD;
-	else if((!strcmp((char *)word_list->content, ">")) ||
-		(!strcmp((char *)word_list->content, ">>")) ||
-		(!strcmp((char *)word_list->content, "<")))
+	else if((!strcmp(word_list, ">")) ||
+		(!strcmp(word_list, ">>")) ||
+		(!strcmp(word_list, "<")))
 		type = REDIR;
 	return(type);
 }
@@ -108,7 +108,7 @@ void	get_tokens(t_ms *ms, t_tokens **tokens, t_list *word_list)
 		if(new == NULL)
 			return ;
 		new->content = ft_strdup((char *)word_list->content);
-		new->type_content = set_token_type_aaa(word_list, new);
+	//	new->type_content = set_token_type_aaa(word_list, new);
 		word_list = word_list->next;
 	}
 }

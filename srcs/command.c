@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/21 14:52:26 by bahaas            #+#    #+#             */
-/*   Updated: 2021/04/12 14:59:37 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/12 15:39:55 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,8 +137,8 @@ void	line_to_cmd(t_ms *ms, char *line, t_cmd *cmd)
 	tokens = NULL;
 	cmd = NULL;
 	t_list *list;
-	list = parse(line, ms);
-	get_tokens(ms, &tokens, list);
+	parse(line, ms, &tokens);
+//	get_tokens(ms, &tokens, list);
 	print_tokens(tokens);
 	head = tokens;
 	while(head)

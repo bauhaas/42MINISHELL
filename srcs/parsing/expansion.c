@@ -6,7 +6,7 @@
 /*   By: clorin <clorin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 13:13:22 by clorin            #+#    #+#             */
-/*   Updated: 2021/04/08 22:48:47 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/12 15:38:22 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -556,18 +556,19 @@ static int	is_spec_car(char c)
 		|| c == ';' || c == '|' || c == '>' || c == '<');
 }
 
-t_list	*parse(char *str, t_ms *mini)
+void	parse(char *str, t_ms *mini, t_tokens **tokens)
 {
 	int		i;
 	char	*word;
 	t_list	*list_word;
+	t_tokens *new;
 
 	if (!str)
-		return (NULL);
+		return ;
 	if (valid_quotes(str, ft_strlen(str)) > 0)
 	{
 		printf("minishell: syntax error with open quotes\n");
-		return (NULL);
+		return ;
 	}
 	i = 0;
 
@@ -612,7 +613,12 @@ t_list	*parse(char *str, t_ms *mini)
 				{
 					if (word)
 					{
-						ft_lstadd_back(&list_word,ft_lstnew(ft_strdup(word)));
+						new = create_token(tokens);
+						if(new == NULL)
+							return ;
+						new->content = ft_strdup(word);
+						new->type_content = CMD;
+						//ft_lstadd_back(&list_word,ft_lstnew(ft_strdup(word)));
 						//printf("word = %s\n", word);
 					}
 					ft_strdel(&word);
@@ -631,7 +637,14 @@ t_list	*parse(char *str, t_ms *mini)
 						word = ft_add_char(word, str[i]);
 					}
 					if (word)
-						ft_lstadd_back(&list_word,ft_lstnew(ft_strdup(word)));
+					{
+						new = create_token(tokens);
+						//if(new == NULL)
+							//return;
+						new->content = ft_strdup(word);
+						new->type_content = set_token_type_aaa(word, new);
+						//ft_lstadd_back(&list_word,ft_lstnew(ft_strdup(word)));
+					}
 					//printf("sep = '%s'\n", word);
 					ft_strdel(&word);
 				}
@@ -671,11 +684,15 @@ t_list	*parse(char *str, t_ms *mini)
 	}
 	if(word)
 	{
-		ft_lstadd_back(&list_word,ft_lstnew(ft_strdup(word)));
+		new = create_token(tokens);
+		if(new == NULL)
+			return ;
+		new->content = ft_strdup(word);
+		new->type_content = CMD;
+		//ft_lstadd_back(&list_word,ft_lstnew(ft_strdup(word)));
 		//printf("word = %s\n", word);
 	}
 
 	ft_strdel(&word);
-	//printf("fin\n");
-	return (list_word);
+	printf("fin\n");
 }

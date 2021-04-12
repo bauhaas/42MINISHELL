@@ -6,7 +6,7 @@
 /*   By: clorin <clorin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 12:28:05 by clorin            #+#    #+#             */
-/*   Updated: 2021/04/12 14:12:34 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/12 15:38:06 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,6 @@ typedef struct			s_tokens
 {
 	char *content;
 	int type_content;
-	int type_quote;
 	struct s_tokens *prev;
 	struct s_tokens *next;
 }						t_tokens;
@@ -271,6 +270,8 @@ int		has_pipe(t_cmd *cmd);
 
 void	setup_execution(t_ms *ms, t_cmd *cmd);
 int		valid_quotes(const char *str, int len);
-t_list	*parse(char *str, t_ms *ms);
+//t_list	*parse(char *str, t_ms *ms);
+void	parse(char *str, t_ms *ms, t_tokens **tokens);
+int		set_token_type_aaa(char *word_list, t_tokens *token);
 
 #endif

@@ -6,13 +6,13 @@
 #    By: clorin <clorin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/03/17 12:01:33 by clorin            #+#    #+#              #
-#    Updated: 2021/04/08 23:03:17 by bahaas           ###   ########.fr        #
+#    Updated: 2021/04/12 15:43:48 by bahaas           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		= minishell
 
-VERSION		= 0.3
+VERSION		= 0.4
 
 SRC		= srcs/main.c srcs/init.c srcs/command.c srcs/execute.c\
 		srcs/termcaps/cursor.c srcs/termcaps/termcaps.c srcs/termcaps/keyboard.c \
