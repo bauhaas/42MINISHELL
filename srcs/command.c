@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/21 14:52:26 by bahaas            #+#    #+#             */
-/*   Updated: 2021/04/07 14:58:39 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/12 11:17:15 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,8 @@ void	line_to_cmd(t_ms *ms, char *line, t_cmd *cmd)
 	cmd = NULL;
 	ret = 0;
 	parse(line, ms);
+	printf("\nend of parse\n");
+/*
 	if(ret == 0)
 		ret = get_tokens(ms, &tokens, line);
 	print_tokens(tokens);
@@ -152,4 +154,5 @@ void	line_to_cmd(t_ms *ms, char *line, t_cmd *cmd)
 //	print_cmd(cmd);
 	ms->start = cmd;
 	setup_execution(ms, cmd);
+	*/
 }
