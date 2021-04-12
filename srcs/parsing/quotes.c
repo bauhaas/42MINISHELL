@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/29 17:45:35 by bahaas            #+#    #+#             */
-/*   Updated: 2021/04/09 15:51:46 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/12 15:45:58 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,7 +170,7 @@ int				is_dquote_tok(t_ms *ms, t_tokens **tokens, char *line, size_t *i, int *jo
 			else
 				j++;
 		}
-		new->type_quote = DQUOTE;
+	//	new->type_quote = DQUOTE;
 		new->type_content = ARGS;
 	}
 	//SI BESOIN DE JOIN AVEC TOKEN
@@ -226,7 +226,7 @@ int	is_quote_tok(t_ms *ms, t_tokens **tokens, char *line, size_t *i, int *join)
 		if (new->content == NULL)
 			return (1);
 		fill_word(new->content, &line[*i], QUOTE, i);
-		new->type_quote = QUOTE;
+		//new->type_quote = QUOTE;
 		new->type_content = ARGS;
 	}
 	else

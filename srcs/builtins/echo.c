@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/18 14:15:43 by bahaas            #+#    #+#             */
-/*   Updated: 2021/04/07 16:19:51 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/12 15:57:13 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ int		ft_echo(t_ms *ms, t_cmd *cmd)
 	}
 	while(cmd->content[i])
 	{
+		if(cmd->content[i][0] == '\0' )
+			write(1, " ", 1);
 		write(1, cmd->content[i], ft_strlen(cmd->content[i]));
 		if(cmd->content[i][0] != 0 && cmd->content[i + 1])
 			write(1, " ", 1);

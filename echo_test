@@ -19,6 +19,8 @@ echo '$HOME'
 echo "\\\\\e"
 echo "\\"
 echo "$"
+echo '' abc
+echo "" abc
 echo $?
 echo $TITI
 echo '\\\'

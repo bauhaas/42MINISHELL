@@ -6,7 +6,7 @@
 /*   By: clorin <clorin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 13:13:22 by clorin            #+#    #+#             */
-/*   Updated: 2021/04/12 15:38:22 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/12 15:55:15 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -661,7 +661,10 @@ void	parse(char *str, t_ms *mini, t_tokens **tokens)
 					i++;
 				}
 				else
+				{
+					word = ft_add_char(word, '\0');
 					i++;
+				}	
 			}
 			else if (str[i] == '\'')
 			{
@@ -671,7 +674,10 @@ void	parse(char *str, t_ms *mini, t_tokens **tokens)
 					i++;
 				}
 				else
+				{
+					word = ft_add_char(word, '\0');
 					i++;
+				}
 			}
 			else if (str[i] == '$' && valid_quotes(str, i) != QUOTE)
 				word = ft_add_str(word, value(mini, str + i, &i));
