@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/21 14:52:26 by bahaas            #+#    #+#             */
-/*   Updated: 2021/04/12 18:06:30 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/12 18:31:07 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,8 +102,6 @@ void		tokens_to_cmd(t_ms *ms, t_cmd **cmd, t_tokens **tokens)
 			new_cmd->type_link = END_CMD;
 		else if ((*tokens)->type_content == REDIR)
 			set_redirection_type(new_cmd, tokens);
-		else
-			new_cmd->type_link = NO_END;
 		i++;
 		new_cmd->content[i] = NULL;
 		*tokens = (*tokens)->next;
@@ -132,12 +130,12 @@ void		line_to_cmd(t_ms *ms, char *line, t_cmd *cmd)
 	tokens = NULL;
 	cmd = NULL;
 	parse(line, ms, &tokens);
-	print_tokens(tokens);
+//	print_tokens(tokens);
 	head = tokens;
 	while (head)
 		tokens_to_cmd(ms, &cmd, &head);
 	free_tokens(tokens);
-	print_cmd(cmd);
+//	print_cmd(cmd);
 	ms->start = cmd;
 	setup_execution(ms, cmd);
 }

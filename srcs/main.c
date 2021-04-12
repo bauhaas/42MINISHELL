@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 12:52:12 by clorin            #+#    #+#             */
-/*   Updated: 2021/04/12 17:58:36 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/12 18:31:44 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int					main(int argc, char **argv, char **envp)
 	init_ms(&ms, envp);
 	ms.cmd = NULL;
 	ms.exit = 1;
-	printf("\n ~~~~~~~ Minishell42 ~~~~~~~\n  by (Bahaas / Clorin)\n           V%.1f:\n", VERSION);
+	printf("~~~~~~~ Minishell42 ~~~~~~~\n  by (Bahaas / Clorin)\n           V%.1f:\n", VERSION);
 	//signal(SIGINT, &sig_);
 	g_signal = FALSE;
 	if (argc == 1)
@@ -63,7 +63,6 @@ int					main(int argc, char **argv, char **envp)
 		fd = open(argv[2], O_RDONLY);
 		while ((r = get_next_line(fd, &line)) > 0)
 		{
-			printf("%s\n", line);
 			ms.line = ft_strdup(line);
 			line_to_cmd(&ms, ms.line, ms.cmd);
 			ft_strdel(&ms.line);
