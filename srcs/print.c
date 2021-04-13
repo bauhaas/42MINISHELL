@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/01 01:25:44 by bahaas            #+#    #+#             */
-/*   Updated: 2021/04/12 18:43:26 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/13 13:54:28 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,4 @@ void	print_action_exec_condition(t_cmd *cmd, int pipe, t_ms *ms)
 		printf("test prev\n");
 	if (pipe)
 		printf("test pipe\n");
-	if (ms->no_exec)
-		printf("test no exec\n");
 }

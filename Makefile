@@ -6,7 +6,7 @@
 #    By: clorin <clorin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/03/17 12:01:33 by clorin            #+#    #+#              #
-#    Updated: 2021/04/12 16:08:51 by bahaas           ###   ########.fr        #
+#    Updated: 2021/04/13 14:11:01 by bahaas           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,14 +14,14 @@ NAME		= minishell
 
 VERSION		= 0.4
 
-SRC		= srcs/main.c srcs/init.c srcs/command.c srcs/execute.c\
+SRC		= srcs/main.c srcs/init.c srcs/command.c\
 		srcs/termcaps/cursor.c srcs/termcaps/termcaps.c srcs/termcaps/keyboard.c \
 		srcs/termcaps/print_utils.c srcs/termcaps/prompt.c srcs/termcaps/history.c \
 		srcs/builtins/pwd.c srcs/builtins/echo.c srcs/builtins/export.c	srcs/builtins/env.c \
 		srcs/builtins/unset.c srcs/builtins/exit.c srcs/builtins/cd.c srcs/builtins/builtins.c srcs/utils.c \
 		srcs/parsing/expansion.c  srcs/parsing/tokens.c srcs/parsing/utils.c \
 		srcs/print.c \
-		srcs/exec/file.c
+		srcs/exec/file.c srcs/exec/setup_execution.c srcs/exec/execute.c
 
 CC		= clang
 

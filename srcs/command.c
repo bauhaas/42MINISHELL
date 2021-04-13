@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/21 14:52:26 by bahaas            #+#    #+#             */
-/*   Updated: 2021/04/12 18:31:07 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/13 10:27:19 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,7 @@ void		line_to_cmd(t_ms *ms, char *line, t_cmd *cmd)
 	while (head)
 		tokens_to_cmd(ms, &cmd, &head);
 	free_tokens(tokens);
-//	print_cmd(cmd);
+	print_cmd(cmd);
 	ms->start = cmd;
 	setup_execution(ms, cmd);
 }
