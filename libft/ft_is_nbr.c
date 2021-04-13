@@ -21,7 +21,7 @@ int		ft_is_nbr(const char *str)
 		return (FALSE);
 	while (str[i])
 	{
-		if (!ft_isdigit(str[i]))
+		if (!ft_isdigit(str[i]) && str[i] != '+' && str[i] != '-')
 			return (FALSE);
 		i++;
 	}
