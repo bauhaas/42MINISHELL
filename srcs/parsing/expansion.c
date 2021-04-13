@@ -226,37 +226,6 @@ static char			*value(t_ms *mini, char *str, int *i)
 	}
 }
 
-static char	*ft_add_str(char *s1, const char *s2)
-{
-	char	*dest;
-	int		i;
-	int		j;
-
-	i = 0;
-	j = 0;
-	dest = ft_strnew(ft_strlen(s1) + ft_strlen(s2));
-	while (s1 && s1[i])
-		dest[j++] = s1[i++];
-	i = 0;
-	while (s2[i])
-		dest[j++] = s2[i++];
-	ft_strdel(&s1);
-	return (dest);
-}
-
-static char	*ft_add_char(char *str, char c)
-{
-	char	*new;
-	int		len;
-
-	len = ft_strlen(str);
-	new = ft_strnew(len + 1);
-	ft_memcpy(new, str, len);
-	new[len] = c;
-	ft_strdel(&str);
-	return (new);
-}
-
 static int	is_spec_car(char c)
 {
 	return (c == '\\' || c == '$' || c == '"' || c == '\'' || c == ' ' ||
