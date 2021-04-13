@@ -19,6 +19,8 @@
 
 # define MAX_FD 256
 # define BUFFER_SIZE 32
+# define FALSE 0
+# define TRUE 1
 
 typedef struct	s_list
 {
@@ -39,6 +41,7 @@ size_t			ft_strlen(const char *str);
 int				ft_isalpha(int ch);
 int				ft_isdigit(int ch);
 int				ft_isalnum(int ch);
+int				ft_is_nbr(const char *str);
 int				ft_isascii(int ch);
 int				ft_isprint(int ch);
 int				ft_toupper(int ch);

@@ -66,7 +66,10 @@ static int		boucle(t_termcaps *tc, t_ms *mini)
 	while (read(STDIN, &c, sizeof(c)) >= 0)
 	{
 		if (g_signal)
+		{
+			mini->last_ret = 128 + g_signal;
 			ctr_c(tc);
+		}
 		window_size(tc);
 		get_cursor_position(&tc->col, &tc->row);
 		if (tc->col == (tc->size_col - 1) && c != BACKSPACE

@@ -60,8 +60,23 @@ void	free_arrstr(char **arr_env)
 int		ft_exit(t_ms *ms, t_cmd *cmd)
 {
 	int	i;
+	int	status;
 
 	i = 0;
+	status = 0;
+	if (cmd->content[1])
+	{
+		if (ft_is_nbr(cmd->content[1]))
+			status = ft_atoi(cmd->content[1]);
+		else
+		{
+			ft_putstr_fd("Minishell: exit: ", 2);
+			ft_putstr_fd(cmd->content[1], 2);
+			ft_putstr_fd(" : numeric argument required\n", 2);
+			status = 2;
+		}
+	}
+
 	while (ms->bltn->bltn_name[i])
 	{
 		free(ms->bltn->bltn_name[i]);
@@ -82,6 +97,6 @@ int		ft_exit(t_ms *ms, t_cmd *cmd)
 	free_history(&ms->cur_histo);
 	ft_lstclear(&ms->env, &afree_);
 	free_arrstr(ms->arr_env);
-	exit(0);
+	exit(status);
 	return (0);
 }

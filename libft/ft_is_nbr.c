@@ -1,20 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   ft_is_nbr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
+/*   By: clorin <clorin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/18 14:15:54 by bahaas            #+#    #+#             */
-/*   Updated: 2021/04/12 17:16:52 by bahaas           ###   ########.fr       */
+/*   Created: 2021/04/13 14:24:30 by clorin            #+#    #+#             */
+/*   Updated: 2021/04/13 14:24:42 by clorin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "libft.h"
 
-int	ft_pwd(t_ms *ms, t_cmd *cmd)
+int		ft_is_nbr(const char *str)
 {
-	printf("%s\n", ms->pwd);
-	//ms->last_ret = 0;
-	return (0);
+	int	i;
+
+	i = 0;
+	if (!str || !*str)
+		return (FALSE);
+	while (str[i])
+	{
+		if (!ft_isdigit(str[i]))
+			return (FALSE);
+		i++;
+	}
+	return (TRUE);
 }
