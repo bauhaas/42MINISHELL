@@ -62,14 +62,14 @@ void			del_char(t_termcaps *tc)
 	tc->line = str;
 }
 
-static void		add_car(char *str, char c, int pos)
+static char		*add_car(char *str, char c, int pos)
 {
 	char		*new;
 	int			j;
 
 	new = ft_strnew(ft_strlen(str) + 1);
 	if (!new)
-		return ;
+		return (NULL);
 	j = 0;
 	while (j < pos)
 	{
@@ -79,21 +79,26 @@ static void		add_car(char *str, char c, int pos)
 	new[j++] = c;
 	while (str[pos])
 		new[j++] = str[pos++];
-	ft_strdel(&str);
-	str = ft_strdup(new);
-	ft_strdel(&new);
+	return (new);
 }
 
 void			create_line(long c, t_termcaps *tc)
 {
-	char	car[2];
+	char		car[2];
+	char		*new;
 
 	car[0] = c;
 	car[1] = '\0';
+	new = NULL;
 	if (!tc->line)
 		tc->line = ft_strdup(car);
 	else
-		add_car(tc->line, (char)c, tc->cur_pos);
+	{
+		new = add_car(tc->line, (char)c, tc->cur_pos);
+		ft_strdel(&tc->line);
+		tc->line = ft_strdup(new);
+		ft_strdel(&new);
+	}
 }
 
 void			print_line(t_termcaps *tc, t_ms *ms)
