@@ -15,6 +15,6 @@
 int	ft_pwd(t_ms *ms, t_cmd *cmd)
 {
 	printf("%s\n", ms->pwd);
-	ms->last_ret = 0;
+	//ms->last_ret = 0;
 	return (0);
 }

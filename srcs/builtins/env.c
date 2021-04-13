@@ -49,6 +49,6 @@ int		ft_env(t_ms *ms, t_cmd *cmd)
 			tmp = tmp->next;
 		}
 	}
-	ms->last_ret = 0;
+	//ms->last_ret = 0;
 	return (0);
 }

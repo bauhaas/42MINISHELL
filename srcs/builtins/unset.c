@@ -54,6 +54,6 @@ int		ft_unset(t_ms *ms, t_cmd *cmd)
 		if (env_name)
 			delete_one(&ms->env, env_name);
 	}
-	ms->last_ret = 0;
+	//ms->last_ret = 0;
 	return (0);
 }

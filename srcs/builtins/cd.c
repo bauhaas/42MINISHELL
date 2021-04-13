@@ -123,14 +123,14 @@ int		ft_cd(t_ms *ms, t_cmd *cmd)
 	if (i > 2)
 	{
 		printf("cd: Too many arguments\n");
-		ms->last_ret = 1;
-		return (0);
+		//ms->last_ret = 1;
+		return (1);
 	}
 	else if (i == 1)
 	{
 		new_pwd = cd_home(ms, 0);
 		if (!new_pwd)
-			return (0);
+			return (1);
 		chdir(new_pwd);
 		new_pwd = getcwd(new_pwd, sizeof(char) * 2048);
 		set_location(ms, new_pwd, old_pwd);
@@ -138,12 +138,12 @@ int		ft_cd(t_ms *ms, t_cmd *cmd)
 	}
 	new_pwd = select_location(ms, cmd->content[1]);
 	if (!new_pwd)
-		return (0);
+		return (1);
 	if (chdir(new_pwd) == -1)
 	{
 		printf("cd: No such file or direcotry: %s\n", new_pwd);
-		ms->last_ret = 1;
-		return (0);
+		//ms->last_ret = 1;
+		return (1);
 	}
 	new_pwd = getcwd(new_pwd, sizeof(char) * 2048);
 	set_location(ms, new_pwd, old_pwd);
