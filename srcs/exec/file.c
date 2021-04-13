@@ -56,13 +56,25 @@ void				error_file(t_ms *ms, t_cmd *cmd)
 	ft_putstr_fd("Minishell: ", STDERR);
 	ft_putstr_fd(cmd->content[0], STDERR);
 	if (cmd->ret_value == 1)
+	{
 		ft_putstr_fd(": No such file or directory\n", STDERR);
+		ms->last_ret = 127;
+	}
 	else if (cmd->ret_value == 2)
+	{
 		ft_putstr_fd(": Permission denied\n", STDERR);
+		ms->last_ret = 126;
+	}
 	else if (cmd->ret_value == 3)
+	{
 		ft_putstr_fd(": is a directory\n", STDERR);
+		ms->last_ret = 126;
+	}
 	else if (cmd->ret_value == 4)
+	{
 		ft_putstr_fd(": Command not found\n", STDERR);
+		ms->last_ret = 127;
+	}
 }
 
 /*
@@ -110,5 +122,4 @@ void				search_prog(t_ms *ms, t_cmd *cmd)
 		find_absolute_path(ms, cmd);
 	else
 		valid_file(cmd);
-	ms->last_ret = cmd->ret_value;
 }
