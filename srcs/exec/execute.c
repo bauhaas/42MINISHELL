@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/20 16:00:10 by bahaas            #+#    #+#             */
-/*   Updated: 2021/04/13 14:11:50 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/13 16:07:19 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ int launch_exec(t_ms *ms, t_cmd *cmd)
 	search_prog(ms, cmd);
 	if (cmd->ret_value == 0)
 	{
+		ms->last_ret = 0;
 		pid = fork();
 		if (pid == -1)
 			printf("error  msg to display\n");
@@ -37,12 +38,12 @@ int launch_exec(t_ms *ms, t_cmd *cmd)
 	}
 	else
 		error_file(ms, cmd);
-	return (0);
+	return (ms->last_ret);
 }
 
 void		set_pipe(int *pipe_value, t_ms *ms, t_cmd *cmd)
 {
-	printf("ENTER IN SET_PIPE\n");
+	//printf("ENTER IN SET_PIPE\n");
 	pid_t	pid;
 	int		fd[2];
 
@@ -72,12 +73,12 @@ void		set_pipe(int *pipe_value, t_ms *ms, t_cmd *cmd)
 
 void	launch_cmd(t_ms *ms, t_cmd *cmd)
 {
-	printf("ENTER IN LAUNCH_CMD\n");
-	printf("RECURSIVE VALUE : %d\n", ms->recursive);
-	printf("cmd->content in LAUNCH_CMD: %s\n", cmd->content[0]);
+	//printf("ENTER IN LAUNCH_CMD\n");
+	//printf("RECURSIVE VALUE : %d\n", ms->recursive);
+	//printf("cmd->content in LAUNCH_CMD: %s\n", cmd->content[0]);
 	if (ms->recursive == 0)
 	{
-		printf("RECURSIVE 0 NO EXECUTION\n");
+	//	printf("RECURSIVE 0 NO EXECUTION\n");
 		return;
 	}
 	//execute exit directement et sort du programe
@@ -86,13 +87,13 @@ void	launch_cmd(t_ms *ms, t_cmd *cmd)
 	//exec builtin
 	else if (cmd && get_bltn(ms, cmd->content[0]))
 	{
-		printf("\nWe execute the builtin : %s\n", cmd->content[0]);
+	//	printf("\nWe execute the builtin : %s\n", cmd->content[0]);
 		ms->last_ret = launch_bltn(ms, cmd);
 	}
 	//exec cmd
 	else if (cmd)
 	{
-		printf("\nWe fork and execute the cmd : %s\n", cmd->content[0]);
+	//	printf("\nWe fork and execute the cmd : %s\n", cmd->content[0]);
 		ms->last_ret = launch_exec(ms, cmd);
 	}
 	//reset pipe in/out
@@ -101,24 +102,28 @@ void	launch_cmd(t_ms *ms, t_cmd *cmd)
 	ms->pipin = -1;
 	ms->pipout = -1;
 	ms->recursive = 0;
-	printf("EXIT LAUNCH_CMD\n\n");
+	//printf("EXIT LAUNCH_CMD\n\n");
 }
 
 void set_redirection(t_ms *ms, t_cmd *cmd)
 {
-	printf("ENTER IN SET_REDIRECTION\n");
+//	printf("ENTER IN SET_REDIRECTION\n");
 	if(cmd->prev)
 	{
 		//TO DO REDIRIGER LE IN 
 		// 6 = <
 		if(cmd->prev->type_link == 6)
 		{
-			return;
+//			printf("test <\n");
+			close_fd(ms->fdin);
+			ms->fdin = open(cmd->content[0], O_RDONLY, 0644);
+			dup2(ms->fdin, STDIN);
 		}
 		// on redirige le stdout dans notre fichier si > ou >>
 		// 7 = > 
 		else if (cmd->prev->type_link == 7)
 		{
+			//printf("test >\n");
 			close_fd(ms->fdout);
 			ms->fdout = open(cmd->content[0], O_CREAT | O_WRONLY | O_APPEND, 0644);
 			dup2(ms->fdout, STDOUT);
@@ -126,6 +131,7 @@ void set_redirection(t_ms *ms, t_cmd *cmd)
 		// 8 = >>
 		else if (cmd->prev->type_link == 8)
 		{
+			//printf("test >>\n");
 			close_fd(ms->fdout);
 			ms->fdout = open(cmd->content[0], O_CREAT | O_WRONLY | O_TRUNC, 0644);
 			dup2(ms->fdout, STDOUT);
@@ -137,9 +143,9 @@ int	choose_action(t_ms *ms, t_cmd *cmd)
 {
 	int pipe;
 
-	printf("\nENTER IN CHOOSE_ACTION\n");
+	//printf("\nENTER IN CHOOSE_ACTION\n");
 	//PRINT PREV & NEXT INFO
-	print_action(cmd);
+	//print_action(cmd);
 
 	set_redirection(ms, cmd);
 	set_pipe(&pipe, ms, cmd->prev);
