@@ -57,31 +57,38 @@ void	free_arrstr(char **arr_env)
 	arr_env = NULL;
 }
 
+static int	verif_exit(t_cmd *cmd)
+{
+	ft_putstr_fd("exit\n", 1);
+	if (cmd->content[2])
+	{
+		ft_putstr_fd("Minishell: exit: Too many arguments\n", 2);
+		return (2);		
+	}
+	else if (cmd->content[1])
+	{
+		if (ft_is_nbr(cmd->content[1]))
+			return (ft_atoi(cmd->content[1]));
+		else
+		{
+			ft_putstr_fd("Minishell: exit: ", 2);
+			ft_putstr_fd(cmd->content[1], 2);
+			ft_putstr_fd(" : Numeric argument required\n", 2);
+			return (2);
+		}
+	}
+	return (0);
+}
+
 int		ft_exit(t_ms *ms, t_cmd *cmd)
 {
 	int	i;
 	int	status;
 
 	i = 0;
-	status = 0;
-	if (cmd->content[1])
-	{
-		if (ft_is_nbr(cmd->content[1]))
-			status = ft_atoi(cmd->content[1]);
-		else
-		{
-			ft_putstr_fd("Minishell: exit: ", 2);
-			ft_putstr_fd(cmd->content[1], 2);
-			ft_putstr_fd(" : numeric argument required\n", 2);
-			status = 2;
-		}
-	}
-
+	status = verif_exit(cmd);
 	while (ms->bltn->bltn_name[i])
-	{
-		free(ms->bltn->bltn_name[i]);
-		i++;
-	}
+		free(ms->bltn->bltn_name[i++]);
 	i = 0;
 	while (ms->sep_set[i])
 	{
