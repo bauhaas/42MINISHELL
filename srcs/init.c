@@ -6,7 +6,7 @@
 /*   By: clorin <clorin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 12:52:12 by clorin            #+#    #+#             */
-/*   Updated: 2021/04/12 18:01:39 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/12 19:04:43 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,8 +113,8 @@ char		**lst_to_arr(t_list *env)
 	{
 		var = (t_var *)tmp->content;
 		arr_env[i] = ft_strdup(var->name);
-		arr_env[i] = ft_strjoin(arr_env[i], "=");
-		arr_env[i] = ft_strjoin(arr_env[i], var->value);
+		arr_env[i] = strjoin_gnl(arr_env[i], "=");
+		arr_env[i] = strjoin_gnl(arr_env[i], var->value);
 		tmp = tmp->next;
 		i++;
 	}

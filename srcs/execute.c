@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/20 16:00:10 by bahaas            #+#    #+#             */
-/*   Updated: 2021/04/12 17:01:02 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/12 18:47:55 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	ft_close(int fd)
 
 int		minipipe(t_ms *ms)
 {
-//	printf("ENTER IN MINIPIPE\n");
+	printf("ENTER IN MINIPIPE\n");
 	//printf("go to minipipe\n");
 	pid_t	pid;
 	int		pipefd[2];
@@ -75,7 +75,7 @@ int		minipipe(t_ms *ms)
 
 void	launch_cmd(t_ms *ms, t_cmd *cmd)
 {
-//	printf("ENTER IN LAUNCH_CMD\n");
+	printf("ENTER IN LAUNCH_CMD\n");
 	//printf("go to exec_cmd\n");
 	if (ms->charge == 0)
 		return ;
@@ -83,12 +83,12 @@ void	launch_cmd(t_ms *ms, t_cmd *cmd)
 		ft_exit(ms, cmd);
 	else if (cmd && get_bltn(ms, cmd->content[0]))
 	{
-		//printf("\nWe execute the builtin : %s\n", cmd->content[0]);
+		printf("\nWe execute the builtin : %s\n", cmd->content[0]);
 		ms->ret = launch_bltn(ms, cmd);
 	}
 	else if (cmd)
 	{
-		//printf("\nWe fork and execute the cmd : %s\n", cmd->content[0]);
+		printf("\nWe fork and execute the cmd : %s\n", cmd->content[0]);
 		ms->ret = launch_exec(ms, cmd);
 	}
 	ft_close(ms->pipin);
@@ -96,12 +96,12 @@ void	launch_cmd(t_ms *ms, t_cmd *cmd)
 	ms->pipin = -1;
 	ms->pipout = -1;
 	ms->charge = 0;
-//	printf("EXIT LAUNCH_CMD\n\n");
+	printf("EXIT LAUNCH_CMD\n\n");
 }
 
 int	choose_action(t_ms *ms, t_cmd *cmd)
 {
-//	printf("\nENTER IN CHOOSE_ACTION\n");
+	printf("\nENTER IN CHOOSE_ACTION\n");
 	int pipe = 0;
 	//PRINT PREV & NEXT INFO
 	print_action(cmd);
@@ -113,7 +113,7 @@ int	choose_action(t_ms *ms, t_cmd *cmd)
 	if (cmd->next && !is_type(cmd->next, END_CMD) && pipe != 1)
 		choose_action(ms, cmd->next->next);
 	// PRINT INFO FOR THE NEXT CONDITION
-	print_action_exec_condition(cmd, pipe, ms);
+	//print_action_exec_condition(cmd, pipe, ms);
 	if ((is_type(cmd->prev, END_CMD) || is_type(cmd->prev, PIPES) || !cmd->prev) && pipe != 1)
 		launch_cmd(ms, cmd);
 	return (0);
@@ -145,13 +145,13 @@ void	reset_fds(t_ms *ms)
 t_cmd	*next_cmd_to_execute(t_cmd *cmd, int skip)
 {
 	
-//	printf("ENTER IN NEXT RUN\n");
-//	printf("Current cmd : %s\n", cmd->content[0]);
+	printf("ENTER IN NEXT RUN\n");
+	printf("Current cmd : %s\n", cmd->content[0]);
 	
 	if (cmd && skip)
 		cmd = cmd->next;
-//	if (cmd)
-//		printf("Current cmd after one inc: %s\n", cmd->content[0]);
+	if (cmd)
+		printf("Current cmd after one inc: %s\n", cmd->content[0]);
 	while (cmd && cmd->type_link != CMD_ARGS)
 	{
 		cmd = cmd->next;
@@ -161,12 +161,10 @@ t_cmd	*next_cmd_to_execute(t_cmd *cmd, int skip)
 			cmd = cmd->next;
 	}
 	//PRINT INFO 
-	/*
 	if (cmd)
 		printf("Next cmd : %s\n", cmd->content[0]);
 	else
 		printf("Next cmd : NONE\n");
-	*/
 	return (cmd);
 }
 
@@ -174,7 +172,7 @@ void	setup_execution(t_ms *ms, t_cmd *cmd)
 {
 	int		status;
 
-	//printf("ENTER IN SETUP\n");
+	printf("ENTER IN SETUP\n");
 	while (ms->exit == 1 && cmd)
 	{
 		ms->charge = 1;
@@ -186,5 +184,5 @@ void	setup_execution(t_ms *ms, t_cmd *cmd)
 		status = WEXITSTATUS(status);
 		cmd = next_cmd_to_execute(cmd, SKIP);
 	}
-	//printf("END OF SET_UP_EXECUTE\n");
+	printf("END OF SET_UP_EXECUTE\n");
 }
