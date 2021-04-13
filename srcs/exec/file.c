@@ -13,16 +13,16 @@
 #include "../../includes/minishell.h"
 
 /*
- **	update cmd-> ret value.
- **		if not exists => 1
- **		if not executable => 2
- **		if directory => 3
- */
+**	update cmd-> ret value.
+**	if not exists => 1
+**	if not executable => 2
+**	if directory => 3
+*/
 
 static	void		valid_file(t_cmd *cmd)
 {
-	struct stat        buffer;
-	int                exist;
+	struct stat		buffer;
+	int				exist;
 
 	exist = (stat(cmd->content[0], &buffer));
 	if (exist != 0)
@@ -36,20 +36,22 @@ static	void		valid_file(t_cmd *cmd)
 }
 
 /*
- **	This function returns TRUE if *file exists
- */
-static int		file_exist(const char *file)
+**	This function returns TRUE if *file exists
+*/
+
+static int			file_exist(const char *file)
 {
-	struct stat	buffer;
+	struct stat		buffer;
 
 	return (stat(file, &buffer) == 0);
 }
 
 /*
- **	show errors when looking for executable
- **	and update minishell-> exit
- */
-void		error_file(t_ms *ms, t_cmd *cmd)
+**	show errors when looking for executable
+**	and update minishell-> exit
+*/
+
+void				error_file(t_ms *ms, t_cmd *cmd)
 {
 	ft_putstr_fd("Minishell: ", STDERR);
 	ft_putstr_fd(cmd->content[0], STDERR);
@@ -64,29 +66,30 @@ void		error_file(t_ms *ms, t_cmd *cmd)
 }
 
 /*
- **	search in the PATH and update cmd->content[0]
- */
-static void		find_absolute_path(t_ms *ms, t_cmd *cmd)
+**	search in the PATH and update cmd->content[0]
+*/
+
+static void			find_absolute_path(t_ms *ms, t_cmd *cmd)
 {
-	char 		**path_to_check;
-	char 		*path_env;
-	char 		*program;
-	int 		i;
+	char			**path_to_check;
+	char			*path_env;
+	char			*program;
+	int				i;
 
 	program = NULL;
 	path_env = ft_getenv(&ms->env, "PATH", 1);
 	path_to_check = ft_split(path_env, ':');
 	i = 0;
-	while(path_to_check[i])
+	while (path_to_check[i])
 	{
 		program = ft_strdup(path_to_check[i]);
 		program = ft_strjoin(path_to_check[i], "/");
 		program = ft_strjoin(program, cmd->content[0]);
-		if(file_exist(program))
+		if (file_exist(program))
 		{
 			ft_strdel(&cmd->content[0]);
 			cmd->content[0] = program;
-			return;
+			return ;
 		}
 		i++;
 	}
@@ -94,19 +97,18 @@ static void		find_absolute_path(t_ms *ms, t_cmd *cmd)
 }
 
 /*
- **	search and validate the order
- */
+**	search and validate the order
+*/
 
-void		search_prog(t_ms *ms, t_cmd *cmd)
+void				search_prog(t_ms *ms, t_cmd *cmd)
 {
-	char 		**path_to_check;
-	char 		*path_env;
-	int i;
+	char			**path_to_check;
+	char			*path_env;
+	int				i;
 
-	if (cmd->content[0][0] != '.')
+	if (cmd->content[0][0] != '.' && cmd->content[0][0] != '/')
 		find_absolute_path(ms, cmd);
 	else
 		valid_file(cmd);
 	ms->last_ret = cmd->ret_value;
 }
-
