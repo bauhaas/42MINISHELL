@@ -107,8 +107,8 @@ void			print_line(t_termcaps *tc, t_ms *ms)
 	int			pos_x;
 	int			pos_y;
 
-	set_cursor_position(tc, 0, tc->start_row);
-	start = prompt(ms);
+	set_cursor_position(tc, tc->start_col, tc->start_row);
+	start = prompt(ms) + tc->start_col;
 	if (tc->line)
 		write(STDOUT, tc->line, ft_strlen(tc->line));
 	clear_line(tc);

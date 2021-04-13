@@ -23,6 +23,8 @@ int		ft_echo(t_ms *ms, t_cmd *cmd)
 	i = 1;
 	while (cmd->content[i] && cmd->content[i][j] == '-')
 	{
+		if(!ft_strcmp(cmd->content[i], "-"))
+            break;
 		j++;
 		while (cmd->content[i][j] == 'n')
 			j++;
@@ -38,14 +40,13 @@ int		ft_echo(t_ms *ms, t_cmd *cmd)
 	while (cmd->content[i])
 	{
 		if (cmd->content[i][0] == '\0')
-			printf(" ");
-		printf("%s", cmd->content[i]);
+			write(1, " ", 1);
+		ft_putstr_fd(cmd->content[i], 1);
 		if (cmd->content[i][0] != 0 && cmd->content[i + 1])
-			printf(" ");
+			write(1, " ", 1);
 		i++;
 	}
 	if (!no_newline)
-		printf("\n");
-	//ms->last_ret = 0;
+		write(1, "\n", 1);
 	return (0);
 }
