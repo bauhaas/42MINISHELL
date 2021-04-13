@@ -46,14 +46,25 @@ int		ft_unset(t_ms *ms, t_cmd *cmd)
 {
 	char	*env_name;
 	int		i;
+	int		status;
 
 	i = 0;
+	status = 0;
 	while (cmd->content[++i])
 	{
 		env_name = ft_getenv(&ms->env, cmd->content[i], 0);
 		if (env_name)
+		{
 			delete_one(&ms->env, env_name);
+			status |= 0;
+		}
+		else
+		{
+			ft_putstr_fd("unset :", 2);
+			ft_putstr_fd(cmd->content[i], 2);
+			ft_putstr_fd(": invalid parameter name\n", 2);
+			status |= 1;
+		}
 	}
-	//ms->last_ret = 0;
-	return (0);
+	return (status);
 }
