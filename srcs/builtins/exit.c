@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/21 00:44:02 by bahaas            #+#    #+#             */
-/*   Updated: 2021/04/12 17:24:17 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/12 19:07:37 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,20 @@ void	free_cmd(t_cmd *cmd)
 	cmd = NULL;
 }
 
+void	free_arrstr(char **arr_env)
+{
+	int i;
+
+	i = -1;
+	while(arr_env[++i])
+	{
+		free(arr_env[i]);
+		arr_env[i] = NULL;
+	}
+	free(arr_env);
+	arr_env = NULL;
+}
+
 int		ft_exit(t_ms *ms, t_cmd *cmd)
 {
 	int	i;
@@ -67,6 +81,7 @@ int		ft_exit(t_ms *ms, t_cmd *cmd)
 	free_cmd(cmd);
 	free_history(&ms->cur_histo);
 	ft_lstclear(&ms->env, &afree_);
+	free_arrstr(ms->arr_env);
 	exit(0);
 	return (0);
 }

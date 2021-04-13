@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 12:52:12 by clorin            #+#    #+#             */
-/*   Updated: 2021/04/12 18:31:44 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/13 13:54:44 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ int					main(int argc, char **argv, char **envp)
 			ms.exit = get_line(&ms);
 			if (ms.line && ms.exit)
 			{
-				ms.no_exec = 0;
 				if (!valid_quotes(ms.line, ft_strlen(ms.line)))
 					line_to_cmd(&ms, ms.line, ms.cmd);
 				else

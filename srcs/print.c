@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/01 01:25:44 by bahaas            #+#    #+#             */
-/*   Updated: 2021/04/12 18:12:32 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/13 13:54:28 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void	print_cmd(t_cmd *cmd)
 
 void	print_action(t_cmd *cmd)
 {
-/*	int j = 0;
+	int j = 0;
 	printf("cmd:");
 	while (cmd->content[j])
 	{
@@ -86,12 +86,12 @@ void	print_action(t_cmd *cmd)
 	{
 		printf("\nnext cmd type_link : %d\n", cmd->next->type_link);
 		printf("next cmd->content[0]: %s\n", cmd->next->content[0]);
-	}*/
+	}
 }
 
 void	print_action_exec_condition(t_cmd *cmd, int pipe, t_ms *ms)
 {
-/*	printf("test cmd : %s\n", cmd->content[0]);
+	printf("test cmd : %s\n", cmd->content[0]);
 	if (is_type(cmd->prev, END_CMD))
 		printf("test prev END\n");
 	if (is_type(cmd->prev, PIPES))
@@ -100,6 +100,4 @@ void	print_action_exec_condition(t_cmd *cmd, int pipe, t_ms *ms)
 		printf("test prev\n");
 	if (pipe)
 		printf("test pipe\n");
-	if (ms->no_exec)
-		printf("test no exec\n");*/
 }

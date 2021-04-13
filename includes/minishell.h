@@ -6,7 +6,7 @@
 /*   By: clorin <clorin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 12:28:05 by clorin            #+#    #+#             */
-/*   Updated: 2021/04/12 18:11:41 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/13 14:11:26 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,6 @@
 # define LEFT 6
 # define RIGHT 7
 # define DRIGHT 8
-
-# define NOSKIP 0
-# define SKIP 1
 
 typedef struct			s_termcaps
 {
@@ -114,20 +111,15 @@ typedef struct	s_ms
 	int i;
 	char *sep_set[6];
 	int		last_ret;
-
 	struct s_cmd	*start;
-	int		no_exec;
 	int		pipin;
 	int		pipout;
 	int		pid;
-	int		parent;
-	int		last;
-	int		charge;
-	int		ret;
-	int		fdin;
-	int		fdout;
+	int		recursive;
 	int		in;
 	int		out;
+	int		fdin;
+	int		fdout;
 }				t_ms;
 
 int			g_signal;
@@ -273,8 +265,10 @@ int		has_pipe(t_cmd *cmd);
 
 void	setup_execution(t_ms *ms, t_cmd *cmd);
 int		valid_quotes(const char *str, int len);
-//t_list	*parse(char *str, t_ms *ms);
 void	parse(char *str, t_ms *ms, t_tokens **tokens);
 int		set_token_type(char *word_list, t_tokens *token);
+void	close_fd(int fd);
+int	choose_action(t_ms *ms, t_cmd *cmd);
+
 
 #endif
