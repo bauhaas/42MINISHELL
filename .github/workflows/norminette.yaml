@@ -11,9 +11,9 @@ jobs:
     - uses: actions/checkout@v2
     - uses: alexandregv/norminette-action@v2
 
-  norminette_v3_job:
-    runs-on: ubuntu-latest
-    name: norminette v3
-    steps:
-    - uses: actions/checkout@v2
-    - uses: alexandregv/norminette-action@v3
+  # norminette_v3_job:
+  #   runs-on: ubuntu-latest
+  #   name: norminette v3
+  #   steps:
+  #   - uses: actions/checkout@v2
+  #   - uses: alexandregv/norminette-action@v3
