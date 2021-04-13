@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/13 14:06:30 by bahaas            #+#    #+#             */
-/*   Updated: 2021/04/13 14:08:43 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/13 16:08:14 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	close_fd(int fd)
 
 void	reset_fd(t_ms *ms)
 {
+	//printf("ENTER IN RESET FD\n");
 	dup2(ms->in, STDIN);
 	dup2(ms->out, STDOUT);
 	close_fd(ms->fdin);
@@ -33,33 +34,33 @@ void	reset_fd(t_ms *ms)
 	ms->pid = -1;
 }
 
-t_cmd	*next_cmd_to_execute(t_cmd *cmd, int skip_sep)
+t_cmd	*next_cmd_to_execute(t_cmd *cmd)
 {
-
-	printf("ENTER IN NEXT RUN\n");
-	printf("Current cmd : %s\n", cmd->content[0]);
+//	printf("ENTER IN NEXT RUN\n");
+//	printf("Current cmd : %s\n", cmd->content[0]);
 	//permet de passer la cmd séparatrice ou de passer à null si pas de cmd suivante
-	if (cmd && skip_sep)
-		cmd = cmd->next;
+	cmd = cmd->next;
 	//print info
-	if (cmd)
-		printf("Current cmd after one inc: %s\n", cmd->content[0]);
+//	if (cmd)
+//		printf("Current cmd after one inc: %s\n", cmd->content[0]);
 	// tant que cmd sont des separateurs go à la suivante
 	while (cmd && cmd->type_link != CMD_ARGS)
 	{
-		printf("AAAAAAAAAAAA\n");
+//		printf("AAAAAAAAAAAA\n");
 		cmd = cmd->next;
 		if (cmd && cmd->type_link == CMD_ARGS && cmd->prev->type_link != 5)
 		{
-			printf("BBBBBBBBBBBBBBB\n");
+//			printf("BBBBBBBBBBBBBBB\n");
 			cmd = cmd->next;
 		}
 	}
 	//PRINT INFO
+	/*
 	if (cmd)
 		printf("Next cmd : %s\n", cmd->content[0]);
 	else
 		printf("Next cmd : NONE\n");
+		*/
 	return (cmd);
 }
 
@@ -75,14 +76,14 @@ void	setup_execution(t_ms *ms, t_cmd *cmd)
 	//status permet d'attendre qu'un bloc de commande s'execute avant de lancer
 	//un nouveau bloc (sans, les commandes s'execute dans l'ordre inverse)
 	int status;
-	printf("ENTER IN SETUP\n");
+	//printf("ENTER IN SETUP\n");
 	while (ms->exit == 1 && cmd)
 	{
 		ms->recursive = 1;
 		choose_action(ms, cmd);
 		reset_fd(ms);
 		waitpid(-1, &status, 0);
-		cmd = next_cmd_to_execute(cmd, 1);
+		cmd = next_cmd_to_execute(cmd);
 	}
-	printf("END OF SET_UP_EXECUTE\n");
+	//printf("END OF SET_UP_EXECUTE\n");
 }

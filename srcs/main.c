@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 12:52:12 by clorin            #+#    #+#             */
-/*   Updated: 2021/04/13 13:54:44 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/13 15:55:23 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ int					main(int argc, char **argv, char **envp)
 	init_ms(&ms, envp);
 	ms.cmd = NULL;
 	ms.exit = 1;
+	ms.in = dup(STDIN);
+	ms.out = dup(STDOUT);
 	printf("~~~~~~~ Minishell42 ~~~~~~~\n  by (Bahaas / Clorin)\n           V%.1f:\n", VERSION);
 	signal(SIGINT, &sig_);
 	g_signal = FALSE;
