@@ -123,6 +123,7 @@ int		ft_cd(t_ms *ms, t_cmd *cmd)
 	if (i > 2)
 	{
 		printf("cd: Too many arguments\n");
+		ms->last_ret = 1;
 		return (0);
 	}
 	else if (i == 1)
@@ -141,6 +142,7 @@ int		ft_cd(t_ms *ms, t_cmd *cmd)
 	if (chdir(new_pwd) == -1)
 	{
 		printf("cd: No such file or direcotry: %s\n", new_pwd);
+		ms->last_ret = 1;
 		return (0);
 	}
 	new_pwd = getcwd(new_pwd, sizeof(char) * 2048);
