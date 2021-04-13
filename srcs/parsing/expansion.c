@@ -262,7 +262,8 @@ void	parse(char *str, t_ms *mini, t_tokens **tokens)
 				{
 					i++;
 					word = ft_add_char(word, str[i]);
-					i++;
+					if (str[i])
+						i++;
 				}
 				else if (valid_quotes(str, i) == DQUOTE)
 				{
