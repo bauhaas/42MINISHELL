@@ -131,6 +131,9 @@ typedef struct	s_ms
 }				t_ms;
 
 int			g_signal;
+
+void				sig_(int code);
+void				ctr_c(t_termcaps *tc);
 /*
 *	Termcaps
 */
@@ -143,13 +146,15 @@ int					get_line(t_ms *mini);
 int					tc_putchar(int c);
 void				create_line(long c, t_termcaps *tc);
 void				clear_line(t_termcaps *tc);
+void				cls(t_termcaps *tc);
 void				print_line(t_termcaps *tc, t_ms *ms);
 void				del_back(t_termcaps *tc);
 void				del_char(t_termcaps *tc);
 int					prompt(t_ms *ms);
 void				left(t_termcaps *tc);
 void				right(t_termcaps *tc);
-char				*substitute(char *str, t_ms *mini);
+void				free_termcaps(t_termcaps *tc);
+//char				*substitute(char *str, t_ms *mini);
 void				beep();
 /*
 *	history

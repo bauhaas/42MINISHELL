@@ -12,12 +12,6 @@
 
 #include "../includes/minishell.h"
 
-void				sig_(int code)
-{
-	write(1, "^C\n" ,3);
-	g_signal = code;
-}
-
 int					main(int argc, char **argv, char **envp)
 {
 	(void)argc;
@@ -30,7 +24,7 @@ int					main(int argc, char **argv, char **envp)
 	ms.cmd = NULL;
 	ms.exit = 1;
 	printf("~~~~~~~ Minishell42 ~~~~~~~\n  by (Bahaas / Clorin)\n           V%.1f:\n", VERSION);
-	//signal(SIGINT, &sig_);
+	signal(SIGINT, &sig_);
 	g_signal = FALSE;
 	if (argc == 1)
 	{

@@ -40,17 +40,7 @@ void			keys_tree(long c, t_termcaps *tc, t_ms *mini)
 		up_history(tc, mini);
 	else if (c == DOWN_ARROW)
 		down_history(tc, mini);
-	//else if (c == HOME)
-	//tc->cur_pos = 0;
-	//else if (c == END)
-	//tc->cur_pos = ft_strlen(tc->line);
 	else if (c == CTR_L)
-	{
-		write(1, "\33[H\33[2J", 7);
-		tc->start_col = 0;
-		tc->start_row = 0;
-		tc->row = 0;
-		tc->col = 0;
-	}
+		cls(tc);
 	print_line(tc, mini);
 }

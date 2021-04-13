@@ -41,14 +41,20 @@ void			init_termcaps(t_termcaps *tc)
 	}
 }
 
-void			free_termcaps(t_termcaps *tc)
+static int		new_line(t_termcaps *tc, t_ms *mini)
 {
-	ft_strdel(&tc->line);
+	if (!tc->line)
+		get_cursor_position(&tc->col, &tc->row);
+	else
+		mini->cur_histo = add_history(&mini->history, tc->line);
+	return (1);
 }
 
-int				tc_putchar(int c)
+static int		eof_key(t_termcaps *tc, t_ms *mini)
 {
-	write(1, &c, 1);
+	ft_strdel(&mini->line);
+	mini->line = ft_strdup("exit");
+	free_termcaps(tc);
 	return (0);
 }
 
@@ -60,12 +66,7 @@ static int		boucle(t_termcaps *tc, t_ms *mini)
 	while (read(STDIN, &c, sizeof(c)) >= 0)
 	{
 		if (g_signal)
-		{
-			ft_strdel(&tc->line);
-			tc->cur_pos = 0;
-			g_signal = FALSE;
-			get_cursor_position(&tc->start_col, &tc->start_row);
-		}
+			ctr_c(tc);
 		window_size(tc);
 		get_cursor_position(&tc->col, &tc->row);
 		if (tc->col == (tc->size_col - 1) && c != BACKSPACE
@@ -73,20 +74,9 @@ static int		boucle(t_termcaps *tc, t_ms *mini)
 			&& tc->row + 1 == tc->size_row)
 			tc->start_row--;
 		if (c == '\n')
-		{
-			if (!tc->line)
-				get_cursor_position(&tc->col, &tc->row);
-			else
-				mini->cur_histo = add_history(&mini->history, tc->line);
-			return (1);
-		}
+			return (new_line(tc, mini));
 		if (c == EOF_KEY && !tc->line)
-		{
-			ft_strdel(&mini->line);
-			mini->line = ft_strdup("exit");
-			free_termcaps(tc);
-			return (0); // TO DO make free exit
-		}
+			return (eof_key(tc, mini));
 		keys_tree(c, tc, mini);
 		c = 0;
 	}

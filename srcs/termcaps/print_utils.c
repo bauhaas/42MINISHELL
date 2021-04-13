@@ -14,8 +14,8 @@
 
 void			del_back(t_termcaps *tc)
 {
-	char	*str;
-	int		len;
+	char		*str;
+	int			len;
 
 	if (!tc->line || tc->cur_pos == 0)
 	{
@@ -62,43 +62,38 @@ void			del_char(t_termcaps *tc)
 	tc->line = str;
 }
 
+static void		add_car(char *str, char c, int pos)
+{
+	char		*new;
+	int			j;
+
+	new = ft_strnew(ft_strlen(str) + 1);
+	if (!new)
+		return ;
+	j = 0;
+	while (j < pos)
+	{
+		new[j] = str[j];
+		j++;
+	}
+	new[j++] = c;
+	while (str[pos])
+		new[j++] = str[pos++];
+	ft_strdel(&str);
+	str = ft_strdup(new);
+	ft_strdel(&new);
+}
+
 void			create_line(long c, t_termcaps *tc)
 {
 	char	car[2];
-	char	*new;
-	int		i;
-	int		j;
 
 	car[0] = c;
 	car[1] = '\0';
-	i = tc->cur_pos;
 	if (!tc->line)
 		tc->line = ft_strdup(car);
 	else
-	{
-		new = (char*)malloc(sizeof(char) * (ft_strlen(tc->line) + 2));
-		if (!new)
-			return ;
-		j = 0;
-		while (j < i)
-		{
-			new[j] = tc->line[j];
-			j++;
-		}
-		new[j++] = car[0];
-		while (tc->line[i])
-			new[j++] = tc->line[i++];
-		new[j] = '\0';
-		ft_strdel(&tc->line);
-		tc->line = ft_strdup(new);
-		free(new);
-	}
-}
-
-void			clear_line(t_termcaps *tc)
-{
-	(void)tc;
-	write(1, "\033[0J", 4);
+		add_car(tc->line, (char)c, tc->cur_pos);
 }
 
 void			print_line(t_termcaps *tc, t_ms *ms)
