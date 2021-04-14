@@ -83,7 +83,7 @@ void	launch_cmd(t_ms *ms, t_cmd *cmd)
 	}
 	//execute exit directement et sort du programe
 	if (cmd && !ft_strcmp(cmd->content[0], "exit") && !has_pipe(cmd))
-		ft_exit(ms, cmd);
+		ms->last_ret = ft_exit(ms, cmd);
 	//exec builtin
 	else if (cmd && get_bltn(ms, cmd->content[0]))
 	{

@@ -60,12 +60,7 @@ void	free_arrstr(char **arr_env)
 static int	verif_exit(t_cmd *cmd)
 {
 	ft_putstr_fd("exit\n", 1);
-	if (cmd->content[2])
-	{
-		ft_putstr_fd("Minishell: exit: Too many arguments\n", 2);
-		return (2);		
-	}
-	else if (cmd->content[1])
+	if (cmd->content[1])
 	{
 		if (ft_is_nbr(cmd->content[1]))
 			return (ft_atoi(cmd->content[1]));
@@ -86,6 +81,11 @@ int		ft_exit(t_ms *ms, t_cmd *cmd)
 	int	status;
 
 	i = 0;
+	if (cmd->content[2])
+	{
+		ft_putstr_fd("Minishell: exit: Too many arguments\n", 2);
+		return (1);		
+	}
 	status = verif_exit(cmd);
 	while (ms->bltn->bltn_name[i])
 		free(ms->bltn->bltn_name[i++]);
