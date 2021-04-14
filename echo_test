@@ -33,3 +33,5 @@ echo "\s"; echo "\\s"
 echo \>
 echo "test">>abc
 echo a > b > c
+echo -s
+echo -n -nnm a

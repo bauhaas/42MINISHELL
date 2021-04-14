@@ -6,7 +6,7 @@
 /*   By: clorin <clorin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 12:28:05 by clorin            #+#    #+#             */
-/*   Updated: 2021/04/14 17:19:49 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/14 17:27:24 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,7 @@ typedef struct	s_ms
 	int		fdin;
 	int		fdout;
 	int flag;
+	int redir_status;
 }				t_ms;
 
 int			g_signal;

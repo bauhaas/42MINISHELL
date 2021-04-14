@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/18 14:15:43 by bahaas            #+#    #+#             */
-/*   Updated: 2021/04/12 17:27:01 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/14 10:19:32 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,15 @@ int		ft_echo(t_ms *ms, t_cmd *cmd)
             break;
 		j++;
 		while (cmd->content[i][j] == 'n')
+		{
 			j++;
-		no_newline = 1;
+			no_newline = 1;
+		}
 		if (cmd->content[i][j] == '-')
+		{
 			break ;
+			no_newline = 0;
+		}
 		if (!cmd->content[i][j])
 		{
 			i++;
