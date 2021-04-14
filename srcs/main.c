@@ -38,14 +38,17 @@ int					main(int argc, char **argv, char **envp)
 				if (!valid_quotes(ms.line, ft_strlen(ms.line)))
 					line_to_cmd(&ms, ms.line, ms.cmd);
 				else
-					printf("minishell: syntax error with open quotes\n");
+				{
+					ft_putstr_fd("minishell: syntax error with open quotes\n", 2);
+					ms.last_ret = 2;
+				}
 				ft_strdel(&ms.line);
 				free_cmd(ms.cmd);
 			}
 		}
 		ft_strdel(&ms.line);
 		free_history(&ms.history);
-		printf("exit in main\n");
+		ft_putstr_fd("exit\n", 1);
 		return (0);
 	}
 	else
