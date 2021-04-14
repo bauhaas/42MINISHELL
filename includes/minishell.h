@@ -6,7 +6,7 @@
 /*   By: clorin <clorin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 12:28:05 by clorin            #+#    #+#             */
-/*   Updated: 2021/04/13 14:11:26 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/14 17:19:49 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,12 +114,12 @@ typedef struct	s_ms
 	struct s_cmd	*start;
 	int		pipin;
 	int		pipout;
-	int		pid;
 	int		recursive;
 	int		in;
 	int		out;
 	int		fdin;
 	int		fdout;
+	int flag;
 }				t_ms;
 
 int			g_signal;

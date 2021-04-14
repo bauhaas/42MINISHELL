@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/13 14:06:30 by bahaas            #+#    #+#             */
-/*   Updated: 2021/04/14 14:39:10 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/14 17:20:09 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ void	reset_fd(t_ms *ms)
 	ms->fdout = -1;
 	ms->pipin = -1;
 	ms->pipout = -1;
-	ms->pid = -1;
 }
 
 t_cmd	*next_cmd_to_execute(t_cmd *cmd)
@@ -76,15 +75,23 @@ void	setup_execution(t_ms *ms, t_cmd *cmd)
 	//status permet d'attendre qu'un bloc de commande s'execute avant de lancer
 	//un nouveau bloc (sans, les commandes s'execute dans l'ordre inverse)
 	int status;
-	printf("ENTER IN SETUP\n");
-	printf("INITIAL PID : %d", getpid());
+//	printf("ENTER IN SETUP\n");
+//	printf("INITIAL PID : %d", getpid());
 	while (ms->exit == 1 && cmd)
 	{
+		ms->flag = 0;
 		ms->recursive = 1;
 		choose_action(ms, cmd);
 		reset_fd(ms);
 		waitpid(-1, &status, 0);
+	//	printf("CURR PID : %d", getpid());
+		if(ms->flag == 1)
+		{
+//			printf("cmd content before exit : %s\n", cmd->content[0]);
+//			ft_exit(ms, cmd);//imprime exit autant de fois que de pipe
+			exit(0);
+		}
 		cmd = next_cmd_to_execute(cmd);
 	}
-	printf("END OF SET_UP_EXECUTE\n");
+//	printf("END OF SET_UP_EXECUTE\n");
 }
