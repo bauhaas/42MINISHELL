@@ -85,21 +85,21 @@ void	set_location(t_ms *ms, char *path, char *old_path)
 		reset_in_lst(ms, "OLDPWD");
 }
 
-char	*cd_home(t_ms *ms, int tilde)
+static char	*cd_home(t_ms *ms, int tilde)
 {
 	char	*home;
 
 	home = ft_getenv(&ms->env, "HOME", 1);
 	if (!home)
 	{
-		if (tilde)
-			printf("cd: No home directory\n");
+		//if (tilde)
+			ft_putstr_fd("cd: No home directory\n", 2);
 		return (NULL);
 	}
 	return (home);
 }
 
-char	*select_location(t_ms *ms, char *path)
+static char	*select_location(t_ms *ms, char *path)
 {
 	if (!ft_strcmp(path, "~"))
 		return (cd_home(ms, 1));
@@ -122,8 +122,7 @@ int		ft_cd(t_ms *ms, t_cmd *cmd)
 		i++;
 	if (i > 2)
 	{
-		printf("cd: Too many arguments\n");
-		//ms->last_ret = 1;
+		ft_putstr_fd("cd: Too many arguments\n", 2);
 		return (1);
 	}
 	else if (i == 1)
@@ -141,8 +140,9 @@ int		ft_cd(t_ms *ms, t_cmd *cmd)
 		return (1);
 	if (chdir(new_pwd) == -1)
 	{
-		printf("cd: No such file or direcotry: %s\n", new_pwd);
-		//ms->last_ret = 1;
+		ft_putstr_fd("cd: ", 2);
+		ft_putstr_fd(new_pwd, 2);
+		ft_putstr_fd(": No such file or directory\n", 2);
 		return (1);
 	}
 	new_pwd = getcwd(new_pwd, sizeof(char) * 2048);
