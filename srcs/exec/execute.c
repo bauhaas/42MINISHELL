@@ -22,7 +22,9 @@ int launch_exec(t_ms *ms, t_cmd *cmd)
 	if (cmd->ret_value == 0)
 	{
 		ms->last_ret = 0;
+		//printf("fork in launch_exec() =>");
 		pid = fork();
+		printf("fork in launch_exec() => %d\n", pid);
 		if (pid == -1)
 			printf("error  msg to display\n");
 		else if (pid == 0)
@@ -32,7 +34,14 @@ int launch_exec(t_ms *ms, t_cmd *cmd)
 		}
 		else
 		{
-			waitpid(pid, &status, 0);
+			int pid_fils = waitpid(pid, &status, 0);
+			if (WIFEXITED(status))
+				printf("le fils s'est Termine normalement pid = %d exit = %d\n", pid_fils, WEXITSTATUS(status));
+			if (WIFSIGNALED(status))
+			{
+				printf("le fils s'est Termine avec le signal = %d\n", WTERMSIG(status));
+			}
+			printf("kill(%d)\n", pid);
 			kill(pid, SIGTERM);
 		}
 	}
@@ -51,7 +60,9 @@ void		set_pipe(int *pipe_value, t_ms *ms, t_cmd *cmd)
 	if(cmd && is_type(cmd, PIPES))
 	{
 		pipe(fd);
+				printf("fork in set_pipe() pid = ");
 		pid = fork();
+		printf("%d\n", pid);
 		if (pid == 0)// Si le fork fonctionne, on ferme notre out, et on attribue a pipin le stdin qu'on utilise plus tard
 		{
 			close_fd(fd[1]);
@@ -62,11 +73,22 @@ void		set_pipe(int *pipe_value, t_ms *ms, t_cmd *cmd)
 		}  
 		else //Si notre fork fail, on ferme l'entrée de notre pipe et on reset notre sortie sur le stdout 
 		{
+			printf("pid dans set_pipe = %d\n", pid);
 			close_fd(fd[0]);
 			dup2(fd[1], STDOUT);
 			ms->pipout = fd[1];
 			ms->pid = pid;
 			*pipe_value = 1;
+			// int status;
+			// int pid_fils = waitpid(pid, &status, 0);
+			// if (WIFEXITED(status))
+			// 	printf("le fils s'est Termine normalement pid = %d exit = %d\n", pid_fils, WEXITSTATUS(status));
+			// if (WIFSIGNALED(status))
+			// {
+			// 	printf("le fils s'est Termine avec le signal = %d\n", WTERMSIG(status));
+			// }
+			// printf("kill(%d)\n", pid);
+			// kill(pid, SIGTERM);
 		}
 	}
 }

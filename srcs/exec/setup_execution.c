@@ -76,7 +76,7 @@ void	setup_execution(t_ms *ms, t_cmd *cmd)
 	//status permet d'attendre qu'un bloc de commande s'execute avant de lancer
 	//un nouveau bloc (sans, les commandes s'execute dans l'ordre inverse)
 	int status;
-	//printf("ENTER IN SETUP\n");
+	printf("ENTER IN SETUP\n");
 	while (ms->exit == 1 && cmd)
 	{
 		ms->recursive = 1;
@@ -85,5 +85,5 @@ void	setup_execution(t_ms *ms, t_cmd *cmd)
 		waitpid(-1, &status, 0);
 		cmd = next_cmd_to_execute(cmd);
 	}
-	//printf("END OF SET_UP_EXECUTE\n");
+	printf("END OF SET_UP_EXECUTE\n");
 }
