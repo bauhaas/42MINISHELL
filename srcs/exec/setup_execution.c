@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/13 14:06:30 by bahaas            #+#    #+#             */
-/*   Updated: 2021/04/13 16:08:14 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/14 14:39:10 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ void	setup_execution(t_ms *ms, t_cmd *cmd)
 	//un nouveau bloc (sans, les commandes s'execute dans l'ordre inverse)
 	int status;
 	printf("ENTER IN SETUP\n");
+	printf("INITIAL PID : %d", getpid());
 	while (ms->exit == 1 && cmd)
 	{
 		ms->recursive = 1;
