@@ -21,8 +21,10 @@ static char	*home_prompt(t_ms *ms, char *pwd)
 
 	i = 0;
 	home = ft_getenv(&ms->env, "HOME", TRUE);
+	if (!home)
+		return (ft_strdup(pwd));
 	diff = ft_strcmp(pwd, home);
-	if (diff > 0)
+	if (home && diff > 0)
 	{
 		while (home[i] == pwd[i])
 			i++;
@@ -30,7 +32,7 @@ static char	*home_prompt(t_ms *ms, char *pwd)
 		dest[0] = '~';
 		ft_strcat(dest, pwd + i);
 	}
-	else if (diff == 0)
+	else if (home && diff == 0)
 	{
 		dest = ft_strnew(1);
 		dest[0] = '~';
