@@ -13,7 +13,7 @@
   - [ ] 1. Trouver un symbole unicode pr remplacer les flèches de couleurs dans le prompt
   - [x] 2. ; seul doit retourner une erreur de syntaxe avec une valeur de 2 (pr le moment on a command not found & 127)
   - [ ] 3. "" seul doit print un long message d'info
-  - [x] 4. echo -nnnnnnnnnnnna doit print sur une nouvelle line :white_check_mark: 
+  - [x] 4. echo -nnnnnnnnnnnna doit print sur une nouvelle line
   - [ ] 5. ls | exit a le bon comportement mais affiche exit alors qu'il ne devrait pas
   - [ ] 6. export a="echo toto"  pr le moment on tente d'execute une commande "echo toto" qui ne trouve pas il faut resplit le echo et toto en 2elem
   - [ ] 7. Quand on lance une mauvaise cmd puis on exit, cela doit  return 127 (on return 0)
