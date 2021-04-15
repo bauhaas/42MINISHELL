@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/21 00:44:02 by bahaas            #+#    #+#             */
-/*   Updated: 2021/04/12 19:07:37 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/15 12:27:38 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,12 @@ int		ft_exit(t_ms *ms, t_cmd *cmd)
 	int	status;
 
 	i = 0;
-	ft_putstr_fd("exit\n", 1);
+	if(cmd->prev && !ft_strcmp(cmd->prev->content[0], "|"))
+		;
+	else
+		ft_putstr_fd("exit\n", 1);
+	if(cmd->next->content[0])
+		return (0);
 	if (cmd->content[1] && ft_is_nbr(cmd->content[1]) && cmd->content[2])
 	{
 		ft_putstr_fd("Minishell: exit: Too many arguments\n", 2);
