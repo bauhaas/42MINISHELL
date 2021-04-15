@@ -10,64 +10,19 @@
 - `RFCT: ...` to refacto  
 
 ## To do
-  - [X] import libft
-  - [X] add subject V2021
-  - [X] create folder structure
-  - [X] create Makefile
-  - [X] endless prompt
-  - [X] dup **env
-  - [ ] parsing
-    - [ ] ... 
-  - [ ] builtins
-     - [ ] echo
-        - [X] handle -n option
-        - [ ] handle $ENV_VAR 
-        <details>
-          <summary>pseudo-code</summary>
-          <p>1. check for "-n" option as 2nd argument of our input<br />&emsp;1.1 if "-n" present, inc 1 to go on next arg<br />&emsp;1.2 set no_newline flag to 1<br />2. loop on each argument<br />&emsp;2.1 write content of the argument<br />&emsp;2.2 write <code> </code>if there is still an argument to display<br />3. if no_newline flag = 1, add a <code>\n</code><br />4. return</p>
-        </details>
-     - [ ] pwd
-        - [X] args
-        - [X] no args
-        - [ ] pwd with $PWD/$OLDPWD unset (need to modif prompt to use ms.pwd, not ft_getenv)
-        <details>
-          <summary>pseudo-code</summary>
-          <p>1. check if there is more than 1 argument<br />&emsp;1.1 if args > 2, write <code>pwd: too many arguments</code><br />&emsp;1.2 return<br />2. check if PWD in env exists<br />&emsp;2.1 if it's unset, use getcwd<br />3. write the current directory <code>/pathname/of/curr/dir</code><br />4. return</p>
-        </details>
-        <details>
-          <summary>infos</summary>
-          <p>possible case :<br /><code>pwd</code><br /><code>pwd args1 args2</code><br /><br />output of <code>env | grep "PWD"</code>:<br />   PWD=/home/user42/Bureau<br />OLDPWD=/home/user42</p>
-        </details>
-     - [ ] cd
-        - [ ] cd -
-        - [ ] cd ~
-        - [x] rel path
-        - [x] abs path
-        - [x] update PWD & OLDPWD in t_env + set ms.pwd & ms.old_pwd
-     - [ ] export
-        <details>
-          <summary>pseudo-code</summary>
-            <p>1. check if the var you want to create already exist<br />2 if the var exists, replace the value<br />3. if it's a new var add it as a new element at the end of your list<br />4. return</p>
-        </details>
-     - [ ] unset
-        - [ ] ...
-     - [ ] env
-        <details>
-          <summary>pseudo-code</summary>
-            <p>1. check if env is sent without args<br />&emsp;1.1 loop in our env list<br />&emsp;1.2 display <code>env->var->name</code><br />&emsp;1.3 display an <code>=</code><br />&emsp;1.4 display <code>env->var->value</code><br />2.env is sent with args<br />&emsp;2.1 if known args display <code>env: «$1st_arg_used»: Permission non accordée</code><br /><br />&emsp;2.2 if unknwon args display <code>env: «$1st_arg_used»: Aucun fichier ou dossier de ce type</code><br />3. return</p>
-        </details>
-     - [ ] exit
-        - [ ] ...
-     - [ ] unknown builtins
-        <details>
-          <summary>pseudo-code</summary>
-            <p>1. check if the builtin you sent is known<br />&emsp;1.1 if it's not, write <code>command not found: $builtin_you_sent</code><br />2. return</p>
-        </details>
-  - [ ] ...
-  - [ ] last check 
-     - [ ] Norm
-     - [ ] Testing
-        - [ ] ...
+  - [ ] 1. Trouver un symbole unicode pr remplacer les flèches de couleurs dans le prompt
+  - [x] 2. ; seul doit retourner une erreur de syntaxe avec une valeur de 2 (pr le moment on a command not found & 127)
+  - [ ] 3. "" seul doit print un long message d'info
+  - [x] 4. echo -nnnnnnnnnnnna doit print sur une nouvelle line :white_check_mark: 
+  - [ ] 5. ls | exit a le bon comportement mais affiche exit alors qu'il ne devrait pas
+  - [ ] 6. export a="echo toto"  pr le moment on tente d'execute une commande "echo toto" qui ne trouve pas il faut resplit le echo et toto en 2elem
+  - [ ] 7. Quand on lance une mauvaise cmd puis on exit, cela doit  return 127 (on return 0)
+  - [ ] 8. cat only + ctrl C (comportement chelou avec le prompt malgré le fait qu'on est le bon retour et le bon nombre de process créer/kill)
+  - [ ] 9. > fgfegfge | ls redirection en premier doit pvr marcher et créer le fichier
+  - [ ] 10. env -i ./minishell  pas d'erreur normalement., nous on a : minishell: Error termcaps -1
+  - [ ] 11. unset PATH puis ls, on segfault car on va se servir de PATH pr search prog alors qu'il est vide
+  - [x] 12. gérer les cas commencant et ayant juste en cmd une redir ou un pipe
+  - [ ] 13. Qd on écrit dans minishell, l'input rame et peut sauter des touches qui ont étés tapés (j'avais ce pb depuis un petit moment déjà)
 
 ## External functions allowed
 | Function name | Description                    |
