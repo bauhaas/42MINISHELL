@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/20 16:00:10 by bahaas            #+#    #+#             */
-/*   Updated: 2021/04/14 17:15:34 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/15 01:39:41 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ void		set_pipe(int *pipe_value, t_ms *ms, t_cmd *cmd)
 			dup2(fd[0], STDIN);
 			ms->pipin = fd[0];
 			*pipe_value = 2;
+			ms->flag = 1;
 		}  
 		else //Si notre fork fail, on ferme l'entrée de notre pipe et on reset notre sortie sur le stdout 
 		{
@@ -76,7 +77,6 @@ void		set_pipe(int *pipe_value, t_ms *ms, t_cmd *cmd)
 			dup2(fd[1], STDOUT);
 			ms->pipout = fd[1];
 			*pipe_value = 1;
-			ms->flag = 1;
 		}
 	}
 }

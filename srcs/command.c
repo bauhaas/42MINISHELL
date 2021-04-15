@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/21 14:52:26 by bahaas            #+#    #+#             */
-/*   Updated: 2021/04/14 13:15:54 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/15 01:56:35 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,17 +122,36 @@ void		tokens_to_cmd(t_ms *ms, t_cmd **cmd, t_tokens **tokens)
 	new_cmd->content[i] = NULL;
 }
 
-int			last_cmd_status(t_cmd *cmd)
+int			last_cmd_status(t_ms *ms, t_cmd *cmd)
 {
 	t_cmd *tmp;
 
 	tmp = cmd;
-	while(tmp->next != NULL)
+	if(!strcmp(tmp->content[0], ";"))
+	{
+		printf("minishell: syntax error near unexpected token  « %s »\n", tmp->content[0]);
+		ms->last_ret = 2;
+		return (0);
+	}
+	while(tmp)
+	{
+		if((tmp->type_link == 6 || tmp->type_link == 7 || tmp->type_link == 8) && tmp->next == NULL)
+		{
+			printf("minishell: syntax error near unexpected token  « newline »\n");
+			ms->last_ret = 2;
+			return (0);
+		}
+		else if (tmp->type_link == 4 && tmp->next == NULL)
+		{
+			printf("minishell: syntax error near unexpected token  « | »\n");
+			ms->last_ret = 2;
+			return (0);
+		}
 		tmp = tmp->next;
-	if(tmp->type_link == 6 || tmp->type_link == 7 || tmp->type_link == 8  || tmp->type_link == 4)
-		return(0);
+	}
 	return(1);
 }
+
 void		line_to_cmd(t_ms *ms, char *line, t_cmd *cmd)
 {
 	t_tokens *tokens;
@@ -148,6 +167,6 @@ void		line_to_cmd(t_ms *ms, char *line, t_cmd *cmd)
 	free_tokens(tokens);
 //	print_cmd(cmd);
 	ms->start = cmd;
-	if(last_cmd_status(cmd))
+	if(last_cmd_status(ms, cmd))
 		setup_execution(ms, cmd);
 }
