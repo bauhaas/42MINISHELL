@@ -27,7 +27,7 @@ int					main(int argc, char **argv, char **envp)
 	ms.out = dup(STDOUT);
 	printf("~~~~~~~ Minishell42 ~~~~~~~\n  by (Bahaas / Clorin)\n           V%.1f:\n", VERSION);
 	signal(SIGINT, &sig_);
-	g_signal = FALSE;
+	g_ms = &ms;
 	if (argc == 1)
 	{
 		while (ms.exit)

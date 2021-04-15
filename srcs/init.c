@@ -151,6 +151,7 @@ void		init_ms(t_ms *ms, char **env)
 	init_bltn(ms);
 	init_sep(ms);
 	ms->last_ret = 0;
+	ms->signal = 0;
 	ms->arr_env = lst_to_arr(ms->env);
 	upgrade_shlvl(ms);
 }

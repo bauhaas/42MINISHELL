@@ -121,12 +121,13 @@ typedef struct	s_ms
 	int		fdout;
 	int flag;
 	int redir_status;
+	int		signal;
 }				t_ms;
 
-int			g_signal;
+t_ms			*g_ms;
 
 void				sig_(int code);
-void				ctr_c(t_termcaps *tc);
+void				ctr_c(t_termcaps *tc, t_ms *ms);
 /*
 *	Termcaps
 */
