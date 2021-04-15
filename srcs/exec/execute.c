@@ -31,17 +31,20 @@ int launch_exec(t_ms *ms, t_cmd *cmd)
 		else
 		{
 		//	printf("pid value : %d\n", pid);
+			ms->pid = pid;
 			int pid_fils = waitpid(0, &status, 0);
-		/*
-			if (WIFEXITED(status))
-				printf("le fils s'est Termine normalement pid = %d exit = %d\n", pid_fils, WEXITSTATUS(status));
-			if (WIFSIGNALED(status))
-			{
-				printf("le fils s'est Termine avec le signal = %d\n", WTERMSIG(status));
-			}
-			printf("kill(%d)\n", pid);
-			*/
+			// printf("ms->pid (dans launch_exec) : %d\n", ms->pid);
+			// printf("pid_fils = %d\n", pid_fils);
+			// if (WIFEXITED(status))
+			// 	printf("le fils s'est Termine normalement pid = %d exit = %d\n", pid_fils, WEXITSTATUS(status));
+			// if (WIFSIGNALED(status))
+			// {
+			// 	printf("le fils s'est Termine avec le signal = %d\n", WTERMSIG(status));
+			// }
+			// printf("kill(%d)\n", pid);
+			
 			kill(pid, SIGTERM);
+			ms->pid = 0;
 		}
 	}
 	else

@@ -122,6 +122,7 @@ typedef struct	s_ms
 	int flag;
 	int redir_status;
 	int		signal;
+	int		pid;
 }				t_ms;
 
 t_ms			*g_ms;

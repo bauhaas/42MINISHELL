@@ -14,10 +14,15 @@
 
 void	sig_(int code)
 {
-	write(1, "^C\n" ,3);
 	g_ms->signal = code;
 	g_ms->last_ret = 128 + code;
-	prompt(g_ms);
+	if (g_ms->pid)
+		write(1, "\n", 1);
+	else
+	{
+		write(1,"^C\n", 3);
+		prompt(g_ms);
+	}
 }
 
 void	ctr_c(t_termcaps *tc, t_ms *ms)
