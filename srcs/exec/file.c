@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 15:30:38 by bahaas            #+#    #+#             */
-/*   Updated: 2021/04/06 15:56:05 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/15 12:19:08 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,11 @@ static void			find_absolute_path(t_ms *ms, t_cmd *cmd)
 	program = NULL;
 	path_env = ft_getenv(&ms->env, "PATH", 1);
 	path_to_check = ft_split(path_env, ':');
+	if(!path_to_check)
+	{
+		cmd->ret_value = 1;
+		return ;
+	}
 	i = 0;
 	while (path_to_check[i])
 	{
@@ -114,10 +119,6 @@ static void			find_absolute_path(t_ms *ms, t_cmd *cmd)
 
 void				search_prog(t_ms *ms, t_cmd *cmd)
 {
-	char			**path_to_check;
-	char			*path_env;
-	int				i;
-
 	if (cmd->content[0][0] != '.' && cmd->content[0][0] != '/')
 		find_absolute_path(ms, cmd);
 	else
