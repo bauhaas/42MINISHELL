@@ -15,13 +15,16 @@
 void	sig_(int code)
 {
 	write(1, "^C\n" ,3);
-	g_signal = code;
+	g_ms->signal = code;
+	g_ms->last_ret = 128 + code;
+	prompt(g_ms);
 }
 
-void	ctr_c(t_termcaps *tc)
+void	ctr_c(t_termcaps *tc, t_ms *ms)
 {
 	ft_strdel(&tc->line);
 	tc->cur_pos = 0;
-	g_signal = FALSE;
+	ms->signal = FALSE;
 	get_cursor_position(&tc->start_col, &tc->start_row);
+	tc->start_col = 0;
 }
