@@ -57,11 +57,11 @@ void	free_arrstr(char **arr_env)
 	arr_env = NULL;
 }
 
-static int		valid_exit(t_cmd *cmd)
+static int		valid_exit(t_cmd *cmd, int last_ret)
 {
 	int ret;
 
-	ret = 0;
+	ret = last_ret;
 	if (cmd->content[1])
 	{
 		if (!ft_is_nbr(cmd->content[1]))
@@ -87,14 +87,14 @@ int		ft_exit(t_ms *ms, t_cmd *cmd)
 		;
 	else
 		ft_putstr_fd("exit\n", 1);
-	if(cmd->next->content[0])
+	if(cmd->next && cmd->next->content[0])
 		return (0);
 	if (cmd->content[1] && ft_is_nbr(cmd->content[1]) && cmd->content[2])
 	{
 		ft_putstr_fd("Minishell: exit: Too many arguments\n", 2);
 		return (1);
 	}
-	status = valid_exit(cmd);
+	status = valid_exit(cmd, ms->last_ret);
 	while (ms->bltn->bltn_name[i])
 		free(ms->bltn->bltn_name[i++]);
 	i = 0;
