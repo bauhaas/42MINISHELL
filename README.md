@@ -22,7 +22,7 @@
   - [ ] 10. env -i ./minishell  pas d'erreur normalement., nous on a : minishell: Error termcaps -1
   - [x] 11. unset PATH puis ls, on segfault car on va se servir de PATH pr search prog alors qu'il est vide
   - [x] 12. gérer les cas commencant et ayant juste en cmd une redir ou un pipe
-  - [ ] 13. Qd on écrit dans minishell, l'input rame et peut sauter des touches qui ont étés tapés (j'avais ce pb depuis un petit moment déjà)
+  - [x] 13. Qd on écrit dans minishell, l'input rame et peut sauter des touches qui ont étés tapés (j'avais ce pb depuis un petit moment déjà)
 
 ## External functions allowed
 | Function name | Description                    |
