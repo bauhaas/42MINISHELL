@@ -30,7 +30,7 @@ int					main(int argc, char **argv, char **envp)
 	g_ms = &ms;
 	if (argc == 1)
 	{
-		while (ms.exit)
+		while (1)
 		{
 			ms.exit = get_line(&ms);
 			if (ms.line && ms.exit)
@@ -46,9 +46,6 @@ int					main(int argc, char **argv, char **envp)
 				free_cmd(ms.cmd);
 			}
 		}
-		ft_strdel(&ms.line);
-		free_history(&ms.history);
-		ft_putstr_fd("exit\n", 1);
 		return (0);
 	}
 	else

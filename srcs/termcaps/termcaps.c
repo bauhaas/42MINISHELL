@@ -54,10 +54,8 @@ static int		new_line(t_termcaps *tc, t_ms *mini)
 
 static int		eof_key(t_termcaps *tc, t_ms *mini)
 {
-	ft_strdel(&mini->line);
-	mini->line = ft_strdup("exit");
-	free_termcaps(tc);
-	return (0);
+	tc->line = ft_strdup("exit");
+	return (1);
 }
 
 static int		boucle(t_termcaps *tc, t_ms *mini)
