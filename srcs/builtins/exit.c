@@ -106,8 +106,8 @@ int		ft_exit(t_ms *ms, t_cmd *cmd)
 	}
 	free(ms->bltn);
 	free(ms->line);
-//	free(ms->pwd);
-//	free(ms->old_pwd);
+	free(ms->pwd);
+	free(ms->old_pwd);
 	free_cmd(cmd);
 	free_history(&ms->cur_histo);
 	ft_lstclear(&ms->env, &afree_);
