@@ -6,13 +6,23 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/21 00:42:31 by bahaas            #+#    #+#             */
-/*   Updated: 2021/04/12 17:22:49 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/16 15:00:38 by clorin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	print_env(t_var *env, int mod)
+void		free_env(void *env)
+{
+	t_var	*e;
+
+	e = (t_var*)env;
+	ft_strdel(&e->name);
+	ft_strdel(&e->value);
+	free(e);
+}
+
+void		print_env(t_var *env, int mod)
 {
 	if (mod == ENV)
 	{
@@ -35,7 +45,7 @@ void	print_env(t_var *env, int mod)
 	}
 }
 
-int		ft_env(t_ms *ms, t_cmd *cmd)
+int			ft_env(t_ms *ms, t_cmd *cmd)
 {
 	t_var	*var;
 	t_list	*tmp;
@@ -49,6 +59,5 @@ int		ft_env(t_ms *ms, t_cmd *cmd)
 			tmp = tmp->next;
 		}
 	}
-	//ms->last_ret = 0;
 	return (0);
 }

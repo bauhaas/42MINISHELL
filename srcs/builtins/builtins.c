@@ -66,11 +66,7 @@ int		launch_bltn(t_ms *ms, t_cmd *cmd)
 	while (ms->bltn->bltn_name[++i])
 	{
 		if (!ft_strcmp(ms->bltn->bltn_name[i], cmd->content[0]))
-		{
-			// cmd->ret_value = ms->bltn->bltn_cmd[i](ms, cmd);
-			// return (cmd->ret_value);
-			return(ms->bltn->bltn_cmd[i](ms, cmd));
-		}
+			return (ms->bltn->bltn_cmd[i](ms, cmd));
 	}
 	return (FALSE);
 }

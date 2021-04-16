@@ -25,7 +25,6 @@ void	delete_one(t_list **head_ref, char *name)
 	{
 		*head_ref = tmp->next;
 		free(tmp);
-		return ;
 	}
 	else
 	{

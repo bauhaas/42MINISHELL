@@ -18,7 +18,7 @@
 
 void		ft_lstswap(t_list *prev, t_list *next)
 {
-	t_var 	*tmp;
+	t_var	*tmp;
 
 	tmp = (t_var *)prev->content;
 	prev->content = next->content;
@@ -32,13 +32,13 @@ static int	set_cd(char *new_loc, t_ms *ms)
 	tmp = ft_strnew(2048);
 	tmp = getcwd(tmp, sizeof(char) * 2048);
 	if (chdir(new_loc) == -1)
-		{
-			ft_putstr_fd("cd: ", 2);
-			ft_putstr_fd(new_loc, 2);
-			ft_putstr_fd(": No such file or directory\n", 2);
-			ft_strdel(&tmp);
-			return (1);
-		}
+	{
+		ft_putstr_fd("cd: ", 2);
+		ft_putstr_fd(new_loc, 2);
+		ft_putstr_fd(": No such file or directory\n", 2);
+		ft_strdel(&tmp);
+		return (1);
+	}
 	ft_strdel(&ms->old_pwd);
 	ms->old_pwd = ft_strdup(tmp);
 	ft_strdel(&ms->pwd);
@@ -49,7 +49,7 @@ static int	set_cd(char *new_loc, t_ms *ms)
 	return (0);
 }
 
-int		ft_cd(t_ms *ms, t_cmd *cmd)
+int			ft_cd(t_ms *ms, t_cmd *cmd)
 {
 	if (cmd->content[1] && cmd->content[2])
 	{

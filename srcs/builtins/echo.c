@@ -25,10 +25,10 @@ int		ft_echo(t_ms *ms, t_cmd *cmd)
 	i = 1;
 	while (cmd->content[i] && cmd->content[i][j] == '-')
 	{
-		if(!ft_strcmp(cmd->content[i], "-"))
+		if (!ft_strcmp(cmd->content[i], "-"))
 		{
 			def_newline = 0;
-            break;
+			break ;
 		}
 		j++;
 		while (cmd->content[i][j] == 'n')
@@ -45,7 +45,7 @@ int		ft_echo(t_ms *ms, t_cmd *cmd)
 		{
 			i++;
 			j = 0;
-			if(no_newline)
+			if (no_newline)
 				def_newline = 1;
 		}
 	}

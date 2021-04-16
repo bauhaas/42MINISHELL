@@ -264,6 +264,7 @@ void	free_tokens(t_tokens *tokens);
 */
 
 void	free_split(char ***split);
+void	free_env(void *env);
 char	*ft_getenv(t_list **head_ref, char *elem, int i);
 t_var	*ft_get_t_var(t_list **head_ref, char *elem);
 int		valid_name(char *name);
@@ -275,7 +276,7 @@ int		valid_quotes(const char *str, int len);
 void	parse(char *str, t_ms *ms, t_tokens **tokens);
 int		set_token_type(char *word_list, t_tokens *token);
 void	close_fd(int fd);
-int	choose_action(t_ms *ms, t_cmd *cmd);
+int		choose_action(t_ms *ms, t_cmd *cmd);
 
 
 #endif

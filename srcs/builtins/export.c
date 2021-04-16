@@ -48,22 +48,11 @@ void		*list_sort(t_list **dest, t_list *list)
 	return (dest);
 }
 
-void		free_(void *env)
-{
-	t_var	*e;
-
-	e = (t_var*)env;
-	ft_strdel(&e->name);
-	ft_strdel(&e->value);
-}
-
 int			arg_to_var(char *arg, t_ms *ms)
 {
 	char	**arg_split;
 	t_var	*new;
 
-	// if (!arg_split)
-	// 	return ;
 	if (ft_strchr(arg, '=') == NULL)
 	{
 		if (!valid_name(arg))
@@ -71,7 +60,6 @@ int			arg_to_var(char *arg, t_ms *ms)
 			ft_putstr_fd("Minishell: export: `", STDERR);
 			ft_putstr_fd(arg, STDERR);
 			ft_putstr_fd("': not a valid identifier\n", STDERR);
-			//ms->last_ret = 1;
 			return (1);
 		}
 		if (!ft_getenv(&ms->env, arg, FALSE))
@@ -122,11 +110,9 @@ int			arg_to_var(char *arg, t_ms *ms)
 			ft_putstr_fd("Minishell: export: `", STDERR);
 			ft_putstr_fd(arg, STDERR);
 			ft_putstr_fd("': not a valid identifier\n", STDERR);
-			//ms->last_ret = 1;
 			return (1);
 		}
 	}
-	// ms->last_ret = 0;
 	return (0);
 }
 
@@ -149,14 +135,11 @@ int			ft_export(t_ms *ms, t_cmd *cmd)
 			print_env((t_var *)copy->content, EXPORT);
 			copy = copy->next;
 		}
-		ft_lstclear(&copy, &free_);
-		//ms->last_ret = 0;
+		ft_lstclear(&copy, &free_env);
 		return (status);
 	}
 	else
-	{
 		while (cmd->content[i])
 			status |= arg_to_var(cmd->content[i++], ms);
-	}
 	return (status);
 }

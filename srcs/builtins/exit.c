@@ -12,19 +12,9 @@
 
 #include "../includes/minishell.h"
 
-void	afree_(void *env)
+void			free_cmd(t_cmd *cmd)
 {
-	t_var *e;
-
-	e = (t_var*)env;
-	ft_strdel(&e->name);
-	ft_strdel(&e->value);
-	free(e);
-}
-
-void	free_cmd(t_cmd *cmd)
-{
-	int	i;
+	int			i;
 
 	i = 0;
 	while (cmd)
@@ -43,12 +33,12 @@ void	free_cmd(t_cmd *cmd)
 	cmd = NULL;
 }
 
-void	free_arrstr(char **arr_env)
+void			free_arrstr(char **arr_env)
 {
-	int i;
+	int			i;
 
 	i = -1;
-	while(arr_env[++i])
+	while (arr_env[++i])
 	{
 		free(arr_env[i]);
 		arr_env[i] = NULL;
@@ -59,7 +49,7 @@ void	free_arrstr(char **arr_env)
 
 static int		valid_exit(t_cmd *cmd, int last_ret)
 {
-	int ret;
+	int			ret;
 
 	ret = last_ret;
 	if (cmd->content[1])
@@ -77,17 +67,17 @@ static int		valid_exit(t_cmd *cmd, int last_ret)
 	return (ret);
 }
 
-int		ft_exit(t_ms *ms, t_cmd *cmd)
+int				ft_exit(t_ms *ms, t_cmd *cmd)
 {
-	int	i;
-	int	status;
+	int			i;
+	int			status;
 
 	i = 0;
-	if(cmd->prev && !ft_strcmp(cmd->prev->content[0], "|"))
+	if (cmd->prev && !ft_strcmp(cmd->prev->content[0], "|"))
 		;
 	else
 		ft_putstr_fd("exit\n", 1);
-	if(cmd->next && cmd->next->content[0])
+	if (cmd->next && cmd->next->content[0])
 		return (0);
 	if (cmd->content[1] && ft_is_nbr(cmd->content[1]) && cmd->content[2])
 	{
@@ -110,7 +100,7 @@ int		ft_exit(t_ms *ms, t_cmd *cmd)
 	free(ms->old_pwd);
 	free_cmd(cmd);
 	free_history(&ms->cur_histo);
-	ft_lstclear(&ms->env, &afree_);
+	ft_lstclear(&ms->env, &free_env);
 	free_arrstr(ms->arr_env);
 	exit(status);
 	return (0);
