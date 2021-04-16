@@ -336,7 +336,27 @@ void	parse(char *str, t_ms *mini, t_tokens **tokens)
 				i++;
 			}
 			else if (str[i] == '$' && valid_quotes(str, i) != QUOTE)
+			{
 				word = ft_add_str(word, value(mini, str + i, &i));
+				if (ft_strchr(word, ' '))
+				{
+					//printf("espace dans word = %s\nOn split : ", word);
+					char **split_word;
+					split_word = ft_split(word, ' ');
+					int k = 0;
+					while(split_word[k])
+					{
+						new = create_token(tokens);
+						if (new == NULL)
+							return ;
+						new->content = ft_strdup(split_word[k]);
+						new->type_content = CMD_ARGS;
+						k++;
+					}
+					free_split(&split_word);
+					ft_strdel(&word);
+				}
+			}
 			else
 			{
 				word = ft_add_char(word, str[i]);
