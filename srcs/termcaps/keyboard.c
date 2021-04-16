@@ -24,10 +24,7 @@ void			window_size(t_termcaps *tc)
 void			keys_tree(long c, t_termcaps *tc, t_ms *mini)
 {
 	if (ft_isprint(c))
-	{
 		create_line(c, tc);
-		tc->cur_pos++;
-	}
 	else if (c == BACKSPACE)
 		del_back(tc);
 	else if (c == EOF_KEY || c == DEL)
@@ -42,5 +39,13 @@ void			keys_tree(long c, t_termcaps *tc, t_ms *mini)
 		down_history(tc, mini);
 	else if (c == CTR_L)
 		cls(tc);
+	else if (c == HOME)
+		tc->cur_pos = 0;
+	else if (c == END)
+		tc->cur_pos = ft_strlen(tc->line);
+	else if (c == CTR_LEFT)
+		left_word(tc);
+	else if (c == CTR_RIGHT)
+		right_word(tc);
 	print_line(tc, mini);
 }

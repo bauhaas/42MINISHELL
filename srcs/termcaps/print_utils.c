@@ -99,6 +99,7 @@ void			create_line(long c, t_termcaps *tc)
 		tc->line = ft_strdup(new);
 		ft_strdel(&new);
 	}
+	tc->cur_pos++;
 }
 
 void			print_line(t_termcaps *tc, t_ms *ms)

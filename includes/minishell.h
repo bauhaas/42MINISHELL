@@ -38,8 +38,10 @@
 # define RIGHT_ARROW 4414235
 # define UP_ARROW 4283163
 # define DOWN_ARROW 4348699
-// # define HOME 4741915
-// # define END 4610843
+# define CTR_LEFT 74995417045787
+# define CTR_RIGHT 73895905418011
+# define HOME 4741915
+# define END 4610843
 # define DEL 2117294875
 
 # define ENV 0
@@ -127,7 +129,8 @@ typedef struct	s_ms
 
 t_ms			*g_ms;
 
-void				sig_(int code);
+void				sig_int(int code);
+void				sig_quit(int code);
 void				ctr_c(t_termcaps *tc, t_ms *ms);
 /*
 *	Termcaps
@@ -148,6 +151,8 @@ void				del_char(t_termcaps *tc);
 int					prompt(t_ms *ms);
 void				left(t_termcaps *tc);
 void				right(t_termcaps *tc);
+void				left_word(t_termcaps *tc);
+void				right_word(t_termcaps *tc);
 void				free_termcaps(t_termcaps *tc);
 //char				*substitute(char *str, t_ms *mini);
 void				beep();
