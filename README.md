@@ -15,7 +15,7 @@
   - [x] 3. "" seul doit print un long message d'info
   - [x] 4. echo -nnnnnnnnnnnna doit print sur une nouvelle line
   - [x] 5. ls | exit a le bon comportement mais affiche exit alors qu'il ne devrait pas
-  - [ ] 6. export a="echo toto"  pr le moment on tente d'execute une commande "echo toto" qui ne trouve pas il faut resplit le echo et toto en 2elem
+  - [x] 6. export a="echo toto"  pr le moment on tente d'execute une commande "echo toto" qui ne trouve pas il faut resplit le echo et toto en 2elem
   - [x] 7. Quand on lance une mauvaise cmd puis on exit, cela doit  return 127 (on return 0)
   - [x] 8. cat only + ctrl C (comportement chelou avec le prompt malgré le fait qu'on est le bon retour et le bon nombre de process créer/kill)
   - [ ] 9. > fgfegfge | ls redirection en premier doit pvr marcher et créer le fichier
