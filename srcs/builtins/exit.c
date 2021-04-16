@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/21 00:44:02 by bahaas            #+#    #+#             */
-/*   Updated: 2021/04/15 12:27:38 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/16 11:45:05 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,8 +106,8 @@ int		ft_exit(t_ms *ms, t_cmd *cmd)
 	}
 	free(ms->bltn);
 	free(ms->line);
-	free(ms->pwd);
-	free(ms->old_pwd);
+//	free(ms->pwd);
+//	free(ms->old_pwd);
 	free_cmd(cmd);
 	free_history(&ms->cur_histo);
 	ft_lstclear(&ms->env, &afree_);
