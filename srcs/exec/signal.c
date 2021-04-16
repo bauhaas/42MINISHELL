@@ -12,7 +12,7 @@
 
 #include "../includes/minishell.h"
 
-void	sig_(int code)
+void	sig_int(int code)
 {
 	g_ms->signal = code;
 	g_ms->last_ret = 128 + code;
@@ -23,6 +23,11 @@ void	sig_(int code)
 		write(1,"^C\n", 3);
 		prompt(g_ms);
 	}
+}
+
+void	sig_quit(int code)
+{
+	
 }
 
 void	ctr_c(t_termcaps *tc, t_ms *ms)
