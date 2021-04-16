@@ -129,6 +129,9 @@ typedef struct	s_ms
 
 t_ms			*g_ms;
 
+/*
+*	Signal
+*/
 void				sig_int(int code);
 void				sig_quit(int code);
 void				ctr_c(t_termcaps *tc, t_ms *ms);
@@ -138,7 +141,6 @@ void				ctr_c(t_termcaps *tc, t_ms *ms);
 void				get_cursor_position(int *col, int *rows);
 void				set_cursor_position(t_termcaps *tc, int col, int row);
 void				keys_tree(long c, t_termcaps *tc, t_ms *mini);
-void				init_termcaps(t_termcaps *tc);
 void				window_size(t_termcaps *tc);
 int					get_line(t_ms *mini);
 int					tc_putchar(int c);
@@ -146,15 +148,12 @@ void				create_line(long c, t_termcaps *tc);
 void				clear_line(t_termcaps *tc);
 void				cls(t_termcaps *tc);
 void				print_line(t_termcaps *tc, t_ms *ms);
-void				del_back(t_termcaps *tc);
-void				del_char(t_termcaps *tc);
 int					prompt(t_ms *ms);
 void				left(t_termcaps *tc);
 void				right(t_termcaps *tc);
 void				left_word(t_termcaps *tc);
 void				right_word(t_termcaps *tc);
 void				free_termcaps(t_termcaps *tc);
-//char				*substitute(char *str, t_ms *mini);
 void				beep();
 /*
 *	history

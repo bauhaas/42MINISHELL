@@ -12,56 +12,6 @@
 
 #include "../includes/minishell.h"
 
-void			del_back(t_termcaps *tc)
-{
-	char		*str;
-	int			len;
-
-	if (!tc->line || tc->cur_pos == 0)
-	{
-		beep();
-		return ;
-	}
-	len = ft_strlen(tc->line);
-	if (len == 1 && tc->cur_pos == 1)
-	{
-		ft_strdel(&tc->line);
-		tc->cur_pos--;
-		return ;
-	}
-	if (!(str = (char*)ft_calloc(1, sizeof(char) * (len))))
-		return ;
-	ft_strlcpy(str, tc->line, tc->cur_pos);
-	ft_strncat(str, tc->line + tc->cur_pos, len - tc->cur_pos);
-	ft_strdel(&tc->line);
-	tc->line = str;
-	tc->cur_pos--;
-}
-
-void			del_char(t_termcaps *tc)
-{
-	char		*str;
-	int			len;
-
-	if (!tc->line || tc->cur_pos == (int)ft_strlen(tc->line))
-	{
-		beep();
-		return ;
-	}
-	len = ft_strlen(tc->line);
-	if (len == 1)
-	{
-		ft_strdel(&tc->line);
-		return ;
-	}
-	if (!(str = (char*)ft_calloc(1, sizeof(char) * (len))))
-		return ;
-	ft_strlcpy(str, tc->line, tc->cur_pos + 1);
-	ft_strncat(str, tc->line + tc->cur_pos + 1, len - tc->cur_pos);
-	ft_strdel(&tc->line);
-	tc->line = str;
-}
-
 static char		*add_car(char *str, char c, int pos)
 {
 	char		*new;

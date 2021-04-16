@@ -6,7 +6,7 @@
 /*   By: clorin <clorin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/18 13:56:39 by clorin            #+#    #+#             */
-/*   Updated: 2021/04/12 17:48:34 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/16 14:32:25 by clorin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,7 @@ static char	*home_prompt(t_ms *ms, char *pwd)
 		ft_strcat(dest, pwd + i);
 	}
 	else if (home && diff == 0)
-	{
-		dest = ft_strnew(1);
-		dest[0] = '~';
-	}
+		dest = ft_strdup("~");
 	else
 		dest = ft_strdup(ms->pwd);
 	return (dest);

@@ -6,23 +6,21 @@
 /*   By: clorin <clorin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 15:11:21 by clorin            #+#    #+#             */
-/*   Updated: 2021/04/12 17:48:21 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/16 14:38:09 by clorin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void			init_termcaps(t_termcaps *tc)
+static void		init_termcaps(t_termcaps *tc)
 {
 	char		*name;
 	int			ret;
 
-	ft_bzero(tc, sizeof(t_termcaps));
 	name = getenv("TERM");
 	if (!name)
 		name = ft_strdup("xterm");
-	ret = tgetent(NULL, name);
-	if (ret == 1)
+	if (tgetent(NULL, name) == 1)
 	{
 		tcgetattr(0, &tc->term);
 		tcgetattr(0, &tc->old_termcaps);
@@ -38,7 +36,7 @@ void			init_termcaps(t_termcaps *tc)
 	}
 	else
 	{
-		printf("minishell: Error termcaps %d\n", ret);
+		ft_putstr_fd("minishell: Error termcaps \n", STDERR);
 		exit(-1);
 	}
 }
@@ -90,6 +88,7 @@ int				get_line(t_ms *mini)
 	t_termcaps	tc;
 	int			status;
 
+	ft_bzero(&tc, sizeof(t_termcaps));
 	init_termcaps(&tc);
 	get_cursor_position(&tc.start_col, &tc.start_row);
 	prompt(mini);
