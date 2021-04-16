@@ -145,6 +145,26 @@ void		upgrade_shlvl(t_ms *ms)
 	}
 }
 
+static void		init_pwd(t_ms *ms)
+{
+	char *tmp;
+
+	tmp = ft_strnew(2048);
+	tmp = getcwd(tmp, sizeof(char) * 2048);
+	if (!ft_getenv(&ms->env, "PWD", 1))
+	{
+		ft_strdel(&ms->pwd);
+		ms->pwd = ft_strdup(tmp);
+		ft_strclr(tmp);
+	}
+	if (!ft_getenv(&ms->env, "OLDPWD", 1))
+	{
+		ft_strdel(&ms->old_pwd);
+		ms->old_pwd = ft_strdup(tmp);
+	}
+	ft_strdel(&tmp);
+}
+
 void		init_ms(t_ms *ms, char **env)
 {
 	init_lstenv(ms, &ms->env, env);
@@ -154,4 +174,5 @@ void		init_ms(t_ms *ms, char **env)
 	ms->signal = 0;
 	ms->arr_env = lst_to_arr(ms->env);
 	upgrade_shlvl(ms);
+	init_pwd(ms);
 }
