@@ -27,8 +27,8 @@ void	sig_int(int code)
 
 void	sig_quit(int code)
 {
-	write (1, "\n", 1);
-	return ;
+	if (g_ms->pid)
+		write(1, "\n", 1);
 }
 
 void	ctr_c(t_termcaps *tc, t_ms *ms)
