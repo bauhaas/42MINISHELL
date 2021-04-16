@@ -51,7 +51,7 @@ static int	set_cd(char *new_loc, t_ms *ms)
 
 int		ft_cd(t_ms *ms, t_cmd *cmd)
 {
-	if (cmd->content[2])
+	if (cmd->content[1] && cmd->content[2])
 	{
 		ft_putstr_fd("cd: Too many arguments\n", 2);
 		return (1);
