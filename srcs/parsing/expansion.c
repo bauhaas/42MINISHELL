@@ -337,10 +337,12 @@ void	parse(char *str, t_ms *mini, t_tokens **tokens)
 			}
 			else if (str[i] == '$' && valid_quotes(str, i) != QUOTE)
 			{
+				int j;
+				j = i;
 				word = ft_add_str(word, value(mini, str + i, &i));
-				if (ft_strchr(word, ' '))
+				if (!(!ft_strchr(word, ' ') || valid_quotes(str, j) || (j > 0 && str[j - 1] == '=')))
 				{
-					//printf("espace dans word = %s\nOn split : ", word);
+					// printf("espace dans word = `%s` et str[%d] = %c\nOn split : ", word, j-1, str[j - 1]);
 					char **split_word;
 					split_word = ft_split(word, ' ');
 					int k = 0;
