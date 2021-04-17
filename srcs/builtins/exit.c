@@ -67,12 +67,33 @@ static int		valid_exit(t_cmd *cmd, int last_ret)
 	return (ret);
 }
 
-int				ft_exit(t_ms *ms, t_cmd *cmd)
+static void		free_exit(t_ms *ms, t_cmd *cmd)
 {
 	int			i;
-	int			status;
 
 	i = 0;
+	while (ms->bltn->bltn_name[i])
+		free(ms->bltn->bltn_name[i++]);
+	i = 0;
+	while (ms->sep_set[i])
+	{
+		free(ms->sep_set[i]);
+		ms->sep_set[i++] = NULL;
+	}
+	free(ms->bltn);
+	free(ms->line);
+	free(ms->pwd);
+	free(ms->old_pwd);
+	free_cmd(cmd);
+	free_history(&ms->cur_histo);
+	ft_lstclear(&ms->env, &free_env);
+	free_arrstr(ms->arr_env);
+}
+
+int				ft_exit(t_ms *ms, t_cmd *cmd)
+{
+	int			status;
+
 	if (cmd->prev && !ft_strcmp(cmd->prev->content[0], "|"))
 		;
 	else
@@ -85,23 +106,6 @@ int				ft_exit(t_ms *ms, t_cmd *cmd)
 		return (1);
 	}
 	status = valid_exit(cmd, ms->last_ret);
-	while (ms->bltn->bltn_name[i])
-		free(ms->bltn->bltn_name[i++]);
-	i = 0;
-	while (ms->sep_set[i])
-	{
-		free(ms->sep_set[i]);
-		ms->sep_set[i] = NULL;
-		i++;
-	}
-	free(ms->bltn);
-	free(ms->line);
-	free(ms->pwd);
-	free(ms->old_pwd);
-	free_cmd(cmd);
-	free_history(&ms->cur_histo);
-	ft_lstclear(&ms->env, &free_env);
-	free_arrstr(ms->arr_env);
 	exit(status);
 	return (0);
 }

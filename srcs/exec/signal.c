@@ -20,7 +20,7 @@ void	sig_int(int code)
 		write(1, "\n", 1);
 	else
 	{
-		write(1,"^C\n", 3);
+		write(1, "^C\n", 3);
 		prompt(g_ms);
 	}
 }
