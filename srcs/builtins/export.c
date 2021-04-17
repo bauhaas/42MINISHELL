@@ -109,7 +109,7 @@ static int	arg_to_var(char *arg, t_ms *ms)
 
 	if (ft_strchr(arg, '='))
 	{
-		arg_split = ft_split(arg, '=');
+		arg_split = ft_nsplit(arg, '=', 1);
 		if (valid_name(arg_split[0]))
 		{
 			ret = export_ok(arg_split, ms);
