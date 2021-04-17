@@ -211,9 +211,9 @@ size_t word_len(char *line, size_t *len, char c);
 void	fill_word(char *word, char *line, char c, size_t *i);
 
 int		is_linked(t_ms *ms, char *line);
-int		is_separator(char c);
-int		is_space(char c);
-int		is_escaped(char c, char *line, int i);
+// int		is_separator(char c);
+// int		is_space(char c);
+// int		is_escaped(char c, char *line, int i);
 
 int		is_dquote_tok(t_ms *ms, t_tokens **tokens, char *line, size_t *i, int *join);
 int		is_quote_tok(t_ms *ms, t_tokens **tokens, char *line, size_t *i, int *join);
@@ -278,5 +278,11 @@ int		set_token_type(char *word_list, t_tokens *token);
 void	close_fd(int fd);
 int		choose_action(t_ms *ms, t_cmd *cmd);
 
+/*
+**	expansion
+*/
+char	*value(t_ms *mini, char *str, int *i);
+char	*get_name_var(char *str);
+int		is_spec_car(char c);
 
 #endif
