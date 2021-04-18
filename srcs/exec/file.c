@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 15:30:38 by bahaas            #+#    #+#             */
-/*   Updated: 2021/04/15 12:19:08 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/15 15:33:59 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 **	if directory => 3
 */
 
-static	void		valid_file(t_cmd *cmd)
+void		valid_file(t_cmd *cmd)
 {
 	struct stat		buffer;
 	int				exist;
