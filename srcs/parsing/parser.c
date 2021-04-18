@@ -112,46 +112,50 @@ static char			**expansion(char *str, char **word, t_ms *mini, int *i)
 	return (NULL);
 }
 
-// void				parse2(char *str, t_ms *mini, t_tokens **tokens)
-// {
-// 	char 			**split_word;
-// 	char			*word;
-// 	int				i;
-
-// 	i = 0;
-// 	word = NULL;
-// 	while (*str)
-// 	{
-// 		printf("*str = %c et word = <%s>\n", *str, word);
-// 		if (!is_spec_car(*str))
-// 			word = ft_add_char(word, (*str)++);
-// 		else
-// 		{
-// 			if (*str == '\\')
-// 				word = back_slash2(str, word);
-// 			else if (*str == ' ' || *str == '\t' || *str == ';'
-// 				|| *str == '>' || *str == '|' || *str == '<')
-// 				special(str, &word, tokens);
-// 			else if (*str == '"')
-// 				dbl_quote(str, &word);
-// 			else if (*str == '\'')
-// 				simple_quote(str, &word);
-// 			else if (*str == '$' && valid_quotes(str, i) != QUOTE)
-// 			{
-// 				if((split_word = expansion(str, &word, mini, &i)))
-// 				{
-// 					while (*split_word)
-// 						new_token(tokens, (split_word)++);
-// 					ft_strdel(&word);
-// 				}
-// 			}
-// 		}
-// 	}
-// 	new_token(tokens, &word);
-// }
-
+static int			parse3(char *str, int i, char **word, t_tokens **tokkens)
+{
+	if (str[i] == '\\')
+		i = back_slash(str, word, i);
+	else if (str[i] == ' ' || str[i] == '\t' || str[i] == ';'
+	|| str[i] == '>' || str[i] == '|' || str[i] == '<')
+		i = special(str, word, i, tokkens);
+	else if (str[i] == '"')
+		i = dbl_quote(str, word, i);
+	else if (str[i] == '\'')
+		i = simple_quote(str, word, i);
+	return (i);
+}
 
 void				parse(char *str, t_ms *mini, t_tokens **tokens)
+{
+	char 			**split_word;
+	char			*word;
+	int				i;
+
+	i = 0;
+	word = NULL;
+	while (str[i])
+	{
+		if (!is_spec_car(str[i]) || valid_quotes(str, i) == QUOTE)
+			word = ft_add_char(word, str[i++]);
+		else if (str[i] == '\\' || str[i] == ' ' || str[i] == '\t' ||
+			str[i] == ';' || str[i] == '>' || str[i] == '|' || str[i] == '<'
+			|| str[i] == '"' || str[i] == '\'')
+			i = parse3(str, i, &word, tokens);
+		else if (str[i] == '$' && valid_quotes(str, i) != QUOTE)
+		{
+			if((split_word = expansion(str, &word, mini, &i)))
+			{
+				while (*split_word)
+					new_token(tokens, (split_word)++);
+				ft_strdel(&word);
+			}
+		}
+	}
+	new_token(tokens, &word);
+}
+
+void				parse2(char *str, t_ms *mini, t_tokens **tokens)
 {
 	char 			**split_word;
 	char			*word;
@@ -183,6 +187,8 @@ void				parse(char *str, t_ms *mini, t_tokens **tokens)
 					ft_strdel(&word);
 				}
 			}
+			else
+				word = ft_add_char(word, str[i++]);
 		}
 	}
 	new_token(tokens, &word);
