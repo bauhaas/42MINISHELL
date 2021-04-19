@@ -95,11 +95,12 @@ static int			special(char *str, char **word, int i, t_tokens **tokens)
 
 static char			**expansion(char *str, char **word, t_ms *mini, int *i)
 {
-	int j;
-	int k = 0;
-	char **split_word;
+	int				j;
+	int				k;
+	char			**split_word;
 
 	j = *i;
+	k = 0;
 	split_word = NULL;
 	*word = ft_add_str(*word, value(mini, str + *i, i));
 	if (!(!ft_strchr(*word, ' ') || valid_quotes(str, j)
@@ -127,7 +128,7 @@ static int			parse2(char *str, int i, char **word, t_tokens **tokkens)
 
 void				parse(char *str, t_ms *mini, t_tokens **tokens)
 {
-	char 			**split_word;
+	char			**split_word;
 	char			*word;
 	int				i;
 
@@ -143,7 +144,7 @@ void				parse(char *str, t_ms *mini, t_tokens **tokens)
 			i = parse2(str, i, &word, tokens);
 		else if (str[i] == '$' && valid_quotes(str, i) != QUOTE)
 		{
-			if((split_word = expansion(str, &word, mini, &i)))
+			if ((split_word = expansion(str, &word, mini, &i)))
 			{
 				while (*split_word)
 					new_token(tokens, (split_word)++);
