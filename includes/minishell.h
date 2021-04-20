@@ -6,7 +6,7 @@
 /*   By: clorin <clorin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 12:28:05 by clorin            #+#    #+#             */
-/*   Updated: 2021/04/19 01:09:46 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/20 15:23:30 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@
 # include <unistd.h>
 # include <term.h>
 # include <sys/ioctl.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <sys/stat.h>
+# include <sys/types.h>
+# include <sys/wait.h>
+# include <sys/stat.h>
 # include <signal.h>
 # include <limits.h>
 # include <stdbool.h>
@@ -93,7 +93,7 @@ typedef	struct			s_var
 typedef struct			s_tokens
 {
 	char				*content;
-	int 				type_content;
+	int					type_content;
 	struct s_tokens		*prev;
 	struct s_tokens		*next;
 }						t_tokens;
@@ -101,12 +101,11 @@ typedef struct			s_tokens
 typedef struct			s_cmd
 {
 	char				**content;
-	int 				ret_value;
+	int					ret_value;
 	int					type_link;
 	struct s_cmd		*prev;
 	struct s_cmd		*next;
 }						t_cmd;
-
 
 typedef struct			s_ms
 {
@@ -246,6 +245,10 @@ void	close_fd(int fd);
 int		choose_action(t_ms *ms, t_cmd *cmd);
 void	valid_file(t_cmd *cmd);
 
+void	launch_cmd(t_ms *ms, t_cmd *cmd);
+void	launch_redirection(t_ms *ms, t_cmd *cmd, int redirection_type);
+int		select_action(t_ms *ms, t_cmd *cmd);
+
 /*
 **	expansion
 */
@@ -253,4 +256,12 @@ char	*value(t_ms *mini, char *str, int *i);
 char	*get_name_var(char *str);
 int		is_spec_car(char c);
 
+/*
+** init_env
+*/
+
+char		**lst_to_arr(t_list *env);
+void		init_lstenv(t_ms *ms, t_list **lst_env, char **env);
+t_list		*lstnew_var(t_var *content);
+t_var		*init_envvar(char *env_var);
 #endif

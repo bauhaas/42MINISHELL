@@ -6,38 +6,11 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/20 14:29:47 by bahaas            #+#    #+#             */
-/*   Updated: 2021/04/12 17:02:32 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/20 16:10:22 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-// int		is_separator(char c)
-// {
-// 	if (ft_strchr("|<>;&", c))
-// 		return (1);
-// 	return (0);
-// }
-
-// int		is_space(char c)
-// {
-// 	if (c == ' ' || c == '\n' || c == '\t')
-// 		return (1);
-// 	return (0);
-// }
-
-// int		is_escaped(char c, char *line, int i)
-// {
-// 	int res;
-
-// 	res = 0;
-// 	if (i > 0 && i < ft_strlen(line))
-// 	{
-// 		res = line[i - 1] == '\\' && line[i] == c;
-// 		return (res);
-// 	}
-// 	return (0);
-// }
 
 int			is_spec_car(char c)
 {

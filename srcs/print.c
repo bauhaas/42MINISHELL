@@ -6,12 +6,11 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/01 01:25:44 by bahaas            #+#    #+#             */
-/*   Updated: 2021/04/13 13:54:28 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/20 15:15:13 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
 
 void	print_tokens(t_tokens *tokens)
 {
@@ -29,9 +28,9 @@ void	print_tokens(t_tokens *tokens)
 
 void	print_cmd(t_cmd *cmd)
 {
-	t_cmd *tmp;
-	int i;
-	int cmd_id;
+	t_cmd	*tmp;
+	int		i;
+	int		cmd_id;
 
 	cmd_id = 0;
 	tmp = cmd;
@@ -70,7 +69,9 @@ void	print_cmd(t_cmd *cmd)
 
 void	print_action(t_cmd *cmd)
 {
-	int j = 0;
+	int j;
+
+	j = 0;
 	printf("cmd:");
 	while (cmd->content[j])
 	{

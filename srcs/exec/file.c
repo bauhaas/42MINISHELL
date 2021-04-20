@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 15:30:38 by bahaas            #+#    #+#             */
-/*   Updated: 2021/04/15 15:33:59 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/20 15:00:28 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 **	if directory => 3
 */
 
-void		valid_file(t_cmd *cmd)
+void				valid_file(t_cmd *cmd)
 {
 	struct stat		buffer;
 	int				exist;
@@ -81,22 +81,19 @@ void				error_file(t_ms *ms, t_cmd *cmd)
 **	search in the PATH and update cmd->content[0]
 */
 
-static void			find_absolute_path(t_ms *ms, t_cmd *cmd)
+static void			find_absolute_path(t_ms *ms, t_cmd *cmd, int i)
 {
 	char			**path_to_check;
 	char			*path_env;
 	char			*program;
-	int				i;
 
-	program = NULL;
 	path_env = ft_getenv(&ms->env, "PATH", 1);
 	path_to_check = ft_split(path_env, ':');
-	if(!path_to_check)
+	if (!path_to_check)
 	{
 		cmd->ret_value = 1;
 		return ;
 	}
-	i = 0;
 	while (path_to_check[i])
 	{
 		program = ft_strdup(path_to_check[i]);
@@ -120,7 +117,7 @@ static void			find_absolute_path(t_ms *ms, t_cmd *cmd)
 void				search_prog(t_ms *ms, t_cmd *cmd)
 {
 	if (cmd->content[0][0] != '.' && cmd->content[0][0] != '/')
-		find_absolute_path(ms, cmd);
+		find_absolute_path(ms, cmd, 0);
 	else
 		valid_file(cmd);
 }

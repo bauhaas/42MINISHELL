@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/13 14:06:30 by bahaas            #+#    #+#             */
-/*   Updated: 2021/04/19 00:19:56 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/20 14:45:05 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,18 +40,19 @@ t_cmd	*next_cmd_to_execute(t_cmd *cmd)
 		cmd = cmd->next;
 		if (cmd && cmd->type_link == CMD_ARGS && cmd->prev->type_link != 5)
 			cmd = cmd->next;
-		if(cmd && (cmd->type_link == 6 || cmd->type_link == 7 || cmd->type_link == 8) && cmd->prev->type_link == 5)
-			break;
+		if (cmd && (cmd->type_link == 6 ||
+					cmd->type_link == 7 ||
+					cmd->type_link == 8) && cmd->prev->type_link == 5)
+			break ;
 	}
 	return (cmd);
 }
 
 /*
- ** Tant qu'il n'y a pas d'exit et que nous ne somme pas au bout de notre liste cmd
- ** 1. Execute in choose_action cmd block per block (séparateur = ; )
- ** 2. Après exec on reset tout nos fd pr avoir des parametres propres pr le prochain bloc
- ** 3. On se déplace au prochain bloc de commande (premiere commande après un ;)
- */
+** 1. Execute cmd block per block (séparateur = ; )
+** 2. After execution, we reset our fd to stdin & stdout for next command
+** 3. On se déplace au prochain bloc de commande (premiere commande après un ;)
+*/
 
 void	setup_execution(t_ms *ms, t_cmd *cmd)
 {
@@ -61,10 +62,10 @@ void	setup_execution(t_ms *ms, t_cmd *cmd)
 	{
 		ms->flag = 0;
 		ms->recursive = 1;
-		choose_action(ms, cmd);
+		select_action(ms, cmd);
 		reset_fd(ms);
 		waitpid(-1, &status, 0);
-		if(ms->flag == 1)
+		if (ms->flag == 1)
 			exit(0);
 		cmd = next_cmd_to_execute(cmd);
 	}

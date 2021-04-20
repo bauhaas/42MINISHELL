@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/21 14:52:26 by bahaas            #+#    #+#             */
-/*   Updated: 2021/04/19 00:58:58 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/20 16:10:11 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,34 +122,42 @@ void		tokens_to_cmd(t_ms *ms, t_cmd **cmd, t_tokens **tokens)
 	new_cmd->content[i] = NULL;
 }
 
+int			print_cmd_error(t_ms *ms, t_cmd *cmd)
+{
+	if (cmd->type_link == 4 && cmd->next == NULL)
+		printf("minishell: syntax error near unexpected token  « | »\n");
+	else if ((cmd->type_link == 6 || cmd->type_link == 7 || cmd->type_link == 8)
+				&& cmd->next == NULL)
+		printf("minishell: syntax error near unexpected token  « newline »\n");
+	else if (cmd->type_link == 5)
+	{
+		printf("minishell: syntax error near unexpected token");
+		printf(" « %s »\n", cmd->content[0]);
+	}
+	ms->last_ret = 2;
+	return (0);
+}
+
 int			last_cmd_status(t_ms *ms, t_cmd *cmd)
 {
 	t_cmd *tmp;
 
 	tmp = cmd;
-	if(!strcmp(tmp->content[0], ";"))
+	if (!strcmp(tmp->content[0], ";"))
 	{
-		printf("minishell: syntax error near unexpected token  « %s »\n", tmp->content[0]);
+		printf("minishell: syntax error near unexpected token");
+		printf(" « %s »\n", tmp->content[0]);
 		ms->last_ret = 2;
 		return (0);
 	}
-	while(tmp)
+	while (tmp)
 	{
-		if((tmp->type_link == 6 || tmp->type_link == 7 || tmp->type_link == 8) && tmp->next == NULL)
-		{
-			printf("minishell: syntax error near unexpected token  « newline »\n");
-			ms->last_ret = 2;
-			return (0);
-		}
-		else if (tmp->type_link == 4 && tmp->next == NULL)
-		{
-			printf("minishell: syntax error near unexpected token  « | »\n");
-			ms->last_ret = 2;
-			return (0);
-		}
+		if ((tmp->type_link == 4 || tmp->type_link == 6 || tmp->type_link == 7
+					|| tmp->type_link == 8) && tmp->next == NULL)
+			return (print_cmd_error(ms, cmd));
 		tmp = tmp->next;
 	}
-	return(1);
+	return (1);
 }
 
 void		line_to_cmd(t_ms *ms, char *line, t_cmd *cmd)
@@ -166,6 +174,6 @@ void		line_to_cmd(t_ms *ms, char *line, t_cmd *cmd)
 		tokens_to_cmd(ms, &cmd, &head);
 	free_tokens(tokens);
 //	print_cmd(cmd);
-	if(last_cmd_status(ms, cmd))
+	if (last_cmd_status(ms, cmd))
 		setup_execution(ms, cmd);
 }
