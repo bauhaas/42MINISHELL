@@ -60,7 +60,6 @@ void				parse(char *str, t_ms *ms)
 
 	i = 0;
 	word = NULL;
-	printf("str dans parse()=%s\n", str);
 	while (str[i])
 	{
 		if (!is_spec_car(str[i]))
