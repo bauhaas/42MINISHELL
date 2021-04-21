@@ -20,6 +20,7 @@ SRC		= srcs/main.c srcs/init.c srcs/command.c srcs/init_env.c\
 		srcs/builtins/pwd.c srcs/builtins/echo.c srcs/builtins/export.c	srcs/builtins/env.c \
 		srcs/builtins/unset.c srcs/builtins/exit.c srcs/builtins/cd.c srcs/builtins/builtins.c srcs/utils.c \
 		srcs/parsing/expansion.c  srcs/parsing/tokens.c srcs/parsing/utils.c srcs/parsing/parser.c \
+		srcs/parsing/parser_utils.c\
 		srcs/print.c \
 		srcs/exec/file.c srcs/exec/setup_execution.c srcs/exec/execute.c srcs/exec/signal.c srcs/exec/launch.c
 

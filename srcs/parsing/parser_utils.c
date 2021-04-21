@@ -12,6 +12,21 @@
 
 #include "../includes/minishell.h"
 
+void		new_token(t_tokens **tokens, char **word)
+{
+	t_tokens		*new;
+
+	if (*word)
+	{
+		new = create_token(tokens);
+		if (new == NULL)
+			return ;
+		new->content = ft_strdup(*word);
+		new->type_content = set_token_type(*word, NULL);
+		ft_strdel(word);
+	}
+}
+
 int			back_slash(char *str, char **word, int i)
 {
 	if (valid_quotes(str, i) == 0)
@@ -30,41 +45,6 @@ int			back_slash(char *str, char **word, int i)
 	}
 	else
 		*word = ft_add_char(*word, str[i++]);
-	return (i);
-}
-
-void		new_token(t_tokens **tokens, char **word)
-{
-	t_tokens		*new;
-
-	if (*word)
-	{
-		new = create_token(tokens);
-		if (new == NULL)
-			return ;
-		new->content = ft_strdup(*word);
-		new->type_content = set_token_type(*word, NULL);
-		ft_strdel(word);
-	}
-}
-
-int			dbl_quote(char *str, char **word, int i)
-{
-	if (valid_quotes(str, i) == QUOTE)
-		*word = ft_add_char(*word, str[i]);
-	else
-		*word = ft_add_char(*word, '\0');
-	i++;
-	return (i);
-}
-
-int			simple_quote(char *str, char **word, int i)
-{
-	if (valid_quotes(str, i) == DQUOTE)
-		*word = ft_add_char(*word, str[i]);
-	else
-		*word = ft_add_char(*word, '\0');
-	i++;
 	return (i);
 }
 
@@ -89,6 +69,16 @@ int			special(char *str, char **word, int i, t_tokens **tokens)
 	}
 	else
 		*word = ft_add_char(*word, str[i]);
+	i++;
+	return (i);
+}
+
+int			quote(char *str, char **word, int i, int q)
+{
+	if (valid_quotes(str, i) == q)
+		*word = ft_add_char(*word, str[i]);
+	else
+		*word = ft_add_char(*word, '\0');
 	i++;
 	return (i);
 }

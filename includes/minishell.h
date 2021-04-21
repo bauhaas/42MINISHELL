@@ -257,6 +257,14 @@ char	*get_name_var(char *str);
 int		is_spec_car(char c);
 
 /*
+**	parser
+*/
+int		back_slash(char *str, char **word, int i);
+int		special(char *str, char **word, int i, t_tokens **tokens);
+int		quote(char *str, char **word, int i, int q);
+void	new_token(t_tokens **tokens, char **word);
+
+/*
 ** init_env
 */
 
