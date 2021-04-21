@@ -14,13 +14,25 @@
 
 int				prompt_loop(t_ms *ms)
 {
+	t_list *bloc;
+
+	bloc = NULL;
 	while (1)
 	{
 		ms->exit = get_line(ms);
 		if (ms->line && ms->exit)
 		{
 			if (!valid_quotes(ms->line, ft_strlen(ms->line)))
-				line_to_cmd(ms, ms->line, ms->cmd);
+			{
+				bloc = parse_bloc(ms->line, ms);
+				while(bloc)
+				{
+					//printf("bloc->%s\n", (char*)bloc->content);
+					line_to_cmd(ms, (char*)bloc->content, ms->cmd);
+					bloc = bloc->next;
+				}
+				
+			}
 			else
 			{
 				ft_putstr_fd("minishell: syntax error with open quotes\n", 2);
