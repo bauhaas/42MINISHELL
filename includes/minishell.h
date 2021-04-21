@@ -132,8 +132,8 @@ typedef struct			s_ms
 	int					redir_status;
 	int					signal;
 	int					pid;
-	int escaped_tokens;
-	t_tokens *tokens;
+	int					escaped_tokens;
+	t_tokens			*tokens;
 }						t_ms;
 
 t_ms					*g_ms;
@@ -148,133 +148,135 @@ typedef struct			s_bltn
 **	Signal
 */
 
-void				sig_int(int code);
-void				sig_quit(int code);
-void				ctr_c(t_termcaps *tc, t_ms *ms);
+void					sig_int(int code);
+void					sig_quit(int code);
+void					ctr_c(t_termcaps *tc, t_ms *ms);
 
 /*
 **	Termcaps
 */
-void				get_cursor_position(int *col, int *rows);
-void				set_cursor_position(t_termcaps *tc, int col, int row);
-void				keys_tree(long c, t_termcaps *tc, t_ms *mini);
-void				window_size(t_termcaps *tc);
-int					get_line(t_ms *mini);
-int					tc_putchar(int c);
-void				create_line(long c, t_termcaps *tc);
-void				clear_line(void);
-void				cls(t_termcaps *tc);
-void				print_line(t_termcaps *tc, t_ms *ms);
-int					prompt(t_ms *ms);
-void				left(t_termcaps *tc);
-void				right(t_termcaps *tc);
-void				left_word(t_termcaps *tc);
-void				right_word(t_termcaps *tc);
-void				free_termcaps(t_termcaps *tc);
-void				beep();
+void					get_cursor_position(int *col, int *rows);
+void					set_cursor_position(t_termcaps *tc, int col, int row);
+void					keys_tree(long c, t_termcaps *tc, t_ms *mini);
+void					window_size(t_termcaps *tc);
+int						get_line(t_ms *mini);
+int						tc_putchar(int c);
+void					create_line(long c, t_termcaps *tc);
+void					clear_line(void);
+void					cls(t_termcaps *tc);
+void					print_line(t_termcaps *tc, t_ms *ms);
+int						prompt(t_ms *ms);
+void					left(t_termcaps *tc);
+void					right(t_termcaps *tc);
+void					left_word(t_termcaps *tc);
+void					right_word(t_termcaps *tc);
+void					free_termcaps(t_termcaps *tc);
+void					beep();
 
 /*
 **	history
 */
 
-t_hist				*add_history(t_hist **begin, char *line);
-void				up_history(t_termcaps *tc, t_ms *min);
-void				down_history(t_termcaps *tc, t_ms *mini);
-void				free_history(t_hist **begin);
-void				init_bltn(t_ms *ms);
-int					execute(t_ms *ms, t_cmd *cmd);
-void				print_env(t_var *env, int mod);
-void				init_ms(t_ms *ms, char **env);
-void				ft_lstswap(t_list *prev, t_list *next);
-void				line_to_cmd(t_ms *ms, char *line, t_cmd *cmd);
-t_tokens			*create_token(t_tokens **tokens);
+t_hist					*add_history(t_hist **begin, char *line);
+void					up_history(t_termcaps *tc, t_ms *min);
+void					down_history(t_termcaps *tc, t_ms *mini);
+void					free_history(t_hist **begin);
+void					init_bltn(t_ms *ms);
+int						execute(t_ms *ms, t_cmd *cmd);
+void					print_env(t_var *env, int mod);
+void					init_ms(t_ms *ms, char **env);
+void					ft_lstswap(t_list *prev, t_list *next);
+void					line_to_cmd(t_ms *ms, char *line, t_cmd *cmd);
+t_tokens				*create_token(t_tokens **tokens);
 
 /*
 ** BUiltins folder
 */
 
-int					ft_echo(t_ms *ms, t_cmd *cmd);
-int					ft_pwd(t_ms *ms, t_cmd *cmd);
-int					ft_export(t_ms *ms, t_cmd *cmd);
-int					ft_unset(t_ms *ms, t_cmd *cmd);
-int					ft_env(t_ms *ms, t_cmd *cmd);
-int					ft_cd(t_ms *ms, t_cmd *cmd);
-int					ft_exit(t_ms *ms, t_cmd *cmd);
-void				free_cmd(t_cmd *cmd);
-void				init_bltn(t_ms *ms);
-int					get_bltn(t_ms *ms, char *cmd);
-int					launch_bltn(t_ms *ms, t_cmd *cmd);
-void				ft_list_sort(t_list **begin_list);
-void				*list_sort(t_list **dest, t_list *list);
+int						ft_echo(t_ms *ms, t_cmd *cmd);
+int						ft_pwd(t_ms *ms, t_cmd *cmd);
+int						ft_export(t_ms *ms, t_cmd *cmd);
+int						ft_unset(t_ms *ms, t_cmd *cmd);
+int						ft_env(t_ms *ms, t_cmd *cmd);
+int						ft_cd(t_ms *ms, t_cmd *cmd);
+int						ft_exit(t_ms *ms, t_cmd *cmd);
+void					free_cmd(t_cmd *cmd);
+void					init_bltn(t_ms *ms);
+int						get_bltn(t_ms *ms, char *cmd);
+int						launch_bltn(t_ms *ms, t_cmd *cmd);
+void					ft_list_sort(t_list **begin_list);
+void					*list_sort(t_list **dest, t_list *list);
 
 /*
 ** Exec folder
 */
 
-void				error_file(t_ms *ms, t_cmd *cmd);
-void				search_prog(t_ms *ms, t_cmd *cmd);
+void					error_file(t_ms *ms, t_cmd *cmd);
+void					search_prog(t_ms *ms, t_cmd *cmd);
 
 /*
 ** print.c
 */
 
-void				print_tokens(t_tokens *tokens);
-void				print_cmd(t_cmd *cmd);
-void				print_action(t_cmd *cmd);
-void				print_action_exec_condition(t_cmd *cmd, int pipe, t_ms *ms);
+void					print_tokens(t_tokens *tokens);
+void					print_cmd(t_cmd *cmd);
+void					print_action(t_cmd *cmd);
+void					print_action_exec_condition(t_cmd *cmd,
+						int pipe, t_ms *ms);
 
 /*
 ** tokens.c
 */
 
-void	free_tokens(t_tokens *tokens);
+void					free_tokens(t_tokens *tokens);
 
 /*
 ** utils.c
 */
 
-void	free_split(char ***split);
-void	free_env(void *env);
-char	*ft_getenv(t_list **head_ref, char *elem, int i);
-t_var	*ft_get_t_var(t_list **head_ref, char *elem);
-int		valid_name(char *name);
-int		is_type(t_cmd *cmd, int type);
-int		has_pipe(t_cmd *cmd);
+void					free_split(char ***split);
+void					free_env(void *env);
+char					*ft_getenv(t_list **head_ref, char *elem, int i);
+t_var					*ft_get_t_var(t_list **head_ref, char *elem);
+int						valid_name(char *name);
+int						is_type(t_cmd *cmd, int type);
+int						has_pipe(t_cmd *cmd);
 
-void	setup_execution(t_ms *ms, t_cmd *cmd);
-int		valid_quotes(const char *str, int len);
-void	parse(char *str, t_ms *ms);
-int		set_token_type(char *word_list);
-void	close_fd(int fd);
-int		choose_action(t_ms *ms, t_cmd *cmd);
-void	valid_file(t_cmd *cmd);
+void					setup_execution(t_ms *ms, t_cmd *cmd);
+int						valid_quotes(const char *str, int len);
+void					parse(char *str, t_ms *ms);
+int						set_token_type(char *word_list);
+void					close_fd(int fd);
+int						choose_action(t_ms *ms, t_cmd *cmd);
+void					valid_file(t_cmd *cmd);
 
-void	launch_cmd(t_ms *ms, t_cmd *cmd);
-void	launch_redirection(t_ms *ms, t_cmd *cmd, int redirection_type);
-int		select_action(t_ms *ms, t_cmd *cmd);
+void					launch_cmd(t_ms *ms, t_cmd *cmd);
+void					launch_redirection(t_ms *ms, t_cmd *cmd,
+						int redirection_type);
+int						select_action(t_ms *ms, t_cmd *cmd);
 
 /*
 **	expansion
 */
-char	*value(t_ms *mini, char *str, int *i);
-char	*get_name_var(char *str);
-int		is_spec_car(char c);
+char					*value(t_ms *mini, char *str, int *i);
+char					*get_name_var(char *str);
+int						is_spec_car(char c);
 
 /*
 **	parser
 */
-int		back_slash(t_ms *ms, char *str, char **word, int i);
-int		special(t_ms *ms, char *str, char **word, int i);
-int		quote(char *str, char **word, int i, int q);
-void	new_token(t_ms *ms, t_tokens **tokens, char **word);
-t_list	*parse_bloc(char *str);
+int						back_slash(t_ms *ms, char *str, char **word, int i);
+int						special(t_ms *ms, char *str, char **word, int i);
+int						quote(char *str, char **word, int i, int q);
+void					new_token(t_ms *ms, t_tokens **tokens, char **word);
+t_list					*parse_bloc(char *str);
 
 /*
 ** init_env
 */
 
-char		**lst_to_arr(t_list *env);
-void		init_lstenv(t_ms *ms, t_list **lst_env, char **env);
-t_list		*lstnew_var(t_var *content);
-t_var		*init_envvar(char *env_var);
+char					**lst_to_arr(t_list *env);
+void					init_lstenv(t_ms *ms, t_list **lst_env, char **env);
+t_list					*lstnew_var(t_var *content);
+t_var					*init_envvar(char *env_var);
 #endif
