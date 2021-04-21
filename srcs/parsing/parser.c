@@ -36,8 +36,8 @@ static int			parse2(t_ms *ms, char *str, int i, char **word)
 	ms->escaped_tokens = 0;
 	if (str[i] == '\\')
 		i = back_slash(ms, str, word, i);
-	else if (str[i] == ' ' || str[i] == '\t' || str[i] == ';'
-	|| str[i] == '>' || str[i] == '|' || str[i] == '<')
+	else if (str[i] == ' ' || str[i] == '\t' || str[i] == '>' ||
+		str[i] == '|' || str[i] == '<')
 		i = special(ms, str, word, i);
 	else if (str[i] == '"')
 		i = quote(str, word, i, QUOTE);
@@ -48,9 +48,8 @@ static int			parse2(t_ms *ms, char *str, int i, char **word)
 
 static	int			is_spec(char c)
 {
-	return (c == '\\' || c == ' ' || c == '\t' ||
-			c == ';' || c == '>' || c == '|' || c == '<'
-			|| c == '"' || c == '\'');
+	return (c == '\\' || c == ' ' || c == '\t' || c == '>' || c == '|'
+		|| c == '<' || c == '"' || c == '\'');
 }
 
 void				parse(char *str, t_ms *ms)
@@ -61,6 +60,7 @@ void				parse(char *str, t_ms *ms)
 
 	i = 0;
 	word = NULL;
+	printf("str dans parse()=%s\n", str);
 	while (str[i])
 	{
 		if (!is_spec_car(str[i]))
