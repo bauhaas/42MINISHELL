@@ -7,7 +7,7 @@ static int			escaped(char *str, int pos)
 	return (FALSE);
 }
 
-t_list				*parse_bloc(char *str, t_ms *ms)
+t_list				*parse_bloc(char *str)
 {
 	t_list			*block;
 	int				i;

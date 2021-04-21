@@ -267,7 +267,7 @@ int		back_slash(t_ms *ms, char *str, char **word, int i);
 int		special(t_ms *ms, char *str, char **word, int i);
 int		quote(char *str, char **word, int i, int q);
 void	new_token(t_ms *ms, t_tokens **tokens, char **word);
-t_list	*parse_bloc(char *str, t_ms *ms);
+t_list	*parse_bloc(char *str);
 
 /*
 ** init_env

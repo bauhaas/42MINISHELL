@@ -24,7 +24,7 @@ int				prompt_loop(t_ms *ms)
 		{
 			if (!valid_quotes(ms->line, ft_strlen(ms->line)))
 			{
-				bloc = parse_bloc(ms->line, ms);
+				bloc = parse_bloc(ms->line);
 				while(bloc)
 				{
 					//printf("bloc->%s\n", (char*)bloc->content);
