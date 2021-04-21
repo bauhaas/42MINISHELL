@@ -6,13 +6,13 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 14:40:36 by bahaas            #+#    #+#             */
-/*   Updated: 2021/04/20 15:06:51 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/21 15:58:08 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void		empty_cmd_content(t_ms *ms, t_cmd *cmd)
+void		empty_cmd_content(t_ms *ms)
 {
 	printf("\nLa commande  «  » n'a pas été trouvée,");
 	printf(" mais peut être installée avec :\n\n");
@@ -72,7 +72,7 @@ void		launch_cmd(t_ms *ms, t_cmd *cmd)
 	else
 	{
 		if (cmd && !ft_strcmp(cmd->content[0], "\0"))
-			empty_cmd_content(ms, cmd);
+			empty_cmd_content(ms);
 		else
 			launch_exec(ms, cmd);
 	}

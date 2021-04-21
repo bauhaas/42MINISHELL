@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/21 00:44:02 by bahaas            #+#    #+#             */
-/*   Updated: 2021/04/16 11:45:05 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/21 15:55:45 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ static int		valid_exit(t_cmd *cmd, int last_ret)
 	return (ret);
 }
 
+/*
 static void		free_exit(t_ms *ms, t_cmd *cmd)
 {
 	int			i;
@@ -88,11 +89,12 @@ static void		free_exit(t_ms *ms, t_cmd *cmd)
 	free_history(&ms->cur_histo);
 	ft_lstclear(&ms->env, &free_env);
 	free_arrstr(ms->arr_env);
-}
+}*/
 
 int				ft_exit(t_ms *ms, t_cmd *cmd)
 {
 	int			status;
+	(void)cmd;
 
 	if (cmd->prev && !ft_strcmp(cmd->prev->content[0], "|"))
 		;

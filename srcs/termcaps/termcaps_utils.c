@@ -6,13 +6,13 @@
 /*   By: clorin <clorin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/13 09:31:11 by clorin            #+#    #+#             */
-/*   Updated: 2021/04/13 09:31:37 by clorin           ###   ########.fr       */
+/*   Updated: 2021/04/21 15:48:34 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	clear_line(t_termcaps *tc)
+void	clear_line(void)
 {
 	write(1, "\033[0J", 4);
 }

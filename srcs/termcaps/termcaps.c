@@ -6,7 +6,7 @@
 /*   By: clorin <clorin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 15:11:21 by clorin            #+#    #+#             */
-/*   Updated: 2021/04/16 14:38:09 by clorin           ###   ########.fr       */
+/*   Updated: 2021/04/21 15:48:04 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 static void		init_termcaps(t_termcaps *tc)
 {
 	char		*name;
-	int			ret;
 
 	name = getenv("TERM");
 	if (!name)
@@ -50,7 +49,7 @@ static int		new_line(t_termcaps *tc, t_ms *mini)
 	return (1);
 }
 
-static int		eof_key(t_termcaps *tc, t_ms *mini)
+static int		eof_key(t_termcaps *tc)
 {
 	tc->line = ft_strdup("exit");
 	return (1);
@@ -76,7 +75,7 @@ static int		boucle(t_termcaps *tc, t_ms *mini)
 		if (c == '\n')
 			return (new_line(tc, mini));
 		if (c == EOF_KEY && !tc->line)
-			return (eof_key(tc, mini));
+			return (eof_key(tc));
 		keys_tree(c, tc, mini);
 		c = 0;
 	}

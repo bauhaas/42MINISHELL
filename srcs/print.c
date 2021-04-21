@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/01 01:25:44 by bahaas            #+#    #+#             */
-/*   Updated: 2021/04/20 15:15:13 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/21 15:56:46 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ void	print_action(t_cmd *cmd)
 
 void	print_action_exec_condition(t_cmd *cmd, int pipe, t_ms *ms)
 {
+	(void)ms;
 	printf("test cmd : %s\n", cmd->content[0]);
 	if (is_type(cmd->prev, END_CMD))
 		printf("test prev END\n");

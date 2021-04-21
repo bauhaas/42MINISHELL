@@ -6,7 +6,7 @@
 /*   By: clorin <clorin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/13 10:00:01 by clorin            #+#    #+#             */
-/*   Updated: 2021/04/13 10:00:16 by clorin           ###   ########.fr       */
+/*   Updated: 2021/04/21 15:57:38 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	sig_int(int code)
 
 void	sig_quit(int code)
 {
+	(void)code;
 	if (g_ms->pid)
 		write(1, "\n", 1);
 }

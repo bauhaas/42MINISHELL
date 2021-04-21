@@ -6,7 +6,7 @@
 /*   By: clorin <clorin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/18 10:14:39 by clorin            #+#    #+#             */
-/*   Updated: 2021/04/12 17:52:18 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/21 15:49:25 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void			print_line(t_termcaps *tc, t_ms *ms)
 	start = prompt(ms) + tc->start_col;
 	if (tc->line)
 		write(STDOUT, tc->line, ft_strlen(tc->line));
-	clear_line(tc);
+	clear_line();
 	pos_x = (start + tc->cur_pos) % tc->size_col;
 	pos_y = ((start + tc->cur_pos) / tc->size_col) + tc->start_row;
 	set_cursor_position(tc, pos_x, pos_y);

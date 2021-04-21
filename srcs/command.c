@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/21 14:52:26 by bahaas            #+#    #+#             */
-/*   Updated: 2021/04/21 14:52:21 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/21 15:47:00 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,8 @@ int			token_number_in_cmd(t_tokens **tokens)
 	return (i);
 }
 
-void	token_is_arg_or_cmd(t_cmd **new_cmd, t_tokens **tokens, int i)
+/*
+void 	token_is_arg_or_cmd(t_cmd **new_cmd, t_tokens **tokens, int i)
 {
 	while ((*tokens))
 	{
@@ -91,7 +92,7 @@ void	token_is_arg_or_cmd(t_cmd **new_cmd, t_tokens **tokens, int i)
 		else
 			break ;
 	}
-}
+}*/
 
 /*
 ** We translate a grp of tokens into a cmd. We find number of tokens until
@@ -99,10 +100,9 @@ void	token_is_arg_or_cmd(t_cmd **new_cmd, t_tokens **tokens, int i)
 ** tokens. We also set flags to know if our cmd is piped or redirected.
 */
 
-void		tokens_to_cmd(t_ms *ms, t_cmd **cmd, t_tokens **tokens)
+void		tokens_to_cmd(t_cmd **cmd, t_tokens **tokens)
 {
 	t_cmd		*new_cmd;
-	t_tokens	*head;
 	int			i;
 
 	new_cmd = create_cmd(cmd);
@@ -123,7 +123,7 @@ void		tokens_to_cmd(t_ms *ms, t_cmd **cmd, t_tokens **tokens)
 		*tokens = (*tokens)->next;
 		return ;
 	}
-//	token_is_arg_or_cmd(&new_cmd, *tokens, i);
+	//token_is_arg_or_cmd(&new_cmd, tokens, i);
 	while ((*tokens))
 	{
 		if ((*tokens)->type_content == CMD_ARGS)
@@ -179,7 +179,6 @@ int			last_cmd_status(t_ms *ms, t_cmd *cmd)
 
 void		line_to_cmd(t_ms *ms, char *line, t_cmd *cmd)
 {
-	//t_tokens *tokens;
 	t_tokens *head;
 
 	ms->tokens = NULL;
@@ -188,7 +187,7 @@ void		line_to_cmd(t_ms *ms, char *line, t_cmd *cmd)
 	print_tokens(ms->tokens);
 	head = ms->tokens;
 	while (head)
-		tokens_to_cmd(ms, &cmd, &head);
+		tokens_to_cmd(&cmd, &head);
 	free_tokens(ms->tokens);
 	print_cmd(cmd);
 	if (last_cmd_status(ms, cmd))

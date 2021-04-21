@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/21 00:42:31 by bahaas            #+#    #+#             */
-/*   Updated: 2021/04/16 15:00:38 by clorin           ###   ########.fr       */
+/*   Updated: 2021/04/21 15:53:48 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ void		print_env(t_var *env, int mod)
 
 int			ft_env(t_ms *ms, t_cmd *cmd)
 {
-	t_var	*var;
+	(void)ms;
+	(void)cmd;
 	t_list	*tmp;
 
 	tmp = ms->env;

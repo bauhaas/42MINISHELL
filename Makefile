@@ -6,7 +6,7 @@
 #    By: clorin <clorin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/03/17 12:01:33 by clorin            #+#    #+#              #
-#    Updated: 2021/04/20 15:21:27 by bahaas           ###   ########.fr        #
+#    Updated: 2021/04/21 15:46:32 by bahaas           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,8 +26,8 @@ SRC		= srcs/main.c srcs/init.c srcs/command.c srcs/init_env.c\
 
 CC		= clang
 
-#FLAGS		= -Wall -Werror -Wextra -D VERSION=$(VERSION)
-FLAGS		= -g -D VERSION=$(VERSION)
+FLAGS		= -Wall -Werror -Wextra -g -D VERSION=$(VERSION)
+#FLAGS		= -g -D VERSION=$(VERSION)
 
 HEADER		= -I includes/
 

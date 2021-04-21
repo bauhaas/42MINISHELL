@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/18 14:15:43 by bahaas            #+#    #+#             */
-/*   Updated: 2021/04/20 15:39:03 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/21 15:52:58 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 int		ft_echo(t_ms *ms, t_cmd *cmd)
 {
+	(void)cmd;
+	(void)ms;
 	int	no_newline;
 	int def_newline;
 	int	i;

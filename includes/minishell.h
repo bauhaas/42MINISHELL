@@ -6,7 +6,7 @@
 /*   By: clorin <clorin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 12:28:05 by clorin            #+#    #+#             */
-/*   Updated: 2021/04/21 14:56:26 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/21 15:50:15 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,7 +162,7 @@ void				window_size(t_termcaps *tc);
 int					get_line(t_ms *mini);
 int					tc_putchar(int c);
 void				create_line(long c, t_termcaps *tc);
-void				clear_line(t_termcaps *tc);
+void				clear_line(void);
 void				cls(t_termcaps *tc);
 void				print_line(t_termcaps *tc, t_ms *ms);
 int					prompt(t_ms *ms);

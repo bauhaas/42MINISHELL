@@ -6,7 +6,7 @@
 /*   By: clorin <clorin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/21 13:22:34 by clorin            #+#    #+#             */
-/*   Updated: 2021/04/21 13:22:58 by clorin           ###   ########.fr       */
+/*   Updated: 2021/04/21 15:54:17 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 void		ft_list_sort(t_list **begin_list)
 {
 	t_list	*actuel_node;
-	t_list	*next_node;
 	t_var	*env;
 	t_var	*env_next;
 
