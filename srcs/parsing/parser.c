@@ -136,7 +136,7 @@ void				parse(char *str, t_ms *mini, t_tokens **tokens)
 	word = NULL;
 	while (str[i])
 	{
-		if (!is_spec_car(str[i]) || valid_quotes(str, i) == QUOTE)
+		if (!is_spec_car(str[i]))
 			word = ft_add_char(word, str[i++]);
 		else if (str[i] == '\\' || str[i] == ' ' || str[i] == '\t' ||
 			str[i] == ';' || str[i] == '>' || str[i] == '|' || str[i] == '<'
@@ -151,6 +151,8 @@ void				parse(char *str, t_ms *mini, t_tokens **tokens)
 				ft_strdel(&word);
 			}
 		}
+		else
+			word = ft_add_char(word, str[i++]);
 	}
 	new_token(tokens, &word);
 }
