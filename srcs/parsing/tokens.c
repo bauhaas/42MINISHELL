@@ -47,7 +47,7 @@ t_tokens	*create_token(t_tokens **tokens)
 	return (new);
 }
 
-int			set_token_type(char *word_list, t_tokens *token)
+int			set_token_type(char *word_list)
 {
 	int type;
 

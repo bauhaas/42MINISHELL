@@ -202,6 +202,8 @@ void				free_cmd(t_cmd *cmd);
 void				init_bltn(t_ms *ms);
 int					get_bltn(t_ms *ms, char *cmd);
 int					launch_bltn(t_ms *ms, t_cmd *cmd);
+void				ft_list_sort(t_list **begin_list);
+void				*list_sort(t_list **dest, t_list *list);
 
 /*
 ** Exec folder
@@ -240,7 +242,7 @@ int		has_pipe(t_cmd *cmd);
 void	setup_execution(t_ms *ms, t_cmd *cmd);
 int		valid_quotes(const char *str, int len);
 void	parse(char *str, t_ms *ms, t_tokens **tokens);
-int		set_token_type(char *word_list, t_tokens *token);
+int		set_token_type(char *word_list);
 void	close_fd(int fd);
 int		choose_action(t_ms *ms, t_cmd *cmd);
 void	valid_file(t_cmd *cmd);

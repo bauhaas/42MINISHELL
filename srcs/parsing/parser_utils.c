@@ -22,7 +22,7 @@ void		new_token(t_tokens **tokens, char **word)
 		if (new == NULL)
 			return ;
 		new->content = ft_strdup(*word);
-		new->type_content = set_token_type(*word, NULL);
+		new->type_content = set_token_type(*word);
 		ft_strdel(word);
 	}
 }
