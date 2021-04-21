@@ -6,13 +6,13 @@
 /*   By: clorin <clorin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/19 14:13:16 by clorin            #+#    #+#             */
-/*   Updated: 2021/04/19 14:14:03 by clorin           ###   ########.fr       */
+/*   Updated: 2021/04/21 14:58:52 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void		new_token(t_tokens **tokens, char **word)
+void		new_token(t_ms *ms, t_tokens **tokens, char **word)
 {
 	t_tokens		*new;
 
@@ -22,12 +22,15 @@ void		new_token(t_tokens **tokens, char **word)
 		if (new == NULL)
 			return ;
 		new->content = ft_strdup(*word);
-		new->type_content = set_token_type(*word);
+		if (ms->escaped_tokens != 1)
+			new->type_content = set_token_type(*word);
+		else
+			new->type_content = 1;
 		ft_strdel(word);
 	}
 }
 
-int			back_slash(char *str, char **word, int i)
+int			back_slash(t_ms *ms, char *str, char **word, int i)
 {
 	if (valid_quotes(str, i) == 0)
 	{
@@ -35,6 +38,7 @@ int			back_slash(char *str, char **word, int i)
 		*word = ft_add_char(*word, str[i]);
 		if (str[i])
 			i++;
+		ms->escaped_tokens = 1;
 	}
 	else if (valid_quotes(str, i) == DQUOTE)
 	{
@@ -48,11 +52,11 @@ int			back_slash(char *str, char **word, int i)
 	return (i);
 }
 
-int			special(char *str, char **word, int i, t_tokens **tokens)
+int			special(t_ms *ms, char *str, char **word, int i)
 {
 	if (valid_quotes(str, i) == 0)
 	{
-		new_token(tokens, word);
+		new_token(ms, &ms->tokens, word);
 		if (str[i] == '>')
 		{
 			if (str[i + 1] == '>')
@@ -65,7 +69,7 @@ int			special(char *str, char **word, int i, t_tokens **tokens)
 		}
 		else if (str[i] != '\t' && str[i] != ' ')
 			*word = ft_add_char(*word, str[i]);
-		new_token(tokens, word);
+		new_token(ms, &ms->tokens, word);
 	}
 	else
 		*word = ft_add_char(*word, str[i]);

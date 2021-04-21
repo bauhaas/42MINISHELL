@@ -6,7 +6,7 @@
 /*   By: clorin <clorin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 12:28:05 by clorin            #+#    #+#             */
-/*   Updated: 2021/04/20 15:23:30 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/21 14:56:26 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,6 +132,8 @@ typedef struct			s_ms
 	int					redir_status;
 	int					signal;
 	int					pid;
+	int escaped_tokens;
+	t_tokens *tokens;
 }						t_ms;
 
 t_ms					*g_ms;
@@ -241,7 +243,7 @@ int		has_pipe(t_cmd *cmd);
 
 void	setup_execution(t_ms *ms, t_cmd *cmd);
 int		valid_quotes(const char *str, int len);
-void	parse(char *str, t_ms *ms, t_tokens **tokens);
+void	parse(char *str, t_ms *ms);
 int		set_token_type(char *word_list);
 void	close_fd(int fd);
 int		choose_action(t_ms *ms, t_cmd *cmd);
@@ -261,10 +263,10 @@ int		is_spec_car(char c);
 /*
 **	parser
 */
-int		back_slash(char *str, char **word, int i);
-int		special(char *str, char **word, int i, t_tokens **tokens);
+int		back_slash(t_ms *ms, char *str, char **word, int i);
+int		special(t_ms *ms, char *str, char **word, int i);
 int		quote(char *str, char **word, int i, int q);
-void	new_token(t_tokens **tokens, char **word);
+void	new_token(t_ms *ms, t_tokens **tokens, char **word);
 
 /*
 ** init_env

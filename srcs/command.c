@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/21 14:52:26 by bahaas            #+#    #+#             */
-/*   Updated: 2021/04/20 16:10:11 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/21 14:52:21 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,22 @@ int			token_number_in_cmd(t_tokens **tokens)
 	return (i);
 }
 
+void	token_is_arg_or_cmd(t_cmd **new_cmd, t_tokens **tokens, int i)
+{
+	while ((*tokens))
+	{
+		if ((*tokens)->type_content == CMD_ARGS)
+		{
+			(*new_cmd)->content[i] = ft_strdup((*tokens)->content);
+			(*new_cmd)->type_link = CMD_ARGS;
+			i++;
+			*tokens = (*tokens)->next;
+		}
+		else
+			break ;
+	}
+}
+
 /*
 ** We translate a grp of tokens into a cmd. We find number of tokens until
 ** tokens isn't a CMD/ARGS. Then we create a cmd and fill content with our
@@ -107,6 +123,7 @@ void		tokens_to_cmd(t_ms *ms, t_cmd **cmd, t_tokens **tokens)
 		*tokens = (*tokens)->next;
 		return ;
 	}
+//	token_is_arg_or_cmd(&new_cmd, *tokens, i);
 	while ((*tokens))
 	{
 		if ((*tokens)->type_content == CMD_ARGS)
@@ -162,18 +179,18 @@ int			last_cmd_status(t_ms *ms, t_cmd *cmd)
 
 void		line_to_cmd(t_ms *ms, char *line, t_cmd *cmd)
 {
-	t_tokens *tokens;
+	//t_tokens *tokens;
 	t_tokens *head;
 
-	tokens = NULL;
+	ms->tokens = NULL;
 	cmd = NULL;
-	parse(line, ms, &tokens);
-//	print_tokens(tokens);
-	head = tokens;
+	parse(line, ms);
+	print_tokens(ms->tokens);
+	head = ms->tokens;
 	while (head)
 		tokens_to_cmd(ms, &cmd, &head);
-	free_tokens(tokens);
-//	print_cmd(cmd);
+	free_tokens(ms->tokens);
+	print_cmd(cmd);
 	if (last_cmd_status(ms, cmd))
 		setup_execution(ms, cmd);
 }
