@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/20 16:00:10 by bahaas            #+#    #+#             */
-/*   Updated: 2021/04/21 22:55:09 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/22 13:35:55 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,16 +83,29 @@ void		select_redirection(t_ms *ms, t_cmd *cmd)
 	}
 }
 
-int			select_action(t_ms *ms, t_cmd *cmd)
+int			select_action(t_ms *ms, t_cmd *cmd, int i)
 {
+	
+//	printf("ENTER IN SELECT ACTION \n");
+//	printf("cmd is : %s\n", cmd->content[0]);
+	/*
+	printf("i value in enter : %d\n", i);
+	*/
 	int pipe;
 
 	select_redirection(ms, cmd);
 	select_pipe(&pipe, ms, cmd->prev);
+	//printf("pipe value after select pipe : %d\n", pipe);
 	if (cmd->next && !is_type(cmd->next, END_CMD) && pipe != 1)
-		select_action(ms, cmd->next->next);
+		select_action(ms, cmd->next->next, i - 2);
+	/*
+	printf("cmd going in launch : %s\n", cmd->content[0]);
+	printf("pipe value : %d\n", pipe);
+	printf("ms->flag : %d\n", ms->flag);
+	printf("i value before launc: %d\n", i);	
+	*/
 	if ((is_type(cmd->prev, END_CMD) || is_type(cmd->prev, PIPES) || !cmd->prev)
 			&& pipe != 1)
-		launch_cmd(ms, cmd);
+		launch_cmd(ms, cmd, pipe);
 	return (0);
 }

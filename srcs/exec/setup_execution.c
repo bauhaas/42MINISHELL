@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/13 14:06:30 by bahaas            #+#    #+#             */
-/*   Updated: 2021/04/21 22:42:30 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/22 13:36:36 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,16 +57,26 @@ t_cmd	*next_cmd_to_execute(t_cmd *cmd)
 void	setup_execution(t_ms *ms, t_cmd *cmd)
 {
 	int status;
-
+	t_cmd *tmp;
+	int i = 0;
+	tmp = cmd;
+	while(tmp)
+	{
+		tmp = tmp->next;
+		i++;
+	}
 	while (ms->exit == 1 && cmd)
 	{
 		ms->flag = 0;
 		ms->recursive = 1;
-		select_action(ms, cmd);
+		select_action(ms, cmd, i);
 		reset_fd(ms);
 		waitpid(-1, &status, 0);
 		if (ms->flag == 1)
+		{
+		//	printf("exit our fork\n");
 			exit(0);
+		}
 		cmd = next_cmd_to_execute(cmd);
 	}
 }

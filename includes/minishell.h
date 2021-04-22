@@ -6,7 +6,7 @@
 /*   By: clorin <clorin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 12:28:05 by clorin            #+#    #+#             */
-/*   Updated: 2021/04/21 22:02:06 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/22 11:48:20 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -253,10 +253,10 @@ void					close_fd(int fd);
 int						choose_action(t_ms *ms, t_cmd *cmd);
 void					valid_file(t_cmd *cmd);
 
-void					launch_cmd(t_ms *ms, t_cmd *cmd);
+void					launch_cmd(t_ms *ms, t_cmd *cmd, int pipe);
 void					launch_redirection(t_ms *ms, t_cmd *cmd,
 						int redirection_type);
-int						select_action(t_ms *ms, t_cmd *cmd);
+int						select_action(t_ms *ms, t_cmd *cmd, int i);
 
 /*
 **	expansion
