@@ -52,6 +52,12 @@ static	int			is_spec(char c)
 		|| c == '<' || c == '"' || c == '\'');
 }
 
+static int			init_is_env(t_ms *ms)
+{
+	ms->is_env = 0;
+	return (TRUE);
+}
+
 void				parse(char *str, t_ms *ms)
 {
 	char			**split_word;
@@ -60,9 +66,8 @@ void				parse(char *str, t_ms *ms)
 
 	i = 0;
 	word = NULL;
-	while (str[i])
+	while (str[i] && init_is_env(ms))
 	{
-		ms->is_env = 0;
 		if (!is_spec_car(str[i]))
 			word = ft_add_char(word, str[i++]);
 		else if (is_spec(str[i]))
