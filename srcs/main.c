@@ -27,7 +27,7 @@ int				prompt_loop(t_ms *ms)
 				bloc = parse_bloc(ms->line);
 				while(bloc)
 				{
-					//printf("bloc->%s\n", (char*)bloc->content);
+					ms->echo = FALSE;
 					line_to_cmd(ms, (char*)bloc->content, ms->cmd);
 					bloc = bloc->next;
 				}

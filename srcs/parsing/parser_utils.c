@@ -28,6 +28,8 @@ void		new_token(t_ms *ms, t_tokens **tokens, char **word)
 			new->type_content = 1;
 		if(ms->is_env)
 			new->is_env = 1;
+		if(ft_strcmp(*word, "echo") == 0)
+			ms->echo = TRUE;
 		ft_strdel(word);
 	}
 }

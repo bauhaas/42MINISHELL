@@ -23,7 +23,7 @@ static char			**expansion(char *str, char **word, t_ms *mini, int *i)
 	split_word = NULL;
 	*word = ft_add_str(*word, value(mini, str + *i, i));
 	if (!(!ft_strchr(*word, ' ') || valid_quotes(str, j)
-		|| (j > 0 && str[j - 1] == '=')))
+		|| (j > 0 && str[j - 1] == '=')) && mini->echo == FALSE)
 	{
 		split_word = ft_split(*word, ' ');
 		return (split_word);

@@ -135,6 +135,7 @@ typedef struct			s_ms
 	int					signal;
 	int					pid;
 	int					escaped_tokens;
+	int					echo;
 	int					is_env;
 	t_tokens			*tokens;
 }						t_ms;

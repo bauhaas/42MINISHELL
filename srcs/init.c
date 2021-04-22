@@ -77,6 +77,7 @@ void			init_ms(t_ms *ms, char **env)
 	ms->in = dup(STDIN);
 	ms->out = dup(STDOUT);
 	ms->arr_env = lst_to_arr(ms->env);
+	ms->echo = FALSE;
 	upgrade_shlvl(ms);
 	init_pwd(ms);
 }
