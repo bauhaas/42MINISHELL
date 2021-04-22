@@ -6,7 +6,7 @@
 /*   By: clorin <clorin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 13:13:22 by clorin            #+#    #+#             */
-/*   Updated: 2021/04/21 15:56:18 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/21 22:03:18 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ char				*value(t_ms *mini, char *str, int *i)
 	char			*name;
 	int				len;
 
+	mini->is_env = 1;
 	dest = NULL;
 	name = get_name_var(str);
 	len = ft_strlen(name);

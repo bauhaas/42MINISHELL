@@ -6,30 +6,33 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 14:40:36 by bahaas            #+#    #+#             */
-/*   Updated: 2021/04/21 15:58:08 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/21 22:52:02 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void		empty_cmd_content(t_ms *ms)
+void		empty_cmd_content(t_ms *ms, t_cmd *cmd)
 {
-	printf("\nLa commande  «  » n'a pas été trouvée,");
-	printf(" mais peut être installée avec :\n\n");
-	printf("sudo apt install libpam-mount\n");
-	printf("sudo apt install openssh-server\n");
-	printf("sudo apt install openvswitch-common\n");
-	printf("sudo apt install openvswitch-switch\n");
-	printf("sudo apt install php-common\n");
-	printf("sudo apt install bpfcc-tools\n");
-	printf("sudo apt install burp\n");
-	printf("sudo apt install cryptomount\n");
-	printf("sudo apt install dolphin-emu\n");
-	printf("sudo apt install mailutils-mh\n");
-	printf("sudo apt install mmh\n");
-	printf("sudo apt install nmh\n");
-	printf("\n");
-	ms->last_ret = 127;
+	if(!cmd->is_env)
+	{
+		printf("\nLa commande  «  » n'a pas été trouvée,");
+		printf(" mais peut être installée avec :\n\n");
+		printf("sudo apt install libpam-mount\n");
+		printf("sudo apt install openssh-server\n");
+		printf("sudo apt install openvswitch-common\n");
+		printf("sudo apt install openvswitch-switch\n");
+		printf("sudo apt install php-common\n");
+		printf("sudo apt install bpfcc-tools\n");
+		printf("sudo apt install burp\n");
+		printf("sudo apt install cryptomount\n");
+		printf("sudo apt install dolphin-emu\n");
+		printf("sudo apt install mailutils-mh\n");
+		printf("sudo apt install mmh\n");
+		printf("sudo apt install nmh\n");
+		printf("\n");
+		ms->last_ret = 127;
+	}
 }
 
 void		launch_exec(t_ms *ms, t_cmd *cmd)
@@ -68,11 +71,15 @@ void		launch_cmd(t_ms *ms, t_cmd *cmd)
 	if (cmd && !ft_strcmp(cmd->content[0], "exit") && !has_pipe(cmd))
 		ms->last_ret = ft_exit(ms, cmd);
 	else if (cmd && get_bltn(ms, cmd->content[0]))
+	{
+		printf("execute the cmd : %s\n", cmd->content[0]);
 		ms->last_ret = launch_bltn(ms, cmd);
+	}
 	else
 	{
+		printf("execute the cmd : %s\n", cmd->content[0]);
 		if (cmd && !ft_strcmp(cmd->content[0], "\0"))
-			empty_cmd_content(ms);
+			empty_cmd_content(ms, cmd);
 		else
 			launch_exec(ms, cmd);
 	}

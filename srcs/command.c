@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/21 14:52:26 by bahaas            #+#    #+#             */
-/*   Updated: 2021/04/21 15:47:00 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/21 22:45:38 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,8 @@ void		tokens_to_cmd(t_cmd **cmd, t_tokens **tokens)
 	new_cmd = create_cmd(cmd);
 	i = token_number_in_cmd(tokens);
 	new_cmd->content = malloc(sizeof(char *) * (i + 1));
+	if((*tokens)->is_env)
+		new_cmd->is_env = 1;
 	i = 0;
 	if ((*tokens)->type_content != CMD_ARGS)
 	{
@@ -144,13 +146,15 @@ int			print_cmd_error(t_ms *ms, t_cmd *cmd)
 	if (cmd->type_link == 4 && cmd->next == NULL)
 		printf("minishell: syntax error near unexpected token  « | »\n");
 	else if ((cmd->type_link == 6 || cmd->type_link == 7 || cmd->type_link == 8)
-				&& cmd->next == NULL)
-		printf("minishell: syntax error near unexpected token  « newline »\n");
-	else if (cmd->type_link == 5)
+				&& cmd->prev
+				&& (cmd->prev->type_link == 6 || cmd->prev->type_link == 7 || cmd->prev->type_link == 8))
 	{
 		printf("minishell: syntax error near unexpected token");
 		printf(" « %s »\n", cmd->content[0]);
 	}
+	else if ((cmd->type_link == 6 || cmd->type_link == 7 || cmd->type_link == 8)
+				&& cmd->next == NULL)
+		printf("minishell: syntax error near unexpected token  « newline »\n");
 	ms->last_ret = 2;
 	return (0);
 }
@@ -171,7 +175,7 @@ int			last_cmd_status(t_ms *ms, t_cmd *cmd)
 	{
 		if ((tmp->type_link == 4 || tmp->type_link == 6 || tmp->type_link == 7
 					|| tmp->type_link == 8) && tmp->next == NULL)
-			return (print_cmd_error(ms, cmd));
+			return (print_cmd_error(ms, tmp));
 		tmp = tmp->next;
 	}
 	return (1);

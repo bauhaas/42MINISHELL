@@ -6,7 +6,7 @@
 /*   By: clorin <clorin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/19 14:13:16 by clorin            #+#    #+#             */
-/*   Updated: 2021/04/21 14:58:52 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/21 22:04:44 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ void		new_token(t_ms *ms, t_tokens **tokens, char **word)
 			new->type_content = set_token_type(*word);
 		else
 			new->type_content = 1;
+		if(ms->is_env)
+			new->is_env = 1;
 		ft_strdel(word);
 	}
 }

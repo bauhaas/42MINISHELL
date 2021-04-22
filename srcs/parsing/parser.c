@@ -6,7 +6,7 @@
 /*   By: clorin <clorin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/17 16:05:15 by clorin            #+#    #+#             */
-/*   Updated: 2021/04/21 14:57:23 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/21 22:24:52 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ void				parse(char *str, t_ms *ms)
 	word = NULL;
 	while (str[i])
 	{
+		ms->is_env = 0;
 		if (!is_spec_car(str[i]))
 			word = ft_add_char(word, str[i++]);
 		else if (is_spec(str[i]))

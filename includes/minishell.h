@@ -6,7 +6,7 @@
 /*   By: clorin <clorin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 12:28:05 by clorin            #+#    #+#             */
-/*   Updated: 2021/04/21 15:50:15 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/21 22:02:06 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ typedef struct			s_tokens
 {
 	char				*content;
 	int					type_content;
+	int					is_env;
 	struct s_tokens		*prev;
 	struct s_tokens		*next;
 }						t_tokens;
@@ -103,6 +104,7 @@ typedef struct			s_cmd
 	char				**content;
 	int					ret_value;
 	int					type_link;
+	int					is_env;
 	struct s_cmd		*prev;
 	struct s_cmd		*next;
 }						t_cmd;
@@ -133,6 +135,7 @@ typedef struct			s_ms
 	int					signal;
 	int					pid;
 	int					escaped_tokens;
+	int					is_env;
 	t_tokens			*tokens;
 }						t_ms;
 

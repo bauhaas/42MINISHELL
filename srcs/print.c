@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/01 01:25:44 by bahaas            #+#    #+#             */
-/*   Updated: 2021/04/21 15:56:46 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/21 22:16:58 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	print_tokens(t_tokens *tokens)
 	printf("\nTOKENS\n");
 	while (tmp)
 	{
-		printf("|%s| |type_content : %d|\n", tmp->content, tmp->type_content);
+		printf("|%s| |type_content : %d| |is_env : %d|\n", tmp->content, tmp->type_content, tmp->is_env);
 		tmp = tmp->next;
 	}
 }
@@ -60,6 +60,7 @@ void	print_cmd(t_cmd *cmd)
 			i++;
 		}
 		printf("cmd(%d)->type_link : %s(%d)\n", cmd_id, type_link, tmp->type_link);
+		printf("cmd(%d)->is_env : %d\n", cmd_id, tmp->is_env);
 		printf("\n");
 		cmd_id++;
 		tmp = tmp->next;
