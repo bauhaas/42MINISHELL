@@ -47,10 +47,10 @@ void		print_env(t_var *env, int mod)
 
 int			ft_env(t_ms *ms, t_cmd *cmd)
 {
-	(void)ms;
-	(void)cmd;
 	t_list	*tmp;
 
+	(void)ms;
+	(void)cmd;
 	tmp = ms->env;
 	if (!cmd->content[1])
 	{
