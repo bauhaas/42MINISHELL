@@ -58,11 +58,14 @@ int			ft_cd(t_ms *ms, t_cmd *cmd)
 	}
 	if (!cmd->content[1] || ft_strcmp(cmd->content[1], "~") == 0)
 	{
-		if (!ft_getenv(&ms->env, "HOME", 1))
+		if (!ft_getenv(&ms->env, "HOME", 0))
 		{
 			ft_putstr_fd("minishell: cd: HOME not set\n", 2);
 			return (1);
 		}
+		if (ft_getenv(&ms->env, "HOME", 1) &&
+			ft_strcmp(ft_getenv(&ms->env, "HOME", 1), "\0") == 0)
+			return (0);
 		return (set_cd(ft_getenv(&ms->env, "HOME", 1), ms));
 	}
 	if (ft_strcmp(cmd->content[1], "-") == 0)
