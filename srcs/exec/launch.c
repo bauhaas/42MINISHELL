@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 14:40:36 by bahaas            #+#    #+#             */
-/*   Updated: 2021/04/22 13:37:03 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/23 04:04:12 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void		empty_cmd_content(t_ms *ms, t_cmd *cmd)
 {
-	if(!cmd->is_env)
+	if (!cmd->is_env)
 	{
 		printf("\nLa commande  «  » n'a pas été trouvée,");
 		printf(" mais peut être installée avec :\n\n");
@@ -66,56 +66,21 @@ void		launch_exec(t_ms *ms, t_cmd *cmd)
 
 void		launch_cmd(t_ms *ms, t_cmd *cmd, int pipe)
 {
-	/*
-	printf("ENTER IN LAUNCH CMD\n");
-	printf("cmd in launch cmd : %s\n", cmd->content[0]);
-	printf("ms->recursive : %d\n", ms->recursive);
-	printf("pipe : %d\n", pipe);
-	*/
 	(void)pipe;
-	if (ms->recursive == 0 && !ft_strcmp(cmd->content[0], "cat") && pipe == 0)
-	{
+	if (ms->recursive == 0 && ft_strcmp(cmd->content[0], "cat") && pipe == 0)
+		return ;
+	if (ms->recursive == 0 && !ft_strcmp(cmd->content[0], "sleep")
+			&& (pipe == 0 || pipe == 2))
+		return ;
+	if (ms->recursive == 0 && !ft_strcmp(cmd->content[0], "cat")
+			&& pipe == 0 && cmd->prev)
 		exit(0);
-		return ;
-	}
-	//if (ms->recursive == 0 && ft_strcmp(cmd->content[0], "\0")) //3x sleep required
-	if (ms->recursive == 0 && ft_strcmp(cmd->content[0], "cat") && pipe == 0) //cat cat cat ls
-	{
-	//	printf("cat cat cat ls\n");
-	//	printf("do not exec but the fork isnt killed yet\n");
-		return ;
-	}
-	if (ms->recursive == 0 && !ft_strcmp(cmd->content[0], "sleep") && (pipe == 0 || pipe == 2)) //cat cat cat ls
-	{
-	//	printf("sleep\n");
-	//	printf("do not exec but the fork isnt killed yet\n");
-		return ;
-	}
-	/*
-	if (ms->recursive == 0 && ft_strcmp(cmd->content[0], "\0")) //3x sleep required
-	{
-		printf("sleep\n");
-		printf("do not exec but the fork isnt killed yet\n");
-		return ;
-	}
-	*/
-	/*
-	if (ms->recursive == 0 && ft_strcmp(cmd->content[0], "\0"))
-	{
-		printf("do not exec but the fork isnt killed yet\n");
-		return ;
-	}
-	*/
 	if (cmd && !ft_strcmp(cmd->content[0], "exit") && !has_pipe(cmd))
 		ms->last_ret = ft_exit(ms, cmd);
 	else if (cmd && get_bltn(ms, cmd->content[0]))
-	{
-	//	printf("execute the builtin : %s\n", cmd->content[0]);
 		ms->last_ret = launch_bltn(ms, cmd);
-	}
 	else
 	{
-	//	printf("execute the cmd : %s\n", cmd->content[0]);
 		if (cmd && !ft_strcmp(cmd->content[0], "\0"))
 			empty_cmd_content(ms, cmd);
 		else
