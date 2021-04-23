@@ -57,13 +57,13 @@ int		ft_unset(t_ms *ms, t_cmd *cmd)
 			delete_one(&ms->env, env_name);
 			status |= 0;
 		}
-		else
+		else if (cmd->content[i][0] == '\0')
 		{
-			ft_putstr_fd("unset :", 2);
-			ft_putstr_fd(cmd->content[i], 2);
-			ft_putstr_fd(": invalid parameter name\n", 2);
+			ft_putstr_fd("Minishell: unset: `': not a valid identifier\n", 2);
 			status |= 1;
 		}
+		else
+			status |= 0;
 	}
 	return (status);
 }
