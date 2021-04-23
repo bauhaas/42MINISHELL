@@ -103,7 +103,7 @@ int			ft_export(t_ms *ms, t_cmd *cmd)
 	copy = NULL;
 	i = 1;
 	status = 0;
-	if (!cmd->content[i])
+	if (!cmd->content[i] || cmd->content[i][0] == '\0')
 	{
 		list_sort(&copy, tmp);
 		while (copy)
