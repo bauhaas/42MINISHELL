@@ -57,7 +57,8 @@ int		ft_unset(t_ms *ms, t_cmd *cmd)
 			delete_one(&ms->env, env_name);
 			status |= 0;
 		}
-		else if (cmd->content[i][0] == '\0' || cmd->content[i][0] == '=')
+		else if (cmd->content[i][0] == '\0' || cmd->content[i][0] == '=' ||
+			!valid_name(cmd->content[i]))
 		{
 			ft_putstr_fd("Minishell: unset: `", 2);
 			ft_putstr_fd(cmd->content[i], 2);
