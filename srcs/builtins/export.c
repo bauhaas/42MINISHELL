@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/20 20:09:25 by bahaas            #+#    #+#             */
-/*   Updated: 2021/04/12 17:20:52 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/23 03:49:03 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static int	has_not_egal(char *arg, t_ms *ms)
 
 	if (!valid_name(arg))
 	{
-		ft_putstr_fd("Minishell: export: `", STDERR);
+		ft_putstr_fd("Minishell: export: '", STDERR);
 		ft_putstr_fd(arg, STDERR);
 		ft_putstr_fd("': not a valid identifier\n", STDERR);
 		return (1);

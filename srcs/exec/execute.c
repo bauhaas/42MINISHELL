@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/20 16:00:10 by bahaas            #+#    #+#             */
-/*   Updated: 2021/04/21 22:55:09 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/23 05:01:05 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ int			select_action(t_ms *ms, t_cmd *cmd)
 	if (cmd->next && !is_type(cmd->next, END_CMD) && pipe != 1)
 		select_action(ms, cmd->next->next);
 	if ((is_type(cmd->prev, END_CMD) || is_type(cmd->prev, PIPES) || !cmd->prev)
-			&& pipe != 1)
-		launch_cmd(ms, cmd);
+			&& pipe != 1 && ms->last_ret == 0)
+		launch_cmd(ms, cmd, pipe);
 	return (0);
 }
