@@ -90,6 +90,7 @@ void			ft_putchar(char c);
 void			ft_putstr(char *str);
 int				ft_putnchar(const char c, const int n);
 int				ft_isspace(int ch);
+int				ft_is_empty(char *str);
 void			ft_memdel(void **ap);
 void			*ft_memdup(const void *src, size_t size);
 void			ft_putnbr(int n);
