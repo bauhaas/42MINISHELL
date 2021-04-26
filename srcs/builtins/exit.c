@@ -67,7 +67,7 @@ static int		valid_exit(t_cmd *cmd, int last_ret)
 	return (ret);
 }
 
-/*
+
 static void		free_exit(t_ms *ms, t_cmd *cmd)
 {
 	int			i;
@@ -89,7 +89,7 @@ static void		free_exit(t_ms *ms, t_cmd *cmd)
 	free_history(&ms->cur_histo);
 	ft_lstclear(&ms->env, &free_env);
 	free_arrstr(ms->arr_env);
-}*/
+}
 
 int				ft_exit(t_ms *ms, t_cmd *cmd)
 {
@@ -108,6 +108,7 @@ int				ft_exit(t_ms *ms, t_cmd *cmd)
 		return (1);
 	}
 	status = valid_exit(cmd, ms->last_ret);
+	free_exit(ms, cmd);
 	exit(status);
 	return (0);
 }
