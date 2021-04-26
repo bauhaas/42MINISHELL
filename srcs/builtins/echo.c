@@ -53,7 +53,7 @@ int		ft_echo(t_ms *ms, t_cmd *cmd)
 	}
 	while (cmd->content[i])
 	{
-		if (cmd->content[i][0] == '\0')
+		if (cmd->content[i][0] == '\0' && !cmd->is_env )
 			write(1, " ", 1);
 		ft_putstr_fd(cmd->content[i], 1);
 		if (cmd->content[i][0] != 0 && cmd->content[i + 1])

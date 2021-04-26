@@ -108,8 +108,7 @@ void		tokens_to_cmd(t_cmd **cmd, t_tokens **tokens)
 	new_cmd = create_cmd(cmd);
 	i = token_number_in_cmd(tokens);
 	new_cmd->content = malloc(sizeof(char *) * (i + 1));
-	if((*tokens)->is_env)
-		new_cmd->is_env = 1;
+	
 	i = 0;
 	if ((*tokens)->type_content != CMD_ARGS)
 	{
@@ -130,6 +129,8 @@ void		tokens_to_cmd(t_cmd **cmd, t_tokens **tokens)
 	{
 		if ((*tokens)->type_content == CMD_ARGS)
 		{
+			if ((*tokens)->is_env)
+				new_cmd->is_env = 1;
 			new_cmd->content[i] = ft_strdup((*tokens)->content);
 			new_cmd->type_link = CMD_ARGS;
 			i++;

@@ -28,6 +28,13 @@ static char			**expansion(char *str, char **word, t_ms *mini, int *i)
 		split_word = ft_split(*word, ' ');
 		return (split_word);
 	}
+	else if (*word[0] == '\0')
+	{
+		split_word = (char **)malloc(sizeof(char *) * 2);
+		split_word[0] = ft_strnew(1);
+		split_word[1] = NULL;
+		return (split_word);
+	}
 	return (NULL);
 }
 

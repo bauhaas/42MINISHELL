@@ -12,6 +12,13 @@
 
 #include "../includes/minishell.h"
 
+int			escaped(char *str, int pos)
+{
+	if (pos > 0 && str[pos - 1] == '\\')
+		return (TRUE);
+	return (FALSE);
+}
+
 void		new_token(t_ms *ms, t_tokens **tokens, char **word)
 {
 	t_tokens		*new;

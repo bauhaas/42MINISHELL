@@ -12,11 +12,22 @@
 
 #include "../includes/minishell.h"
 
-int				prompt_loop(t_ms *ms)
+static void			free_list(void *list)
 {
-	t_list *bloc;
+	 t_list			*e;
+
+	e = (t_list*)list;
+	free(e->content);
+	free(e);
+}
+
+int					prompt_loop(t_ms *ms)
+{
+	t_list			*bloc;
+	t_list			*head_bloc;
 
 	bloc = NULL;
+	head_bloc = bloc;
 	while (1)
 	{
 		ms->exit = get_line(ms);
@@ -31,7 +42,7 @@ int				prompt_loop(t_ms *ms)
 					line_to_cmd(ms, (char*)bloc->content, ms->cmd);
 					bloc = bloc->next;
 				}
-				
+				ft_lstclear(&head_bloc, &free_list);
 			}
 			else
 			{
@@ -45,12 +56,11 @@ int				prompt_loop(t_ms *ms)
 	return (0);
 }
 
-int				main(int argc, char **argv, char **envp)
+int					main(int argc, char **argv, char **envp)
 {
-	t_ms	ms;
+	t_ms			ms;
 	(void)argc;
 	(void)argv;
-	(void)envp;
 
 	ft_bzero(&ms, sizeof(t_ms));
 	init_ms(&ms, envp);
