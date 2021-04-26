@@ -86,6 +86,7 @@ int				get_line(t_ms *mini)
 {
 	t_termcaps	tc;
 	int			status;
+	char		*new_line;
 
 	ft_bzero(&tc, sizeof(t_termcaps));
 	init_termcaps(&tc);
@@ -99,7 +100,11 @@ int				get_line(t_ms *mini)
 		write(1, "\n", 1);
 	ft_strdel(&mini->line);
 	if (tc.line)
-		mini->line = ft_strdup(tc.line);
+	{
+		new_line = ft_strtrim(tc.line," \t\n\v\f\r");
+		mini->line = ft_strdup(new_line);
+		ft_strdel(&new_line);
+	}
 	free_termcaps(&tc);
 	return (status);
 }
