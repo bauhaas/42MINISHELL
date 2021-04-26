@@ -55,7 +55,10 @@ int		ft_echo(t_ms *ms, t_cmd *cmd)
 	{
 		if (cmd->content[i][0] == '\0' && !cmd->is_env )
 			write(1, " ", 1);
-		ft_putstr_fd(cmd->content[i], 1);
+		if (ft_strcmp(cmd->content[i], "~") == 0)
+			ft_putstr_fd(ft_getenv(&ms->env, "HOME", 1), STDOUT);
+		else
+			ft_putstr_fd(cmd->content[i], STDOUT);
 		if (cmd->content[i][0] != 0 && cmd->content[i + 1])
 			write(1, " ", 1);
 		i++;
