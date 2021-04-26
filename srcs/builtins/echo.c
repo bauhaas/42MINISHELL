@@ -12,50 +12,50 @@
 
 #include "../includes/minishell.h"
 
-int		ft_echo(t_ms *ms, t_cmd *cmd)
+static int		new_line(t_cmd *cmd, int *i)
 {
-	(void)cmd;
-	(void)ms;
-	int	no_newline;
-	int def_newline;
-	int	i;
-	int	j;
+	int			j;
+	int			def_newline;
+	int			no_newline;
 
-	no_newline = 0;
-	def_newline = 0;
 	j = 0;
-	i = 1;
-	while (cmd->content[i] && cmd->content[i][j] == '-')
+	def_newline = 0;
+	no_newline = 0;
+	while (cmd->content[*i] && cmd->content[*i][j++] == '-')
 	{
-		if (!ft_strcmp(cmd->content[i], "-"))
-		{
-			def_newline = 0;
-			break ;
-		}
-		j++;
-		while (cmd->content[i][j] == 'n')
-		{
+		if (!ft_strcmp(cmd->content[*i], "-"))
+			return (0);
+		while (cmd->content[*i][j] == 'n' && (no_newline = 1))
 			j++;
-			no_newline = 1;
-		}
-		if (cmd->content[i][j] && cmd->content[i][j] != 'n')
+		if (cmd->content[*i][j] && cmd->content[*i][j] != 'n')
+			return (def_newline);
+		if (!cmd->content[*i][j])
 		{
-			no_newline = 0;
-			break ;
-		}
-		if (!cmd->content[i][j])
-		{
-			i++;
+			(*i)++;
 			j = 0;
 			if (no_newline)
 				def_newline = 1;
 		}
 	}
+	return (def_newline);
+}
+
+int				ft_echo(t_ms *ms, t_cmd *cmd)
+{
+	int			def_newline;
+	int			i;
+
+	def_newline = 0;
+	i = 1;
+	def_newline = new_line(cmd, &i);
 	while (cmd->content[i])
 	{
-		if (cmd->content[i][0] == '\0' && !cmd->is_env )
+		if (cmd->content[i][0] == '\0' && !cmd->is_env)
 			write(1, " ", 1);
-		ft_putstr_fd(cmd->content[i], 1);
+		if (ft_strcmp(cmd->content[i], "~") == 0)
+			ft_putstr_fd(ft_getenv(&ms->env, "HOME", 1), STDOUT);
+		else
+			ft_putstr_fd(cmd->content[i], STDOUT);
 		if (cmd->content[i][0] != 0 && cmd->content[i + 1])
 			write(1, " ", 1);
 		i++;
