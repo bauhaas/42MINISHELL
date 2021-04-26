@@ -26,12 +26,14 @@ void		new_token(t_ms *ms, t_tokens **tokens, char **word)
 			new->type_content = set_token_type(*word);
 		else
 			new->type_content = 1;
+		ms->escaped_tokens = 0;
 		if(ms->is_env)
 			new->is_env = 1;
 		if(ft_strcmp(*word, "echo") == 0)
 			ms->echo = TRUE;
 		ft_strdel(word);
 	}
+
 }
 
 int			back_slash(t_ms *ms, char *str, char **word, int i)

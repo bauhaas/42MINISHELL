@@ -33,7 +33,6 @@ static char			**expansion(char *str, char **word, t_ms *mini, int *i)
 
 static int			parse2(t_ms *ms, char *str, int i, char **word)
 {
-	ms->escaped_tokens = 0;
 	if (str[i] == '\\')
 		i = back_slash(ms, str, word, i);
 	else if (str[i] == ' ' || str[i] == '\t' || str[i] == '>' ||
