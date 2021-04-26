@@ -12,7 +12,7 @@
 
 #include "../includes/minishell.h"
 
-void	delete_one(t_list **head_ref, char *name)
+void		delete_one(t_list **head_ref, char *name)
 {
 	t_list	*tmp;
 	t_list	*prev;
@@ -41,7 +41,14 @@ void	delete_one(t_list **head_ref, char *name)
 	}
 }
 
-int		ft_unset(t_ms *ms, t_cmd *cmd)
+static void	unset_error(char *bad_identier)
+{
+	ft_putstr_fd("Minishell: unset: `", 2);
+	ft_putstr_fd(bad_identier, 2);
+	ft_putstr_fd("': not a valid identifier\n", 2);
+}
+
+int			ft_unset(t_ms *ms, t_cmd *cmd)
 {
 	char	*env_name;
 	int		i;
@@ -60,9 +67,7 @@ int		ft_unset(t_ms *ms, t_cmd *cmd)
 		else if (cmd->content[i][0] == '\0' || cmd->content[i][0] == '=' ||
 			!valid_name(cmd->content[i]))
 		{
-			ft_putstr_fd("Minishell: unset: `", 2);
-			ft_putstr_fd(cmd->content[i], 2);
-			ft_putstr_fd("': not a valid identifier\n", 2);
+			unset_error(cmd->content[i]);
 			status |= 1;
 		}
 		else

@@ -67,7 +67,6 @@ static int		valid_exit(t_cmd *cmd, int last_ret)
 	return (ret);
 }
 
-
 static void		free_exit(t_ms *ms, t_cmd *cmd)
 {
 	int			i;
@@ -94,7 +93,6 @@ static void		free_exit(t_ms *ms, t_cmd *cmd)
 int				ft_exit(t_ms *ms, t_cmd *cmd)
 {
 	int			status;
-	(void)cmd;
 
 	if (cmd->prev && !ft_strcmp(cmd->prev->content[0], "|"))
 		;
