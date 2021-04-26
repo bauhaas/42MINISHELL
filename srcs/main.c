@@ -21,6 +21,31 @@ static void			free_list(void *list)
 	free(e);
 }
 
+static int			valid_bloc(t_list **list_bloc)
+{
+	t_list			*bloc;
+	char			*trim_bloc;
+
+	bloc = *list_bloc;
+	while (bloc)
+	{
+		trim_bloc = ft_strtrim((char*)bloc->content," \t\n\v\f\r");
+		if (ft_is_empty(trim_bloc))
+		{
+			ft_putstr_fd("Minishell: syntax error near unexpected token `;'\n", 2);
+			return (FALSE);
+		}
+		else if (trim_bloc[0] == '|')
+		{
+			ft_putstr_fd("Minishell: syntax error near unexpected token `|'\n", 2);
+			return (FALSE);
+		}
+		ft_strdel(&trim_bloc);
+		bloc = bloc->next;
+	}
+	return (TRUE);
+}
+
 int					prompt_loop(t_ms *ms)
 {
 	t_list			*bloc;
@@ -36,17 +61,23 @@ int					prompt_loop(t_ms *ms)
 			if (!valid_quotes(ms->line, ft_strlen(ms->line)))
 			{
 				bloc = parse_bloc(ms->line);
-				while(bloc)
+				if (valid_bloc(&bloc))
 				{
-					ms->echo = FALSE;
-					line_to_cmd(ms, (char*)bloc->content, ms->cmd);
-					bloc = bloc->next;
+					while(bloc)
+					{
+						ms->echo = FALSE;
+						if (bloc->content && ((char*)bloc->content)[0] != 0)
+							line_to_cmd(ms, (char*)bloc->content, ms->cmd);
+						bloc = bloc->next;
+					}
+					ft_lstclear(&head_bloc, &free_list);
 				}
-				ft_lstclear(&head_bloc, &free_list);
+				else
+					ms->last_ret = 2;
 			}
 			else
 			{
-				ft_putstr_fd("minishell: syntax error with open quotes\n", 2);
+				ft_putstr_fd("Minishell: syntax error with open quotes\n", 2);
 				ms->last_ret = 2;
 			}
 			ft_strdel(&ms->line);
