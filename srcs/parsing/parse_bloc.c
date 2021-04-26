@@ -1,12 +1,5 @@
 #include "../includes/minishell.h"
 
-static int			escaped(char *str, int pos)
-{
-	if (pos > 0 && str[pos - 1] == '\\')
-		return (TRUE);
-	return (FALSE);
-}
-
 t_list				*parse_bloc(char *str)
 {
 	t_list			*block;
