@@ -11,41 +11,74 @@
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+#include <errno.h>
 
-/*
-** Swap the content of 2 list element
-*/
-
-void		ft_lstswap(t_list *prev, t_list *next)
+static int	error_no_file(char *str)
 {
-	t_var	*tmp;
+	ft_putstr_fd("cd: ", 2);
+	ft_putstr_fd(str, 2);
+	ft_putstr_fd(": No such file or directory\n", 2);
+	return (1);
+}
 
-	tmp = (t_var *)prev->content;
-	prev->content = next->content;
-	next->content = tmp;
+static void	error_getcwd(t_ms *ms, char *new_loc)
+{
+	char	*tmp;
+
+	ft_putstr_fd("Minishell: cd: error determining the current directory:", 2);
+	ft_putstr_fd(" getcwd: cannot access parent directories: ", 2);
+	ft_putstr_fd("No file or folder of this type\n", 2);
+	ft_strdel(&ms->old_pwd);
+	ms->old_pwd = ft_strdup(ms->pwd);
+	tmp = ft_strnew(ft_strlen(ms->pwd) + ft_strlen(new_loc) + 1);
+	if (tmp)
+	{
+		ft_strcpy(tmp, ms->pwd);
+		ft_strcat(tmp, "/");
+		ft_strcat(tmp, new_loc);
+		ft_strdel(&ms->pwd);
+		ms->pwd = ft_strdup(tmp);
+		ft_strdel(&tmp);
+	}
+}
+
+static void	update_var(t_ms *ms)
+{
+	t_var	*new;
+
+	new = ft_get_t_var(&ms->env, "PWD");
+	if (new)
+	{
+		ft_strdel(&new->value);
+		new->value = ft_strdup(ms->pwd);
+	}
+	new = ft_get_t_var(&ms->env, "OLDPWD");
+	if (new)
+	{
+		ft_strdel(&new->value);
+		new->value = ft_strdup(ms->old_pwd);
+	}
 }
 
 static int	set_cd(char *new_loc, t_ms *ms)
 {
 	char	*tmp;
 
+	if (chdir(new_loc) == -1)
+		return (error_no_file(new_loc));
 	tmp = ft_strnew(2048);
 	tmp = getcwd(tmp, sizeof(char) * 2048);
-	if (chdir(new_loc) == -1)
+	if (tmp)
 	{
-		ft_putstr_fd("cd: ", 2);
-		ft_putstr_fd(new_loc, 2);
-		ft_putstr_fd(": No such file or directory\n", 2);
+		ft_strdel(&ms->old_pwd);
+		ms->old_pwd = ft_strdup(ms->pwd);
+		ft_strdel(&ms->pwd);
+		ms->pwd = ft_strdup(tmp);
 		ft_strdel(&tmp);
-		return (1);
 	}
-	ft_strdel(&ms->old_pwd);
-	ms->old_pwd = ft_strdup(tmp);
-	ft_strdel(&ms->pwd);
-	ft_strclr(tmp);
-	tmp = getcwd(tmp, sizeof(char) * 2048);
-	ms->pwd = ft_strdup(tmp);
-	ft_strdel(&tmp);
+	else
+		error_getcwd(ms, new_loc);
+	update_var(ms);
 	return (0);
 }
 

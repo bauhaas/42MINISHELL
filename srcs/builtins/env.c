@@ -22,6 +22,19 @@ void		free_env(void *env)
 	free(e);
 }
 
+/*
+** Swap the content of 2 list element
+*/
+
+void		ft_lstswap(t_list *prev, t_list *next)
+{
+	t_var	*tmp;
+
+	tmp = (t_var *)prev->content;
+	prev->content = next->content;
+	next->content = tmp;
+}
+
 void		print_env(t_var *env, int mod)
 {
 	if (mod == ENV)
