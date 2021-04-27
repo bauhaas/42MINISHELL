@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 14:40:36 by bahaas            #+#    #+#             */
-/*   Updated: 2021/04/27 16:19:47 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/27 16:35:23 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,6 @@ void		launch_exec(t_ms *ms, t_cmd *cmd)
 
 void		launch_cmd(t_ms *ms, t_cmd *cmd, int pipe)
 {
-	(void)pipe;
 	if (ms->recursive == 0 && ft_strcmp(cmd->content[0], "cat") && pipe == 0)
 		return ;
 	if (ms->recursive == 0 && !ft_strcmp(cmd->content[0], "sleep")
@@ -83,8 +82,15 @@ void		launch_cmd(t_ms *ms, t_cmd *cmd, int pipe)
 	if (ms->recursive == 0 && !ft_strcmp(cmd->content[0], "cat")
 			&& pipe == 0 && cmd->prev)
 		exit(0);
-	//if(ms->recursive == 0)
-	//	return ;
+	if(ms->recursive == 0)
+	{
+		if(!ft_strcmp(cmd->content[0], "cat")&& cmd->content[1])
+			return ;
+		else if(!ft_strcmp(cmd->content[0], "cat") && !cmd->content[1])
+			;
+		else
+			return ;
+	}
 	if (cmd && !ft_strcmp(cmd->content[0], "exit") && !has_pipe(cmd))
 		ms->last_ret = ft_exit(ms, cmd);
 	else if (cmd && get_bltn(ms, cmd->content[0]))
