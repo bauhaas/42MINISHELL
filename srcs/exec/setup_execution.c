@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/13 14:06:30 by bahaas            #+#    #+#             */
-/*   Updated: 2021/04/23 03:19:37 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/27 15:56:23 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,37 @@ t_cmd	*next_cmd_to_execute(t_cmd *cmd)
 void	setup_execution(t_ms *ms, t_cmd *cmd)
 {
 	int status;
+	int has_redir_first = 0;
 
-	while (ms->exit == 1 && cmd)
+	ms->no_exec = 0;
+	ms->ret = 0;
+	while(cmd && is_redir(cmd))
 	{
+	//	printf("cmd in redir loop : %s\n", cmd->content[0]);
+		if (is_type(cmd, DRIGHT))
+			redir(ms, cmd->next, DRIGHT);
+		else if (is_type(cmd, RIGHT))
+			redir(ms, cmd->next, RIGHT);
+		else if (is_type(cmd, LEFT))
+			input(ms, cmd->next);
+		if(cmd)
+		cmd = cmd->next->next;
+		has_redir_first = 1;
+		
+		if(ms->ret)
+		{
+			ms->last_ret = 1;
+			break;
+		}
+	}
+	if(has_redir_first && is_type(cmd, PIPES) && cmd->next)
+		cmd = cmd->next;
+	if(ms->ret)
+		reset_fd(ms);
+	ms->no_exec = 0;
+	while (ms->exit == 1 && cmd && !ms->ret)
+	{
+	//	printf("go in loop to exec with cmd : %s\n", cmd->content[0]);
 		ms->flag = 0;
 		ms->recursive = 1;
 		select_action(ms, cmd);
@@ -67,6 +95,9 @@ void	setup_execution(t_ms *ms, t_cmd *cmd)
 		waitpid(-1, &status, 0);
 		if (ms->flag == 1)
 			exit(0);
+		ms->no_exec = 0;
 		cmd = next_cmd_to_execute(cmd);
 	}
+	reset_fd(ms);
 }
+

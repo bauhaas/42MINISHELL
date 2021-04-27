@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 14:40:36 by bahaas            #+#    #+#             */
-/*   Updated: 2021/04/23 04:04:12 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/27 16:19:47 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,10 @@ void		empty_cmd_content(t_ms *ms, t_cmd *cmd)
 
 void		launch_exec(t_ms *ms, t_cmd *cmd)
 {
+	/*
+	printf("ENTER IN EXEC\n");
+	printf("with cmd : %s\n", cmd->content[0]);
+	*/
 	int pid;
 	int child_pid;
 	int status;
@@ -61,7 +65,11 @@ void		launch_exec(t_ms *ms, t_cmd *cmd)
 		}
 	}
 	else
+	{
+		if(!ft_strcmp(cmd->content[0], ".."))
+			cmd->ret_value = 4;
 		error_file(ms, cmd);
+	}
 }
 
 void		launch_cmd(t_ms *ms, t_cmd *cmd, int pipe)
@@ -75,6 +83,8 @@ void		launch_cmd(t_ms *ms, t_cmd *cmd, int pipe)
 	if (ms->recursive == 0 && !ft_strcmp(cmd->content[0], "cat")
 			&& pipe == 0 && cmd->prev)
 		exit(0);
+	//if(ms->recursive == 0)
+	//	return ;
 	if (cmd && !ft_strcmp(cmd->content[0], "exit") && !has_pipe(cmd))
 		ms->last_ret = ft_exit(ms, cmd);
 	else if (cmd && get_bltn(ms, cmd->content[0]))
@@ -84,7 +94,10 @@ void		launch_cmd(t_ms *ms, t_cmd *cmd, int pipe)
 		if (cmd && !ft_strcmp(cmd->content[0], "\0"))
 			empty_cmd_content(ms, cmd);
 		else
+		{
+		//	printf("GO IN LAUNCH EXEC\n");
 			launch_exec(ms, cmd);
+		}
 	}
 	close_fd(ms->pipin);
 	close_fd(ms->pipout);
@@ -96,7 +109,11 @@ void		launch_cmd(t_ms *ms, t_cmd *cmd, int pipe)
 void		launch_redirection(t_ms *ms, t_cmd *cmd, int redirection_type)
 {
 	char *file;
-
+/*
+	printf("LAUNCH REDIRECTION\n");
+	printf("with cmd : %s\n", cmd->content[0]);
+	printf("with redirection_type : %d\n", redirection_type);
+*/
 	file = cmd->content[0];
 	if (redirection_type == RIGHT || redirection_type == DRIGHT)
 	{

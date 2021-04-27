@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 15:30:38 by bahaas            #+#    #+#             */
-/*   Updated: 2021/04/20 15:00:28 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/26 15:13:37 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 **	if directory => 3
 */
 
-void				valid_file(t_cmd *cmd)
+void				valid_file(t_cmd *cmd, int i)
 {
 	struct stat		buffer;
 	int				exist;
@@ -27,7 +27,7 @@ void				valid_file(t_cmd *cmd)
 	exist = (stat(cmd->content[0], &buffer));
 	if (exist != 0)
 		cmd->ret_value = 1;
-	else if ((buffer.st_mode & S_IXUSR) == 0)
+	else if (i == 0 && (buffer.st_mode & S_IXUSR) == 0)
 		cmd->ret_value = 2;
 	else if (S_ISDIR(buffer.st_mode) != 0)
 		cmd->ret_value = 3;
@@ -119,5 +119,5 @@ void				search_prog(t_ms *ms, t_cmd *cmd)
 	if (cmd->content[0][0] != '.' && cmd->content[0][0] != '/')
 		find_absolute_path(ms, cmd, 0);
 	else
-		valid_file(cmd);
+		valid_file(cmd, 0);
 }

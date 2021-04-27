@@ -6,7 +6,7 @@
 #    By: clorin <clorin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/03/17 12:01:33 by clorin            #+#    #+#              #
-#    Updated: 2021/04/27 09:21:15 by clorin           ###   ########.fr        #
+#    Updated: 2021/04/27 15:06:51 by bahaas           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,12 +22,12 @@ SRC		= srcs/main.c srcs/init.c srcs/command.c srcs/init_env.c\
 		srcs/parsing/expansion.c  srcs/parsing/tokens.c srcs/parsing/utils.c srcs/parsing/parser.c \
 		srcs/parsing/parser_utils.c srcs/parsing/parse_bloc.c\
 		srcs/print.c \
-		srcs/exec/file.c srcs/exec/setup_execution.c srcs/exec/execute.c srcs/exec/signal.c srcs/exec/launch.c
+		srcs/exec/file.c srcs/exec/setup_execution.c srcs/exec/execute.c srcs/exec/signal.c srcs/exec/launch.c srcs/exec/redirection.c
 
 CC		= clang
 
-FLAGS		= -Wall -Werror -Wextra -g -D VERSION=$(VERSION)
-#FLAGS		= -g -D VERSION=$(VERSION)
+#FLAGS		= -Wall -Werror -Wextra -g -D VERSION=$(VERSION)
+FLAGS		= -g -D VERSION=$(VERSION)
 
 HEADER		= -I includes/
 

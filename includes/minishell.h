@@ -6,7 +6,7 @@
 /*   By: clorin <clorin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 12:28:05 by clorin            #+#    #+#             */
-/*   Updated: 2021/04/23 03:19:12 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/27 15:42:04 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,7 @@ typedef struct			s_cmd
 	int					is_env;
 	struct s_cmd		*prev;
 	struct s_cmd		*next;
+	int					is_last;
 }						t_cmd;
 
 typedef struct			s_ms
@@ -138,6 +139,12 @@ typedef struct			s_ms
 	int					echo;
 	int					is_env;
 	t_tokens			*tokens;
+	int					lol;
+	int					parent;
+	int					no_exec;
+	int					last;
+	int					ret;
+	int					charge;
 }						t_ms;
 
 t_ms					*g_ms;
@@ -252,12 +259,12 @@ void					parse(char *str, t_ms *ms);
 int						set_token_type(char *word_list);
 void					close_fd(int fd);
 int						choose_action(t_ms *ms, t_cmd *cmd);
-void					valid_file(t_cmd *cmd);
+void					valid_file(t_cmd *cmd, int i);
 
 void					launch_cmd(t_ms *ms, t_cmd *cmd, int pipe);
 void					launch_redirection(t_ms *ms, t_cmd *cmd,
 						int redirection_type);
-int						select_action(t_ms *ms, t_cmd *cmd);
+void					select_action(t_ms *ms, t_cmd *cmd);
 
 /*
 **	expansion
@@ -275,7 +282,11 @@ int						quote(char *str, char **word, int i, int q);
 void					new_token(t_ms *ms, t_tokens **tokens, char **word);
 t_list					*parse_bloc(char *str);
 int						escaped(char *str, int pos);
-
+int						print_cmd_error(t_ms *ms, t_cmd *cmd);
+int						select_redirection(t_ms *ms, t_cmd **cmd);
+int						is_redir(t_cmd *cmd);
+void			redir(t_ms *mini, t_cmd *cmd, int type);
+void			input(t_ms *mini, t_cmd *cmd);
 /*
 ** init_env
 */

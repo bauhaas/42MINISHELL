@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/21 14:52:26 by bahaas            #+#    #+#             */
-/*   Updated: 2021/04/22 13:36:21 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/27 15:43:49 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ int			token_number_in_cmd(t_tokens **tokens)
 			break ;
 		}
 	}
+	//printf("token number in cmd : %d\n", i);
 	return (i);
 }
 
@@ -127,6 +128,14 @@ void		tokens_to_cmd(t_cmd **cmd, t_tokens **tokens)
 	//token_is_arg_or_cmd(&new_cmd, tokens, i);
 	while ((*tokens))
 	{
+		if ((*tokens)->type_content == CMD_ARGS && ((*tokens)->prev && (*tokens)->prev->type_content == REDIR))
+		{
+			new_cmd->content[i] = ft_strdup((*tokens)->content);
+			new_cmd->type_link = CMD_ARGS;
+			i++;
+			*tokens = (*tokens)->next;
+			break ;
+		}
 		if ((*tokens)->type_content == CMD_ARGS)
 		{
 			if ((*tokens)->is_env)
@@ -146,9 +155,9 @@ int			print_cmd_error(t_ms *ms, t_cmd *cmd)
 {
 	if (cmd->type_link == 4 && cmd->next == NULL)
 		printf("minishell: syntax error near unexpected token  « | »\n");
-	else if ((cmd->type_link == 6 || cmd->type_link == 7 || cmd->type_link == 8)
+	else if ((cmd->type_link == 4 || cmd->type_link == 6 || cmd->type_link == 7 || cmd->type_link == 8)
 				&& cmd->prev
-				&& (cmd->prev->type_link == 6 || cmd->prev->type_link == 7 || cmd->prev->type_link == 8))
+				&& (cmd->prev->type_link == 4 || cmd->prev->type_link == 6 || cmd->prev->type_link == 7 || cmd->prev->type_link == 8))
 	{
 		printf("minishell: syntax error near unexpected token");
 		printf(" « %s »\n", cmd->content[0]);
@@ -185,6 +194,7 @@ int			last_cmd_status(t_ms *ms, t_cmd *cmd)
 void		line_to_cmd(t_ms *ms, char *line, t_cmd *cmd)
 {
 	t_tokens *head;
+	t_cmd *tmp;
 
 	ms->tokens = NULL;
 	cmd = NULL;
@@ -195,6 +205,13 @@ void		line_to_cmd(t_ms *ms, char *line, t_cmd *cmd)
 		tokens_to_cmd(&cmd, &head);
 	free_tokens(ms->tokens);
 //	print_cmd(cmd);
+	tmp = cmd;
+	while(tmp)
+	{
+		if(!tmp->next)
+			tmp->is_last = 1;
+		tmp = tmp->next;
+	}
 	if (last_cmd_status(ms, cmd))
 		setup_execution(ms, cmd);
 }
