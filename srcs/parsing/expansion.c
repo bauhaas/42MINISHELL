@@ -6,7 +6,7 @@
 /*   By: clorin <clorin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 13:13:22 by clorin            #+#    #+#             */
-/*   Updated: 2021/04/21 22:03:18 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/27 09:16:37 by clorin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@ char				*get_last_ret(t_ms *mini, int *i)
 
 char				*get_null_value(t_ms *mini, int len, int *i)
 {
-	(void)mini;
 	char			*dest;
 
+	(void)mini;
 	dest = ft_strnew(1);
 	*i += len + 1;
 	return (dest);

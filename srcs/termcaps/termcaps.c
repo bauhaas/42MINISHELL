@@ -6,7 +6,7 @@
 /*   By: clorin <clorin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 15:11:21 by clorin            #+#    #+#             */
-/*   Updated: 2021/04/21 15:48:04 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/27 09:19:40 by clorin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ int				get_line(t_ms *mini)
 	ft_strdel(&mini->line);
 	if (tc.line)
 	{
-		new_line = ft_strtrim(tc.line," \t\n\v\f\r");
+		new_line = ft_strtrim(tc.line, " \t\n\v\f\r");
 		mini->line = ft_strdup(new_line);
 		ft_strdel(&new_line);
 	}

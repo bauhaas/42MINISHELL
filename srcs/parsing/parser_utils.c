@@ -6,7 +6,7 @@
 /*   By: clorin <clorin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/19 14:13:16 by clorin            #+#    #+#             */
-/*   Updated: 2021/04/21 22:04:44 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/27 09:14:46 by clorin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,12 @@ void		new_token(t_ms *ms, t_tokens **tokens, char **word)
 		else
 			new->type_content = 1;
 		ms->escaped_tokens = 0;
-		if(ms->is_env)
+		if (ms->is_env)
 			new->is_env = 1;
-		if(ft_strcmp(*word, "echo") == 0)
+		if (ft_strcmp(*word, "echo") == 0)
 			ms->echo = TRUE;
 		ft_strdel(word);
 	}
-
 }
 
 int			back_slash(t_ms *ms, char *str, char **word, int i)
