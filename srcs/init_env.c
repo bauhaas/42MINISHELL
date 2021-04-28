@@ -6,14 +6,14 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 15:16:49 by bahaas            #+#    #+#             */
-/*   Updated: 2021/04/20 15:24:17 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/28 14:55:59 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 /*
-** Split the env variable string on the first '=' sign,
+** Split the env variable string on the first '	=' sign,
 ** and set the var to the 1st string of our split,
 ** the 2nd is the value. Making sure that our strings after split exist.
 */
@@ -96,7 +96,7 @@ char		**lst_to_arr(t_list *env)
 
 	tmp = env;
 	i = 0;
-	arr_env = malloc(sizeof(char *) * ft_lstsize(tmp) + 1);
+	arr_env = malloc(sizeof(char *) * (ft_lstsize(tmp) + 1));
 	if (!arr_env)
 		return (NULL);
 	while (tmp)
