@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/13 14:06:30 by bahaas            #+#    #+#             */
-/*   Updated: 2021/04/27 15:56:23 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/28 15:14:53 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ void	setup_execution(t_ms *ms, t_cmd *cmd)
 {
 	int status;
 	int has_redir_first = 0;
+	int child;
 
 	ms->no_exec = 0;
 	ms->ret = 0;
@@ -87,14 +88,18 @@ void	setup_execution(t_ms *ms, t_cmd *cmd)
 	ms->no_exec = 0;
 	while (ms->exit == 1 && cmd && !ms->ret)
 	{
-	//	printf("go in loop to exec with cmd : %s\n", cmd->content[0]);
+		printf("setup_execution start with : %s and has ", cmd->content[0]);
+		printf("pid : %d\n", getpid());
 		ms->flag = 0;
 		ms->recursive = 1;
 		select_action(ms, cmd);
+		printf("pid after select_action : %d & ms->last_ret : %d\n", getpid(), ms->last_ret);
 		reset_fd(ms);
-		waitpid(-1, &status, 0);
+		child= waitpid(-1, &status, 0);
+		printf("pid after waitpid : %d & ms->last_ret : %d\n", getpid(), ms->last_ret);
+		printf("child : %d\n", child);
 		if (ms->flag == 1)
-			exit(0);
+			exit(ms->last_ret);
 		ms->no_exec = 0;
 		cmd = next_cmd_to_execute(cmd);
 	}

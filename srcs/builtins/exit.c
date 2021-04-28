@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/21 00:44:02 by bahaas            #+#    #+#             */
-/*   Updated: 2021/04/21 15:55:45 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/28 14:20:49 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,12 @@ void			free_cmd(t_cmd *cmd)
 {
 	int			i;
 
-	i = 0;
 	while (cmd)
 	{
+		i = 0;
 		while (cmd->content[i])
 		{
+			printf("free : %s\n", cmd->content[i]);
 			free(cmd->content[i]);
 			cmd->content[i] = NULL;
 			i++;

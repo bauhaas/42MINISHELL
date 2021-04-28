@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/20 16:00:10 by bahaas            #+#    #+#             */
-/*   Updated: 2021/04/27 16:23:01 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/28 15:06:28 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ void	ft_close(int fd)
 
 void		select_pipe(int *pipe_value, t_ms *ms, t_cmd *cmd)
 {
-//	printf("ENTER IN SELECT PIPE\n");
-//	printf("with cmd : %s\n", cmd->content[0]);
+	printf("ENTER IN SELECT PIPE ");
+	printf("with cmd : %s\n", cmd->content[0]);
 	pid_t	pid;
 	int		fd[2];
 
@@ -38,6 +38,7 @@ void		select_pipe(int *pipe_value, t_ms *ms, t_cmd *cmd)
 	{
 		pipe(fd);
 		pid = fork();
+		printf("pid in pipes : %d\n", getpid());
 		if (pid == 0)
 		{
 			close_fd(fd[1]);
@@ -180,9 +181,9 @@ void		select_action(t_ms *ms, t_cmd *cmd)
 	printf("EXIT SELECT ACTION\n\n");
 	return (0);
 */
-//	printf("ENTER SELECT ACTION\n");
+	printf("ENTER SELECT ACTION ");
 //	if(cmd)
-//	printf("with cmd : %s\n", cmd->content[0]);
+	printf("with cmd : %s\n", cmd->content[0]);
 	t_cmd	*prev;
 	t_cmd	*next;
 	int		pipe;
@@ -225,21 +226,21 @@ void		select_action(t_ms *ms, t_cmd *cmd)
 	if ((is_type(prev, PIPES) || !prev || (cmd->prev && cmd->prev->type_link == CMD_ARGS && cmd->prev->prev && is_redir(cmd->prev->prev))) && pipe != 1 && ms->no_exec == 0)
 	{
 	//	printf("test\n");
-//		printf("GO TO EXECUTE\n");
-//		printf("with cmd : %s\n", cmd->content[0]);
+		printf("GO TO EXECUTE ");
+		printf("with cmd : %s\n", cmd->content[0]);
 		//if(is_type(next, PIPES) && next->next && next->next->ret_value != 0)
 		//	return ;
 		//else
 		launch_cmd(ms, cmd, pipe);
-//		printf("EXIT EXECUTE\n");
+		printf("EXIT EXECUTE\n");
 	}
 	
 //	printf("test cmd ret after execute : %d\n", cmd->ret_value);
 //	printf("test last ret after execute : %d\n", ms->last_ret);
-	
+	printf("ms->last_ret before exit select_action : %d\n", ms->last_ret);
 	if(cmd->next && cmd->next->ret_value != 0)
 		cmd->ret_value = cmd->next->ret_value; 
 	if(ms->ret)
 		ms->last_ret = ms->ret;
-//	printf("EXIT SELECT ACTION\n\n");
+	printf("EXIT SELECT ACTION\n\n");
 }

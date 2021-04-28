@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 14:40:36 by bahaas            #+#    #+#             */
-/*   Updated: 2021/04/27 16:35:23 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/28 15:03:25 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ void		launch_cmd(t_ms *ms, t_cmd *cmd, int pipe)
 		{
 		//	printf("GO IN LAUNCH EXEC\n");
 			launch_exec(ms, cmd);
+			printf("after execution we are on pid : %d avec cmd qui a eu lieu: %s\n", getpid(), cmd->content[0]);
 		}
 	}
 	close_fd(ms->pipin);
