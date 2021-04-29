@@ -21,7 +21,8 @@ void			free_cmd(t_cmd *cmd)
 		i = 0;
 		while (cmd->content[i])
 		{
-			printf("free : %s\n", cmd->content[i]);
+			if (DEBUG)
+				printf("free : %s\n", cmd->content[i]);
 			free(cmd->content[i]);
 			cmd->content[i] = NULL;
 			i++;

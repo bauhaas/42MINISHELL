@@ -208,12 +208,25 @@ static void pipeline(t_cmd *cmd, t_ms *ms)
 			printf("cmd en cours = %s\n", cmd->content[0]);
 			printf("\tcmd suivante = %s\n", (cmd->next)?cmd->next->content[0]:"(null)");
 		}
-		pipe(fd);
-		if ((pid = fork()) == -1) {
-			perror("fork");
-			exit(1);
-		}
-		else if (pid == 0) {
+		if (cmd && get_bltn(ms, cmd->content[0]))
+			{
+				if (DEBUG)
+					printf("builtins : %s\n", cmd->content[0]);
+				ms->last_ret = launch_bltn(ms, cmd);
+				if (DEBUG)
+					printf("sortie de builtins avec ret = %d\n", ms->last_ret);
+				//exit(ms->last_ret);
+			}
+		else
+		{
+			pipe(fd);
+			pid = fork();
+			if (pid == -1)
+			{
+				perror("fork");
+				exit(1);
+			}
+			else if (pid == 0) {
 			if (DEBUG)
 				printf("fils\n");
 			dup2(fdd, 0);
@@ -222,15 +235,7 @@ static void pipeline(t_cmd *cmd, t_ms *ms)
 			}
 			close(fd[0]);
 			
-			if (cmd && get_bltn(ms, cmd->content[0]))
-			{
-				if (DEBUG)
-					printf("builtins : %s\n", cmd->content[0]);
-				ms->last_ret = launch_bltn(ms, cmd);
-				if (DEBUG)
-					printf("sortie de builtins avec ret = %d\n", ms->last_ret);
-				exit(ms->last_ret);
-			}
+			
 			search_prog(ms, cmd);
 			if (cmd->ret_value)
 			{
@@ -259,13 +264,30 @@ static void pipeline(t_cmd *cmd, t_ms *ms)
 				ms->last_ret = WTERMSIG(status) + 128;
 			close(fd[1]);
 			fdd = fd[0];
-			cmd = cmd->next;
+			
+		}
+		}
+		cmd = cmd->next;
 			if(cmd && cmd->type_link == 4)
 				cmd=cmd->next;
-		}
 	}
 	if (DEBUG)
 		printf("sortie Pipeline\n");
+}
+
+static int	nb_cmd(t_cmd *cmd)
+{
+	int n_command_to_exec = 0;
+	t_cmd *tmp;
+
+    tmp = cmd;
+    while(tmp)
+    {
+    	if (tmp->type_link != 4)
+        	n_command_to_exec++;
+        tmp = tmp->next;
+    }
+    return (n_command_to_exec);
 }
 
 void		line_to_cmd(t_ms *ms, char *line, t_cmd *cmd)
@@ -287,16 +309,20 @@ void		line_to_cmd(t_ms *ms, char *line, t_cmd *cmd)
 		print_cmd(cmd);
 	to_free = cmd;
 	tmp = cmd;
-	pipeline(tmp, ms);
-
-
-	// while(tmp)
+	// if (nb_cmd(cmd) > 1)
+		pipeline(tmp, ms);
+	// else
 	// {
-	// 	if(!tmp->next)
-	// 		tmp->is_last = 1;
-	// 	tmp = tmp->next;
-	// }
-	// if (last_cmd_status(ms, cmd))
+	// 	while(tmp)
+	// 	{
+	// 		if(!tmp->next)
+	// 			tmp->is_last = 1;
+	// 		tmp = tmp->next;
+	// 	}
+	// 	if (last_cmd_status(ms, cmd))
 	// 	setup_execution(ms, cmd);
+	// }
+
+
 	free_cmd(to_free);
 }
