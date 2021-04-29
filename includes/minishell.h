@@ -6,7 +6,7 @@
 /*   By: clorin <clorin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 12:28:05 by clorin            #+#    #+#             */
-/*   Updated: 2021/04/27 15:42:04 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/29 17:45:18 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,8 @@ typedef struct			s_cmd
 	struct s_cmd		*prev;
 	struct s_cmd		*next;
 	int					is_last;
+	int			has_pipe_before;
+	int			has_pipe_after;
 }						t_cmd;
 
 typedef struct			s_ms
@@ -225,7 +227,7 @@ void					*list_sort(t_list **dest, t_list *list);
 */
 
 void					error_file(t_ms *ms, t_cmd *cmd);
-void					search_prog(t_ms *ms, t_cmd *cmd);
+int						search_prog(t_ms *ms, t_cmd *cmd);
 
 /*
 ** print.c

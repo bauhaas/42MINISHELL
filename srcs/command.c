@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/21 14:52:26 by bahaas            #+#    #+#             */
-/*   Updated: 2021/04/29 13:44:05 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/29 18:59:12 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,14 +106,25 @@ void		tokens_to_cmd(t_cmd **cmd, t_tokens **tokens)
 	t_cmd		*new_cmd;
 	int			i;
 
-	new_cmd = create_cmd(cmd);
-	i = token_number_in_cmd(tokens);
-	new_cmd->content = malloc(sizeof(char *) * (i + 1));
-
-	i = 0;
-	if ((*tokens)->type_content != CMD_ARGS)
+	//printf("enter with : (*tokens)->content : %s\n", (*tokens)->content);
+	if((*tokens)->type_content != PIPES)
 	{
-		new_cmd->content[i] = ft_strdup((*tokens)->content);
+		new_cmd = create_cmd(cmd);
+		i = token_number_in_cmd(tokens);
+		//	printf("token number in cmd : %d\n", i);
+		new_cmd->content = malloc(sizeof(char *) * (i + 1));
+	}
+	else
+	{
+		(*tokens) = (*tokens)->next;
+		return ;
+	}
+	i = 0;
+	if ((*tokens)->type_content != CMD_ARGS && (*tokens)->type_content != PIPES)
+	{
+		//	printf("test : (*tokens)->content : %s\n", (*tokens)->content);
+		if ((*tokens)->type_content != PIPES)
+			new_cmd->content[i] = ft_strdup((*tokens)->content);
 		if ((*tokens)->type_content == PIPES)
 			new_cmd->type_link = PIPES;
 		else if ((*tokens)->type_content == END_CMD)
@@ -142,13 +153,19 @@ void		tokens_to_cmd(t_cmd **cmd, t_tokens **tokens)
 				new_cmd->is_env = 1;
 			new_cmd->content[i] = ft_strdup((*tokens)->content);
 			new_cmd->type_link = CMD_ARGS;
+			if((*tokens)->prev && (*tokens)->prev->type_content == PIPES)
+				new_cmd->has_pipe_before = 1;
+			if((*tokens)->next && (*tokens)->next->type_content == PIPES)
+				new_cmd->has_pipe_after = 1;
 			i++;
 			*tokens = (*tokens)->next;
 		}
 		else
 			break ;
 	}
-	new_cmd->content[i] = NULL;
+	if(new_cmd)
+		new_cmd->content[i] = NULL;
+
 }
 
 int			print_cmd_error(t_ms *ms, t_cmd *cmd)
@@ -191,162 +208,111 @@ int			last_cmd_status(t_ms *ms, t_cmd *cmd)
 	return (1);
 }
 
-/*
+
+
+#define Close(FD) do {                                  \
+	int Close_fd = (FD);                                \
+	if (close(Close_fd) == -1) {                        \
+		perror("close");                                  \
+		fprintf(stderr, "%s:%d: close(" #FD ") %d\n",     \
+				__FILE__, __LINE__, Close_fd);            \
+	}                                                   \
+}while(0)
+
+/* move oldfd to newfd */
+static void redirect(int oldfd, int newfd) {
+	if (oldfd != newfd) {
+		if (dup2(oldfd, newfd) != -1)
+			Close(oldfd); /* successfully redirected */
+	}
+}
+
+static void run(char* const argv[], int in, int out) {
+	redirect(in, STDIN_FILENO);   /* <&in  : child reads from in */
+	redirect(out, STDOUT_FILENO); /* >&out : child writes to out */
+
+	execvp(argv[0], argv);
+}
+
+static void	launc_bltn(t_ms *ms, t_cmd *cmd)
+{
+	if(!cmd->next || (cmd->next && !cmd->next->has_pipe_before))
+	{
+		if (DEBUG)
+			printf("builtins : %s\n", cmd->content[0]);
+		ms->last_ret = launch_bltn(ms, cmd);
+		if (DEBUG)
+			printf("sortie de builtins avec ret = %d\n", ms->last_ret);
+	}
+	else
+	{
+		if (DEBUG)
+			printf("On n'execute pas le builtin car il est suivit d'un pipe\n");
+	}
+
+}
+
 static void exec_last_cmd(t_ms* ms, t_cmd *cmd, int in, int out)
 {
 	int pid;
 	int fd[2];
 	int fdd = 0;
-if (cmd && get_bltn(ms, cmd->content[0]))
-		{
-			if(!cmd->next || (cmd->next && cmd->next->type_link != 4))
-			{
-				if (DEBUG)
-					printf("builtins : %s\n", cmd->content[0]);
-				ms->last_ret = launch_bltn(ms, cmd);
-				if (DEBUG)
-					printf("sortie de builtins avec ret = %d\n", ms->last_ret);
-			}
-			else
-			{
-				if (DEBUG)
-					printf("On n'execute pas le builtin car il est suivit d'un pipe\n");
-			}
-		}
-		else
-		{
-			pipe(fd);
-			pid = fork();
-			if (pid == -1)
-			{
-				perror("fork");
-				exit(1);
-			}
-			else if (pid == 0) {
-				if (DEBUG)
-					printf("fils\n");
-				dup2(fdd, 0);
-				if (cmd->next && cmd->next->type_link == 4)
-					dup2(fd[1], 1);
-				close(fd[0]);
-				search_prog(ms, cmd);
-				if (cmd->ret_value)
-				{
-					if(!ft_strcmp(cmd->content[0], ".."))
-						cmd->ret_value = 4;
-					error_file(ms, cmd);
-					exit(cmd->ret_value);
-				}
-				if (DEBUG)
-					printf("execvp(%s)(",(char*)cmd->content[0]);
-				execvp(cmd->content[0], cmd->content);
-				//exit(1);
-			}
-			else {
-				if (DEBUG)
-					printf("wait du pere\n");
-				int status;
-				waitpid(-1, &status, 0);
-				if (WIFEXITED(status))
-				{
-					ms->last_ret = WEXITSTATUS(status);
-					if (DEBUG)
-						printf("status de sortie du fils = %d\n", ms->last_ret);
-				}
-				if (WIFSIGNALED(status))
-					ms->last_ret = WTERMSIG(status) + 128;
-				close(fd[1]);
-				fdd = fd[0];
-			}
-		}
-}*/
-
-static void pipeline(t_cmd *cmd, t_ms *ms)
-{
-	int fd[2];
-	pid_t pid;
-	int fdd = 0;				/* Backup */
-
-	// while (*cmd != NULL)
-
-	if (DEBUG)
-		printf("Pipeline : minishell pid : %d\n", getpid());
-	//while (cmd && cmd->next)
-	while (cmd)
+	if (cmd && get_bltn(ms, cmd->content[0]))
+		launc_bltn(ms, cmd);
+	else
 	{
-		if (DEBUG)
+		pipe(fd);
+		pid = fork();
+		if (pid == -1)
 		{
-			printf("start loop\n");
-			printf("cmd en cours = %s\n", cmd->content[0]);
-			printf("\tcmd suivante = %s\n", (cmd->next)?cmd->next->content[0]:"(null)");
+			perror("fork");
+			exit(1);
 		}
-		if (cmd && get_bltn(ms, cmd->content[0]))
-		{
-			if(!cmd->next || (cmd->next && cmd->next->type_link != 4))
+		else if (pid == 0) {
+			if (DEBUG)
+				printf("fils (%s), pid(%d)\n",cmd->content[0], getpid());
+			//dup2(fdd, 0);
+			//if (cmd->next && cmd->next->type_link == 4)
+			//	dup2(fd[1], 1);
+			close(fd[0]);
+			search_prog(ms, cmd);
+			if (cmd->ret_value)
 			{
-				if (DEBUG)
-					printf("builtins : %s\n", cmd->content[0]);
-				ms->last_ret = launch_bltn(ms, cmd);
-				if (DEBUG)
-					printf("sortie de builtins avec ret = %d\n", ms->last_ret);
+				if(!ft_strcmp(cmd->content[0], ".."))
+					cmd->ret_value = 4;
+				error_file(ms, cmd);
+				exit(cmd->ret_value);
 			}
-			else
-			{
-				if (DEBUG)
-					printf("On n'execute pas le builtin car il est suivit d'un pipe\n");
-			}
+			if (DEBUG)
+				printf("execve(%s)\n",cmd->content[0]);
+			redirect(in, STDIN_FILENO);   /* <&in  : child reads from in */
+			redirect(out, STDOUT_FILENO); /* >&out : child writes to out */
+				if(!ft_strcmp(cmd->content[0], "/bin/sleep") && cmd->prev && cmd->prev->prev && !ft_strcmp(cmd->prev->prev->content[0], "sleep"))
+					exit(0);
+				else
+			execve(cmd->content[0], cmd->content, ms->arr_env);
 		}
-		else
-		{
-			pipe(fd);
-			pid = fork();
-			if (pid == -1)
+		else {
+			if (DEBUG)
+				printf("wait du pere\n");
+			int status;
+			waitpid(-1, &status, 0);
+			if (WIFEXITED(status))
 			{
-				perror("fork");
-				exit(1);
-			}
-			else if (pid == 0) {
+				ms->last_ret = WEXITSTATUS(status);
 				if (DEBUG)
-					printf("fils\n");
-				dup2(fdd, 0);
-				if (cmd->next && cmd->next->type_link == 4)
-					dup2(fd[1], 1);
-				close(fd[0]);
-				search_prog(ms, cmd);
-				if (cmd->ret_value)
-				{
-					if(!ft_strcmp(cmd->content[0], ".."))
-						cmd->ret_value = 4;
-					error_file(ms, cmd);
-					exit(cmd->ret_value);
-				}
-				execvp(cmd->content[0], cmd->content);
-				//exit(1);
+					printf("status de sortie du fils = %d\n", ms->last_ret);
 			}
-			else
-			{
-				// if (DEBUG)
-				// 	printf("wait du pere\n");
-				// int status;
-				// waitpid(-1, &status, 0); 		/* Collect childs */
-				// if (WIFEXITED(status))
-				// {
-				// 	ms->last_ret = WEXITSTATUS(status);
-				// 	if (DEBUG)
-				// 		printf("status de sortie du fils = %d\n", ms->last_ret);
-				// }
-				// if (WIFSIGNALED(status))
-				// 	ms->last_ret = WTERMSIG(status) + 128;
-				close(fd[1]);
-				fdd = fd[0];
-			}
+			if (WIFSIGNALED(status))
+				ms->last_ret = WTERMSIG(status) + 128;
+			close(fd[1]);
+			fdd = fd[0];
 		}
-		cmd = cmd->next;
-		if(cmd && cmd->type_link == 4)
-			cmd=cmd->next;
 	}
-	if (DEBUG)
-		printf("wait du pere\n");
+}
+
+static void waiting_loop(t_ms *ms, t_cmd *cmd)
+{
 	int status;
 	int pid_fils = 0;
 	while (pid_fils >= 0 )
@@ -361,12 +327,89 @@ static void pipeline(t_cmd *cmd, t_ms *ms)
 		if (WIFSIGNALED(status))
 			ms->last_ret = WTERMSIG(status) + 128;
 	}
-				
+}
+
+
+///WIP PROBLEM AVEC LES FD
 /*
-	if (DEBUG)
-		printf("go to execute last cmd : %s\n", cmd->content[0]);
-	exec_last_cmd(ms, cmd, fdd, STDOUT);
+static void launc_exec(int (*fd)[2], int *fdd, pid_t *pid, t_cmd *cmd, t_ms *ms)
+{
+	pipe(*fd);
+			*pid = fork();
+			if (*pid == -1)
+			{
+				perror("fork");
+				exit(1);
+			}
+			else if (pid == 0)
+			{
+				if (DEBUG)
+					printf("fils (%s), pid(%d)\n",cmd->content[0], getpid());
+				dup2(*fdd, 0);
+				if (cmd->next && cmd->next->has_pipe_before)
+					dup2(*fd[1], 1);
+				close(*fd[0]);
+				search_prog(ms, cmd);
+				execve(cmd->content[0], cmd->content, ms->arr_env);
+			}
+			else
+			{
+				close(*fd[1]);
+				*fdd = *fd[0];
+			}
+}
 */
+
+static void pipeline(t_cmd *cmd, t_ms *ms)
+{
+	int fd[2];
+	pid_t pid;
+	int fdd = 0;				/* Backup */
+
+	if (DEBUG)
+		printf("Pipeline : minishell pid : %d\n", getpid());
+	//while (cmd && cmd->next)
+	while (cmd)
+	{
+			if (DEBUG)
+			{
+				printf("start loop\n");
+				printf("cmd en cours = %s\n", cmd->content[0]);
+				printf("\tcmd suivante = %s\n", (cmd->next)?cmd->next->content[0]:"(null)");
+			}
+		if (cmd && get_bltn(ms, cmd->content[0]))
+			launc_bltn(ms, cmd);
+		else
+		{
+			//launc_exec(&fd, &fdd, &pid,cmd, ms); //WIP PROBLEME AVEC FD DU CP
+			pipe(fd);
+			pid = fork();
+			if (pid == -1)
+			{
+				perror("fork");
+				exit(1);
+			}
+			else if (pid == 0)
+			{
+				if (DEBUG)
+					printf("fils (%s), pid(%d)\n",cmd->content[0], getpid());
+				dup2(fdd, 0);
+				if (cmd->next && cmd->next->has_pipe_before)
+					dup2(fd[1], 1);
+				close(fd[0]);
+				search_prog(ms, cmd);
+				execve(cmd->content[0], cmd->content, ms->arr_env);
+			}
+			else
+			{
+				close(fd[1]);
+				fdd = fd[0];
+			}
+		}
+		cmd = cmd->next;
+	}
+	waiting_loop(ms, cmd);
+//	exec_last_cmd(ms, cmd, fdd, STDOUT);
 	if (DEBUG)
 		printf("sortie Pipeline\n");
 }
@@ -405,20 +448,6 @@ void		line_to_cmd(t_ms *ms, char *line, t_cmd *cmd)
 		print_cmd(cmd);
 	to_free = cmd;
 	tmp = cmd;
-	// if (nb_cmd(cmd) > 1)
 	pipeline(tmp, ms);
-	// else
-	// {
-	// 	while(tmp)
-	// 	{
-	// 		if(!tmp->next)
-	// 			tmp->is_last = 1;
-	// 		tmp = tmp->next;
-	// 	}
-	// 	if (last_cmd_status(ms, cmd))
-	// 	setup_execution(ms, cmd);
-	// }
-
-
 	free_cmd(to_free);
 }

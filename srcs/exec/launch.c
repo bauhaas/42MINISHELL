@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 14:40:36 by bahaas            #+#    #+#             */
-/*   Updated: 2021/04/28 15:03:25 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/29 18:24:10 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,9 @@ void		empty_cmd_content(t_ms *ms, t_cmd *cmd)
 	}
 }
 
+/*
 void		launch_exec(t_ms *ms, t_cmd *cmd)
 {
-	/*
-	printf("ENTER IN EXEC\n");
-	printf("with cmd : %s\n", cmd->content[0]);
-	*/
 	int pid;
 	int child_pid;
 	int status;
@@ -48,7 +45,6 @@ void		launch_exec(t_ms *ms, t_cmd *cmd)
 	search_prog(ms, cmd);
 	if (cmd->ret_value == 0)
 	{
-		ms->last_ret = 0;
 		pid = fork();
 		if (pid == 0)
 			execve(cmd->content[0], cmd->content, ms->arr_env);
@@ -70,6 +66,34 @@ void		launch_exec(t_ms *ms, t_cmd *cmd)
 			cmd->ret_value = 4;
 		error_file(ms, cmd);
 	}
+}*/
+
+void		launch_exec(t_ms *ms, t_cmd *cmd)
+{
+	int pid;
+	int child_pid;
+	int status;
+
+	search_prog(ms, cmd);
+	if (cmd->ret_value == 0)
+	{
+		pid = fork();
+		if (pid == 0)
+			execve(cmd->content[0], cmd->content, ms->arr_env);
+		else
+		{
+			ms->pid = pid;
+			child_pid = waitpid(0, &status, 0);
+			if (WIFEXITED(status))
+				ms->last_ret = WEXITSTATUS(status);
+			if (WIFSIGNALED(status))
+				ms->last_ret = WTERMSIG(status) + 128;
+			kill(pid, SIGTERM);
+			ms->pid = 0;
+		}
+	}
+	else
+		;
 }
 
 void		launch_cmd(t_ms *ms, t_cmd *cmd, int pipe)
