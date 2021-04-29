@@ -323,19 +323,20 @@ static void pipeline(t_cmd *cmd, t_ms *ms)
 				execvp(cmd->content[0], cmd->content);
 				//exit(1);
 			}
-			else {
-				if (DEBUG)
-					printf("wait du pere\n");
-				int status;
-				waitpid(-1, &status, 0); 		/* Collect childs */
-				if (WIFEXITED(status))
-				{
-					ms->last_ret = WEXITSTATUS(status);
-					if (DEBUG)
-						printf("status de sortie du fils = %d\n", ms->last_ret);
-				}
-				if (WIFSIGNALED(status))
-					ms->last_ret = WTERMSIG(status) + 128;
+			else
+			{
+				// if (DEBUG)
+				// 	printf("wait du pere\n");
+				// int status;
+				// waitpid(-1, &status, 0); 		/* Collect childs */
+				// if (WIFEXITED(status))
+				// {
+				// 	ms->last_ret = WEXITSTATUS(status);
+				// 	if (DEBUG)
+				// 		printf("status de sortie du fils = %d\n", ms->last_ret);
+				// }
+				// if (WIFSIGNALED(status))
+				// 	ms->last_ret = WTERMSIG(status) + 128;
 				close(fd[1]);
 				fdd = fd[0];
 			}
@@ -344,6 +345,23 @@ static void pipeline(t_cmd *cmd, t_ms *ms)
 		if(cmd && cmd->type_link == 4)
 			cmd=cmd->next;
 	}
+	if (DEBUG)
+		printf("wait du pere\n");
+	int status;
+	int pid_fils = 0;
+	while (pid_fils >= 0 )
+	{
+		pid_fils = waitpid(-1, &status, 0);
+		if (WIFEXITED(status))
+		{
+			ms->last_ret = WEXITSTATUS(status);
+			if (DEBUG)
+				printf("status de sortie du fils %d = %d\n", pid_fils, ms->last_ret);
+		}
+		if (WIFSIGNALED(status))
+			ms->last_ret = WTERMSIG(status) + 128;
+	}
+				
 /*
 	if (DEBUG)
 		printf("go to execute last cmd : %s\n", cmd->content[0]);
