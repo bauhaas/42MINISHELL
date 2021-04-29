@@ -60,6 +60,8 @@
 # define RIGHT 7
 # define DRIGHT 8
 
+int			DEBUG;
+
 typedef struct			s_termcaps
 {
 	struct termios		term;

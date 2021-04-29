@@ -98,11 +98,20 @@ int					main(int argc, char **argv, char **envp)
 	(void)argv;
 	ft_bzero(&ms, sizeof(t_ms));
 	init_ms(&ms, envp);
-	signal(SIGINT, &sig_int);
-	signal(SIGQUIT, &sig_quit);
+	//signal(SIGINT, &sig_int);
+	//signal(SIGQUIT, &sig_quit);
 	g_ms = &ms;
-	if (argc == 1)
+	if (argc == 1 || argc == 2)
+	{
+		if (argc == 2)
+		{
+			DEBUG = ft_atoi(argv[1]);
+			printf("MODE DEBUG => %d\n", DEBUG);
+		}
+		else
+			DEBUG = FALSE;
 		prompt_loop(&ms);
+	}
 	else
 		ft_putstr_fd("Minishell: no arguments needed\n", 2);
 	return (0);
