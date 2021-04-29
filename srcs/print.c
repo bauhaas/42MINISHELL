@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/01 01:25:44 by bahaas            #+#    #+#             */
-/*   Updated: 2021/04/21 22:16:58 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/29 04:22:26 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ void	print_cmd(t_cmd *cmd)
 		}
 		printf("cmd(%d)->type_link : %s(%d)\n", cmd_id, type_link, tmp->type_link);
 		printf("cmd(%d)->is_env : %d\n", cmd_id, tmp->is_env);
+		printf("cmd(%d)->has_pipe_before : %d\n", cmd_id, tmp->has_pipe_before);
+		printf("cmd(%d)->has_pipe_after : %d\n", cmd_id, tmp->has_pipe_after);
 		printf("\n");
 		cmd_id++;
 		tmp = tmp->next;

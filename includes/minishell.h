@@ -6,7 +6,7 @@
 /*   By: clorin <clorin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 12:28:05 by clorin            #+#    #+#             */
-/*   Updated: 2021/04/27 15:42:04 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/29 04:21:05 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,8 @@ typedef struct			s_cmd
 	struct s_cmd		*prev;
 	struct s_cmd		*next;
 	int					is_last;
+	int			has_pipe_before;
+	int			has_pipe_after;
 }						t_cmd;
 
 typedef struct			s_ms
@@ -265,6 +267,7 @@ void					launch_cmd(t_ms *ms, t_cmd *cmd, int pipe);
 void					launch_redirection(t_ms *ms, t_cmd *cmd,
 						int redirection_type);
 void					select_action(t_ms *ms, t_cmd *cmd);
+void					launch_exec(t_ms *ms, t_cmd *cmd);
 
 /*
 **	expansion

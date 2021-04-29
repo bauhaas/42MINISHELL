@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/21 14:52:26 by bahaas            #+#    #+#             */
-/*   Updated: 2021/04/28 13:48:29 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/29 04:37:08 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,14 +106,25 @@ void		tokens_to_cmd(t_cmd **cmd, t_tokens **tokens)
 	t_cmd		*new_cmd;
 	int			i;
 
-	new_cmd = create_cmd(cmd);
-	i = token_number_in_cmd(tokens);
-	new_cmd->content = malloc(sizeof(char *) * (i + 1));
-	
-	i = 0;
-	if ((*tokens)->type_content != CMD_ARGS)
+	//printf("enter with : (*tokens)->content : %s\n", (*tokens)->content);
+	if((*tokens)->type_content != PIPES)
 	{
-		new_cmd->content[i] = ft_strdup((*tokens)->content);
+		new_cmd = create_cmd(cmd);
+		i = token_number_in_cmd(tokens);
+	//	printf("token number in cmd : %d\n", i);
+		new_cmd->content = malloc(sizeof(char *) * (i + 1));
+	}
+	else
+	{
+		(*tokens) = (*tokens)->next;
+		return ;
+	}
+	i = 0;
+	if ((*tokens)->type_content != CMD_ARGS && (*tokens)->type_content != PIPES)
+	{
+	//	printf("test : (*tokens)->content : %s\n", (*tokens)->content);
+		if ((*tokens)->type_content != PIPES)
+			new_cmd->content[i] = ft_strdup((*tokens)->content);
 		if ((*tokens)->type_content == PIPES)
 			new_cmd->type_link = PIPES;
 		else if ((*tokens)->type_content == END_CMD)
@@ -142,13 +153,18 @@ void		tokens_to_cmd(t_cmd **cmd, t_tokens **tokens)
 				new_cmd->is_env = 1;
 			new_cmd->content[i] = ft_strdup((*tokens)->content);
 			new_cmd->type_link = CMD_ARGS;
-			i++;
+			if((*tokens)->prev && (*tokens)->prev->type_content == PIPES)
+				new_cmd->has_pipe_before = 1;
+			if((*tokens)->next && (*tokens)->next->type_content == PIPES)
+				new_cmd->has_pipe_after = 1;
+		i++;
 			*tokens = (*tokens)->next;
 		}
 		else
 			break ;
 	}
-	new_cmd->content[i] = NULL;
+	if(new_cmd)
+		new_cmd->content[i] = NULL;
 }
 
 int			print_cmd_error(t_ms *ms, t_cmd *cmd)
@@ -200,12 +216,12 @@ void		line_to_cmd(t_ms *ms, char *line, t_cmd *cmd)
 	ms->tokens = NULL;
 	cmd = NULL;
 	parse(line, ms);
-//	print_tokens(ms->tokens);
+	print_tokens(ms->tokens);
 	head = ms->tokens;
 	while (head)
 		tokens_to_cmd(&cmd, &head);
 	free_tokens(ms->tokens);
-//	print_cmd(cmd);
+	print_cmd(cmd);
 	to_free = cmd;
 	tmp = cmd;
 	while(tmp)
