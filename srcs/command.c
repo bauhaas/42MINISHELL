@@ -190,6 +190,7 @@ static void	cmd_is_bltn(t_ms *ms, t_cmd *cmd, int exit_in_pipeline)
 		{
 			if (DEBUG)
 				printf("On n'execute pas le builtin car il est suivit d'un pipe\n");
+			exit(0);
 		}
 	}
 	else
@@ -216,9 +217,7 @@ static void pipeline(t_cmd *cmd, t_ms *ms)
 			printf("cmd en cours = %s\n", cmd->content[0]);
 			printf("\tcmd suivante = %s\n", (cmd->next)?cmd->next->content[0]:"(null)");
 		}
-		if (cmd && !ft_strcmp(cmd->content[0], "exit") && !has_pipe(cmd))
-			ms->last_ret = ft_exit(ms, cmd);
-		if (cmd && !ft_strcmp(cmd->content[0], "exit") && has_pipe(cmd))
+		if (cmd && !ft_strcmp(cmd->content[0], "exit"))
 			;
 		else
 		{
@@ -234,9 +233,19 @@ static void pipeline(t_cmd *cmd, t_ms *ms)
 			{
 				if (DEBUG)
 					printf("fils(%d) cmd = %s\n",getpid(), cmd->content[0]);
-				dup2(fdd, 0);
+				dup2(fdd, STDIN);
 				if (cmd->next && cmd->next->type_link == 4)
-					dup2(fd[1], 1);
+					dup2(fd[1], STDOUT);
+				if (cmd->next && is_redir(cmd->next))
+				{
+					fd_open=fonctionsuperdrole(cmd->next)
+					/*fonction
+					ouvre les fichiers >
+					renvoi le fd_open
+					int fd_open = open(cmd->next->next->content[0], O_CREAT | O_WRONLY | O_APPEND, S_IRWXU);*/
+					dup2(fd_open, STDOUT);
+
+				}
 				close(fd[0]);
 				if(DEBUG)
 					printf("Check cmd before bltn or exec : %s\n", cmd->content[0]);
@@ -287,8 +296,13 @@ static void pipeline(t_cmd *cmd, t_ms *ms)
 			}
 		}
 		cmd = cmd->next;
+		/*
+		en onction du typelink on se positionne sur la prochaine cmd
+		*/
 		if(cmd && cmd->type_link == 4)
 			cmd=cmd->next;
+		if(cmd && cmd->type_link == 7)
+			cmd=cmd->next->next;
 	}
 	if (ms->forked)
 	{
@@ -380,6 +394,7 @@ void		line_to_cmd(t_ms *ms, char *line, t_cmd *cmd)
 		print_cmd(cmd);
 	to_free = cmd;
 	tmp = cmd;
+
 	if (nb_cmd(cmd) > 1 || (nb_cmd(cmd) == 1 && !get_bltn(ms, cmd->content[0])))
 	{
 		if(last_cmd_status(ms, cmd))
