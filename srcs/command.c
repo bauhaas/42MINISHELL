@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/21 14:52:26 by bahaas            #+#    #+#             */
-/*   Updated: 2021/04/30 21:04:26 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/30 21:35:33 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -266,6 +266,63 @@ static t_cmd	*next_cmd_to_execute(t_ms *ms, t_cmd *cmd)
 	return(cmd);
 }
 
+static void waiting_loop(t_ms *ms, t_cmd *cmd)
+{
+	if (ms->forked)
+	{
+		if (DEBUG)
+			printf("wait du pere car il y a eu %d fork(s)\n", ms->forked);
+		int status;
+		int pid_fils = 0;
+		int last_status[100][2];
+		int i = 0;
+		while (pid_fils >= 0 )
+		{
+			//reset_fd(ms);
+			if (DEBUG)
+				printf("last_ret = %d\n", ms->last_ret);
+			pid_fils = waitpid(-1, &status, 0);
+			last_status[i][0] = pid_fils;
+
+			if (WIFEXITED(status))
+			{
+				ms->last_ret = WEXITSTATUS(status);
+				last_status[i][1] = ms->last_ret;
+				if (DEBUG)
+					printf("status de sortie du fils %d = %d\n", pid_fils, ms->last_ret);
+			}
+			if (WIFSIGNALED(status))
+			{
+				if(DEBUG)
+					printf("Sortie Signal du fils %d = %d\n", pid_fils, WTERMSIG(status) + 128);
+				ms->last_ret = WTERMSIG(status) + 128;
+				last_status[i++][1] = ms->last_ret;
+			}
+			i++;
+		}
+		int dernier_pid = 0;
+		int indice = 0;
+		for(i=0;i < ms->forked; i++)
+		{
+			if (DEBUG)
+				printf("last_status pid=%d\tvalue=%d\n", last_status[i][0], last_status[i][1]);
+			if (dernier_pid < last_status[i][0])
+			{
+				dernier_pid = last_status[i][0];
+				indice = i;
+			}
+		}
+		if (DEBUG)
+			printf("le dernier pid est %d avec un ret = %d\n", last_status[indice][0], last_status[indice][1]);
+		ms->last_ret = last_status[indice][1];
+	}
+	else
+	{
+		if (DEBUG)
+			printf("pas de Fork \t ms->last_ret = %d\n", ms->last_ret);
+	}
+}
+
 static void pipeline(t_cmd *cmd, t_ms *ms)
 {
 	int fd[2];
@@ -458,59 +515,7 @@ static void pipeline(t_cmd *cmd, t_ms *ms)
 			if(cmd && cmd->content[0])
 				printf("next cmd that will be executed : %s\n\n", cmd->content[0]);
 	}
-	if (ms->forked)
-	{
-		if (DEBUG)
-			printf("wait du pere car il y a eu %d fork(s)\n", ms->forked);
-		int status;
-		int pid_fils = 0;
-		int last_status[100][2];
-		int i = 0;
-		while (pid_fils >= 0 )
-		{
-			//reset_fd(ms);
-			if (DEBUG)
-				printf("last_ret = %d\n", ms->last_ret);
-			pid_fils = waitpid(-1, &status, 0);
-			last_status[i][0] = pid_fils;
-
-			if (WIFEXITED(status))
-			{
-				ms->last_ret = WEXITSTATUS(status);
-				last_status[i][1] = ms->last_ret;
-				if (DEBUG)
-					printf("status de sortie du fils %d = %d\n", pid_fils, ms->last_ret);
-			}
-			if (WIFSIGNALED(status))
-			{
-				if(DEBUG)
-					printf("Sortie Signal du fils %d = %d\n", pid_fils, WTERMSIG(status) + 128);
-				ms->last_ret = WTERMSIG(status) + 128;
-				last_status[i++][1] = ms->last_ret;
-			}
-			i++;
-		}
-		int dernier_pid = 0;
-		int indice = 0;
-		for(i=0;i < ms->forked; i++)
-		{
-			if (DEBUG)
-				printf("last_status pid=%d\tvalue=%d\n", last_status[i][0], last_status[i][1]);
-			if (dernier_pid < last_status[i][0])
-			{
-				dernier_pid = last_status[i][0];
-				indice = i;
-			}
-		}
-		if (DEBUG)
-			printf("le dernier pid est %d avec un ret = %d\n", last_status[indice][0], last_status[indice][1]);
-		ms->last_ret = last_status[indice][1];
-	}
-	else
-	{
-		if (DEBUG)
-			printf("pas de Fork \t ms->last_ret = %d\n", ms->last_ret);
-	}
+	waiting_loop(ms, cmd);
 	if (DEBUG)
 		printf("sortie Pipeline\n");
 }
