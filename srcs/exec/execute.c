@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/20 16:00:10 by bahaas            #+#    #+#             */
-/*   Updated: 2021/04/28 15:06:28 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/30 21:03:58 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ int			has_valid_redir_or_pipe(t_cmd *cmd)
 
 void	redir(t_ms *ms, t_cmd *cmd, int type)
 {
+	//printf("INPUT : ms->fdout : %d\n", ms->fdin);
 	ft_close(ms->fdout);
 	if (type == DRIGHT)
 		ms->fdout = open(cmd->content[0], O_CREAT | O_WRONLY | O_TRUNC, S_IRWXU);
@@ -100,6 +101,7 @@ void	redir(t_ms *ms, t_cmd *cmd, int type)
 
 void	input(t_ms *ms, t_cmd *cmd)
 {
+	//printf("INPUT : ms->fdin : %d\n", ms->fdin);
 	ft_close(ms->fdin);
 	ms->fdin = open(cmd->content[0], O_RDONLY, S_IRWXU);
 	if (ms->fdin == -1)

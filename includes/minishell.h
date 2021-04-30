@@ -6,7 +6,7 @@
 /*   By: clorin <clorin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 12:28:05 by clorin            #+#    #+#             */
-/*   Updated: 2021/04/29 17:45:18 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/30 19:41:31 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,6 +151,7 @@ typedef struct			s_ms
 	int					ret;
 	int					charge;
 	int					forked;
+	int					total_consecutive_pipes;
 }						t_ms;
 
 t_ms					*g_ms;
@@ -293,6 +294,8 @@ int						select_redirection(t_ms *ms, t_cmd **cmd);
 int						is_redir(t_cmd *cmd);
 void			redir(t_ms *mini, t_cmd *cmd, int type);
 void			input(t_ms *mini, t_cmd *cmd);
+void			reset_fd(t_ms *ms);
+void			ft_close(int fd);
 /*
 ** init_env
 */
