@@ -120,12 +120,14 @@ int				search_prog(t_ms *ms, t_cmd *cmd)
 		find_absolute_path(ms, cmd, 0);
 	else
 		valid_file(cmd, 0);
+	if(DEBUG)
+		printf("search_prog cmd->ret_value = %d\n", cmd->ret_value);
 	if(cmd->ret_value)
 	{
 		if(!ft_strcmp(cmd->content[0], ".."))
 			cmd->ret_value = 4;
 		error_file(ms, cmd);
-		exit(cmd->ret_value);
+		return(cmd->ret_value);
 	}
 	return (TRUE);
 }

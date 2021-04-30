@@ -61,6 +61,7 @@
 # define DRIGHT 8
 
 int			DEBUG;
+# define FREE_DEBUG 10
 
 typedef struct			s_termcaps
 {
@@ -149,6 +150,7 @@ typedef struct			s_ms
 	int					last;
 	int					ret;
 	int					charge;
+	int					forked;
 }						t_ms;
 
 t_ms					*g_ms;
