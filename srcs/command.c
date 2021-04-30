@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/21 14:52:26 by bahaas            #+#    #+#             */
-/*   Updated: 2021/04/29 13:44:05 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/04/30 13:18:26 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,26 +74,8 @@ int			token_number_in_cmd(t_tokens **tokens)
 			break ;
 		}
 	}
-	//printf("token number in cmd : %d\n", i);
 	return (i);
 }
-
-/*
-   void 	token_is_arg_or_cmd(t_cmd **new_cmd, t_tokens **tokens, int i)
-   {
-   while ((*tokens))
-   {
-   if ((*tokens)->type_content == CMD_ARGS)
-   {
-   (*new_cmd)->content[i] = ft_strdup((*tokens)->content);
-   (*new_cmd)->type_link = CMD_ARGS;
-   i++;
- *tokens = (*tokens)->next;
- }
- else
- break ;
- }
- }*/
 
 /*
  ** We translate a grp of tokens into a cmd. We find number of tokens until
@@ -125,7 +107,6 @@ void		tokens_to_cmd(t_cmd **cmd, t_tokens **tokens)
 		*tokens = (*tokens)->next;
 		return ;
 	}
-	//token_is_arg_or_cmd(&new_cmd, tokens, i);
 	while ((*tokens))
 	{
 		if ((*tokens)->type_content == CMD_ARGS && ((*tokens)->prev && (*tokens)->prev->type_content == REDIR))
@@ -191,75 +172,32 @@ int			last_cmd_status(t_ms *ms, t_cmd *cmd)
 	return (1);
 }
 
-/*
-static void exec_last_cmd(t_ms* ms, t_cmd *cmd, int in, int out)
+static void	cmd_is_bltn(t_ms *ms, t_cmd *cmd, int exit_in_pipeline)
 {
-	int pid;
-	int fd[2];
-	int fdd = 0;
-if (cmd && get_bltn(ms, cmd->content[0]))
+	if (cmd && get_bltn(ms, cmd->content[0]))
+	{
+		if(!cmd->next || (cmd->next && cmd->next->type_link != 4))
 		{
-			if(!cmd->next || (cmd->next && cmd->next->type_link != 4))
-			{
-				if (DEBUG)
-					printf("builtins : %s\n", cmd->content[0]);
-				ms->last_ret = launch_bltn(ms, cmd);
-				if (DEBUG)
-					printf("sortie de builtins avec ret = %d\n", ms->last_ret);
-			}
-			else
-			{
-				if (DEBUG)
-					printf("On n'execute pas le builtin car il est suivit d'un pipe\n");
-			}
+			if (DEBUG)
+				printf("builtins : %s\n", cmd->content[0]);
+			ms->last_ret = launch_bltn(ms, cmd);
+			if (DEBUG)
+				printf("sortie de builtins avec ret = %d\n", ms->last_ret);
+			if(exit_in_pipeline)
+				exit(ms->last_ret);
 		}
 		else
 		{
-			pipe(fd);
-			pid = fork();
-			if (pid == -1)
-			{
-				perror("fork");
-				exit(1);
-			}
-			else if (pid == 0) {
-				if (DEBUG)
-					printf("fils\n");
-				dup2(fdd, 0);
-				if (cmd->next && cmd->next->type_link == 4)
-					dup2(fd[1], 1);
-				close(fd[0]);
-				search_prog(ms, cmd);
-				if (cmd->ret_value)
-				{
-					if(!ft_strcmp(cmd->content[0], ".."))
-						cmd->ret_value = 4;
-					error_file(ms, cmd);
-					exit(cmd->ret_value);
-				}
-				if (DEBUG)
-					printf("execvp(%s)(",(char*)cmd->content[0]);
-				execvp(cmd->content[0], cmd->content);
-				//exit(1);
-			}
-			else {
-				if (DEBUG)
-					printf("wait du pere\n");
-				int status;
-				waitpid(-1, &status, 0);
-				if (WIFEXITED(status))
-				{
-					ms->last_ret = WEXITSTATUS(status);
-					if (DEBUG)
-						printf("status de sortie du fils = %d\n", ms->last_ret);
-				}
-				if (WIFSIGNALED(status))
-					ms->last_ret = WTERMSIG(status) + 128;
-				close(fd[1]);
-				fdd = fd[0];
-			}
+			if (DEBUG)
+				printf("On n'execute pas le builtin car il est suivit d'un pipe\n");
 		}
-}*/
+	}
+	else
+	{
+		if(DEBUG)
+			printf("*** %s =>pas builtins \n", cmd->content[0]);
+	}
+}
 
 static void pipeline(t_cmd *cmd, t_ms *ms)
 {
@@ -267,11 +205,9 @@ static void pipeline(t_cmd *cmd, t_ms *ms)
 	pid_t pid;
 	int fdd = 0;				/* Backup */
 
-	// while (*cmd != NULL)
 	ms->forked = 0;
 	if (DEBUG)
 		printf("Pipeline : minishell pid : %d\n", getpid());
-	//while (cmd && cmd->next)
 	while (cmd)
 	{
 		if (DEBUG)
@@ -281,13 +217,9 @@ static void pipeline(t_cmd *cmd, t_ms *ms)
 			printf("\tcmd suivante = %s\n", (cmd->next)?cmd->next->content[0]:"(null)");
 		}
 		if (cmd && !ft_strcmp(cmd->content[0], "exit") && !has_pipe(cmd))
-		{
 			ms->last_ret = ft_exit(ms, cmd);
-		}
 		if (cmd && !ft_strcmp(cmd->content[0], "exit") && has_pipe(cmd))
-		{
-			printf("exit non fait\n");
-		}
+			;
 		else
 		{
 			ms->forked++;
@@ -301,38 +233,42 @@ static void pipeline(t_cmd *cmd, t_ms *ms)
 			else if (pid == 0)
 			{
 				if (DEBUG)
-					printf("fils cmd = %s\n", cmd->content[0]);
+					printf("fils(%d) cmd = %s\n",getpid(), cmd->content[0]);
 				dup2(fdd, 0);
 				if (cmd->next && cmd->next->type_link == 4)
 					dup2(fd[1], 1);
 				close(fd[0]);
-				
-				if (cmd && get_bltn(ms, cmd->content[0]))
-				{
+				if(DEBUG)
+					printf("Check cmd before bltn or exec : %s\n", cmd->content[0]);
+				// j'ai refacto le code en commentaire dans la fonction cmd_is_bltn
+				cmd_is_bltn(ms, cmd, 1);
+				/*	if (cmd && get_bltn(ms, cmd->content[0]))
+					{
+					if(DEBUG)
+					printf("cmd : %s is a builtin\n", cmd->content[0]);
 					if(!cmd->next || (cmd->next && cmd->next->type_link != 4))
 					{
-						if (DEBUG)
-							printf("builtins : %s\n", cmd->content[0]);
-						ms->last_ret = launch_bltn(ms, cmd);
-						if (DEBUG)
-							printf("sortie de builtins avec ret = %d\n", ms->last_ret);
-						exit(ms->last_ret);
+					if (DEBUG)
+					printf("builtins : %s\n", cmd->content[0]);
+					ms->last_ret = launch_bltn(ms, cmd);
+					if (DEBUG)
+					printf("sortie de builtins avec ret = %d\n", ms->last_ret);
+					exit(ms->last_ret);
 					}
 					else
 					{
-						if (DEBUG)
-							printf("On n'execute pas le builtin car il est suivit d'un pipe\n");
+					if (DEBUG)
+					printf("On n'execute pas le builtin car il est suivit d'un pipe\n");
 					}
-				}
-				else
-				{
+					}
+					else
+					{
 					if(DEBUG)
-						printf("*** %s =>pas builtins \n", cmd->content[0]);
-				}
-	
+					printf("*** %s =>pas builtins \n", cmd->content[0]);
+					}*/
 				search_prog(ms, cmd);
 				if(DEBUG)
-						printf("cmd->ret_value = %d\n", cmd->ret_value);
+					printf("cmd->ret_value = %d\n", cmd->ret_value);
 				if (cmd->ret_value)
 				{
 					// if(!ft_strcmp(cmd->content[0], ".."))
@@ -346,18 +282,6 @@ static void pipeline(t_cmd *cmd, t_ms *ms)
 			}
 			else
 			{
-				// if (DEBUG)
-				// 	printf("wait du pere\n");
-				// int status;
-				// waitpid(-1, &status, 0); 		/* Collect childs */
-				// if (WIFEXITED(status))
-				// {
-				// 	ms->last_ret = WEXITSTATUS(status);
-				// 	if (DEBUG)
-				// 		printf("status de sortie du fils = %d\n", ms->last_ret);
-				// }
-				// if (WIFSIGNALED(status))
-				// 	ms->last_ret = WTERMSIG(status) + 128;
 				close(fd[1]);
 				fdd = fd[0];
 			}
@@ -374,7 +298,6 @@ static void pipeline(t_cmd *cmd, t_ms *ms)
 		int pid_fils = 0;
 		int last_status[100][2];
 		int i = 0;
-		//last_status = (int**)malloc(sizeof(int*) * ms->forked);
 		while (pid_fils >= 0 )
 		{
 			if (DEBUG)
@@ -419,13 +342,6 @@ static void pipeline(t_cmd *cmd, t_ms *ms)
 		if (DEBUG)
 			printf("pas de Fork \t ms->last_ret = %d\n", ms->last_ret);
 	}
-
-				
-/*
-	if (DEBUG)
-		printf("go to execute last cmd : %s\n", cmd->content[0]);
-	exec_last_cmd(ms, cmd, fdd, STDOUT);
-*/
 	if (DEBUG)
 		printf("sortie Pipeline\n");
 }
@@ -465,39 +381,30 @@ void		line_to_cmd(t_ms *ms, char *line, t_cmd *cmd)
 	to_free = cmd;
 	tmp = cmd;
 	if (nb_cmd(cmd) > 1 || (nb_cmd(cmd) == 1 && !get_bltn(ms, cmd->content[0])))
-		pipeline(tmp, ms);
+	{
+		if(last_cmd_status(ms, cmd))
+			pipeline(tmp, ms);
+	}
 	else
 	{
-		if (cmd && get_bltn(ms, cmd->content[0]))
-				{
-					if(!cmd->next || (cmd->next && cmd->next->type_link != 4))
-					{
-						if (DEBUG)
-							printf("builtins : %s\n", cmd->content[0]);
-						ms->last_ret = launch_bltn(ms, cmd);
-						if (DEBUG)
-							printf("sortie de builtins avec ret = %d\n", ms->last_ret);
-						//return(ms->last_ret);
-					}
-					else
-					{
-						if (DEBUG)
-							printf("On n'execute pas le builtin car il est suivit d'un pipe\n");
-					}
-				}
+		// j'ai refacto le code en commentaire dans la fonction cmd_is_bltn
+		cmd_is_bltn(ms, cmd, 0);
+		/*	if (cmd && get_bltn(ms, cmd->content[0]))
+			{
+			if(!cmd->next || (cmd->next && cmd->next->type_link != 4))
+			{
+			if (DEBUG)
+			printf("builtins : %s\n", cmd->content[0]);
+			ms->last_ret = launch_bltn(ms, cmd);
+			if (DEBUG)
+			printf("sortie de builtins avec ret = %d\n", ms->last_ret);
+			}
+			else
+			{
+			if (DEBUG)
+			printf("On n'execute pas le builtin car il est suivit d'un pipe\n");
+			}
+			}*/
 	}
-	// else
-	// {
-	// 	while(tmp)
-	// 	{
-	// 		if(!tmp->next)
-	// 			tmp->is_last = 1;
-	// 		tmp = tmp->next;
-	// 	}
-	// 	if (last_cmd_status(ms, cmd))
-	// 	setup_execution(ms, cmd);
-	// }
-
-
 	free_cmd(to_free);
 }
