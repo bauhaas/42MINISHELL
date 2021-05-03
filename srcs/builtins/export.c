@@ -53,8 +53,6 @@ static int	export_ok(char **arg_split, t_ms *ms)
 			new->value = ft_strdup(arg_split[1]);
 		else
 			new->value = ft_strnew(0);
-		if(DEBUG)
-			printf("new env : %s->%s\n", new->name, new->value);
 		ft_lstadd_back(&ms->env, ft_lstnew(new));
 	}
 	else
@@ -64,7 +62,6 @@ static int	export_ok(char **arg_split, t_ms *ms)
 			new->value = ft_strdup(arg_split[1]);
 		else
 			new->value = ft_strnew(0);
-		printf("update env : %s->%s\n", new->name, new->value);
 	}
 	return (0);
 }
@@ -107,7 +104,7 @@ static int	export_alone(t_list *tmp)
 		copy = copy->next;
 	}
 	ft_lstclear(&copy, &free_env);
-	return (0);	
+	return (0);
 }
 
 int			ft_export(t_ms *ms, t_cmd *cmd)
@@ -117,20 +114,17 @@ int			ft_export(t_ms *ms, t_cmd *cmd)
 
 	i = 1;
 	status = 0;
-	if(DEBUG)
-		printf("cmd->is_env = %d\n", cmd->is_env);
 	if (!cmd->content[i])
 		return (export_alone(ms->env));
 	else
 	{
 		while (cmd->content[i])
 		{
-			if (ft_is_empty(cmd->content[i]) && cmd->is_env && !cmd->content[i + 1])
-				status |= export_alone(ms->env);
-			if (!ft_is_empty(cmd->content[i]))
-				status |= arg_to_var(cmd->content[i++], ms);
+			if (ft_is_empty(cmd->content[i]) && cmd->is_env &&
+				!cmd->content[i + 1])
+				return (export_alone(ms->env));
 			else
-				i++;
+				status |= arg_to_var(cmd->content[i++], ms);
 		}
 	}
 	return (status);
