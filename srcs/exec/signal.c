@@ -14,9 +14,17 @@
 
 void	sig_int(int code)
 {
+		// ft_putstr_fd("function sig_int() pid= ", 2);
+		// ft_putnbr_fd(g_ms->pid, 2);
+		// ft_putstr_fd("\n", 2);
+		// ft_putstr_fd("forked = ",2);
+		// ft_putnbr_fd(g_ms->forked, 2);
+		// ft_putstr_fd("\n", 2);
+	// if (g_ms->forked)
+	// 	return ;
 	g_ms->signal = code;
 	g_ms->last_ret = 128 + code;
-	if (g_ms->pid)
+	if (g_ms->pid || g_ms->forked)
 		write(1, "\n", 1);
 	else
 	{

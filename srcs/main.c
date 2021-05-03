@@ -98,8 +98,8 @@ int					main(int argc, char **argv, char **envp)
 	(void)argv;
 	ft_bzero(&ms, sizeof(t_ms));
 	init_ms(&ms, envp);
-	//signal(SIGINT, &sig_int);
-	//signal(SIGQUIT, &sig_quit);
+	signal(SIGINT, &sig_int);
+	signal(SIGQUIT, &sig_quit);
 	g_ms = &ms;
 	if (argc == 1 || argc == 2)
 	{
