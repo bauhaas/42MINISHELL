@@ -102,7 +102,10 @@ int			ft_cd(t_ms *ms, t_cmd *cmd)
 		return (set_cd(ft_getenv(&ms->env, "HOME", 1), ms));
 	}
 	if (ft_strcmp(cmd->content[1], "-") == 0)
+	{
+		ft_pwd(ms, cmd);
 		return (set_cd(ms->old_pwd, ms));
+	}
 	else
 		return (set_cd(cmd->content[1], ms));
 }
