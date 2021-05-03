@@ -49,18 +49,18 @@ int			prompt(t_ms *ms)
 	if (ms->last_ret)
 	{
 		ft_putstr_fd("\033[7;31m 🤬 \033[0m", STDOUT);
-		ft_putstr_fd("\033[0;31;44m \033[0m", STDOUT);
+		ft_putstr_fd("\033[0;31;44m \033[0m", STDOUT);
 	}
 	else
 	{
 		ft_putstr_fd("\033[7;32m 😀 \033[0m", STDOUT);
-		ft_putstr_fd("\033[0;32;44m \033[0m", STDOUT);
+		ft_putstr_fd("\033[0;32;44m \033[0m", STDOUT);
 	}
 	ft_putstr_fd("\033[7;34m", 1);
 	ft_putstr_fd(prompt, 1);
-	ft_putstr_fd(" \033[0;34;43m\033[0m", 1);
+	ft_putstr_fd(" \033[0;34;43m\033[0m", 1);
 	ft_putstr_fd("\033[7;33m$>\033[0m", 1);
-	ft_putstr_fd("\033[0;33;33m\033[0m", 1);
+	ft_putstr_fd("\033[0;33;33m\033[0m", 1);
 	ft_strdel(&prompt);
-	return (ret + 11);
+	return (ret + 8);
 }
