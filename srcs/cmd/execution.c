@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/03 11:47:55 by bahaas            #+#    #+#             */
-/*   Updated: 2021/05/03 12:45:38 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/05/03 14:08:37 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,8 @@ void			pipeline(t_cmd *cmd, t_ms *ms)
 	ms->ret = 0;
 	ms->forked = 0;
 	has_redir_first = 0;
-	fd = 0;
+	fd[0] = 0;
+	fd[1] = 0;
 	while (cmd && is_redir(cmd))
 	{
 		if (is_type(cmd, DRIGHT))

@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/21 14:52:26 by bahaas            #+#    #+#             */
-/*   Updated: 2021/05/03 12:28:37 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/05/03 14:08:00 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,6 @@ void		line_to_cmd(t_ms *ms, char *line, t_cmd *cmd)
 			pipeline(tmp, ms);
 	}
 	else
-		cmd_is_bltn(ms, cmd, 0);
+		select_execution(ms, cmd, 0);
 	free_cmd(to_free);
 }
