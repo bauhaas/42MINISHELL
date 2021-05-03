@@ -6,11 +6,33 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/21 14:52:26 by bahaas            #+#    #+#             */
-/*   Updated: 2021/05/03 14:08:00 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/05/03 15:37:38 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+void		first_cmd_is_redir(t_ms *ms, t_cmd **cmd)
+{
+	int			has_redir_first;
+
+	has_redir_first = 0;
+	while (cmd && is_redir(*cmd))
+	{
+		select_redirection(ms, *cmd, (*cmd)->next);
+		if (*cmd)
+			*cmd = (*cmd)->next->next;
+		has_redir_first = 1;
+		if (ms->ret)
+		{
+			ms->last_ret = 1;
+			break ;
+		}
+	}
+	if (has_redir_first && is_type(*cmd, PIPES) && (*cmd)->next)
+		*cmd = (*cmd)->next;
+	reset_fd(ms);
+}
 
 int			print_cmd_error(t_ms *ms, t_cmd *cmd)
 {
@@ -86,14 +108,12 @@ void		line_to_cmd(t_ms *ms, char *line, t_cmd *cmd)
 	ms->total_consecutive_pipes = 0;
 	cmd = NULL;
 	parse(line, ms);
-	if (DEBUG >= 3)
-		print_tokens(ms->tokens);
+	print_tokens(ms->tokens);
 	head = ms->tokens;
 	while (head)
 		tokens_to_cmd(ms, &cmd, &head);
 	free_tokens(ms->tokens);
-	if (DEBUG)
-		print_cmd(cmd);
+	print_cmd(cmd);
 	to_free = cmd;
 	tmp = cmd;
 	if (nb_cmd(cmd) > 1 || (nb_cmd(cmd) == 1 && !get_bltn(ms, cmd->content[0])))

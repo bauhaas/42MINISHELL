@@ -6,20 +6,20 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/03 11:47:55 by bahaas            #+#    #+#             */
-/*   Updated: 2021/05/03 14:08:37 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/05/03 14:59:12 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static t_cmd	*next_cmd_to_execute(t_ms *ms, t_cmd *cmd)
+static t_cmd	*next_cmd_to_execute(t_cmd *cmd)
 {
 	cmd = cmd->next;
 	while (cmd)
 	{
 		cmd = cmd->next;
 		if (cmd && ((is_redir(cmd)) || (is_type(cmd, PIPES)) ||
-			(cmd->prev && is_redir(cmd->prev))))
+					(cmd->prev && is_redir(cmd->prev))))
 			cmd = cmd->next;
 		else
 			break ;
@@ -48,7 +48,7 @@ static int		last_pid_id(int nb_fork, int last_status[100][2])
 	return (last_status[last_i][1]);
 }
 
-static void		waiting_loop(t_ms *ms, t_cmd *cmd)
+static void		waiting_loop(t_ms *ms)
 {
 	int			status;
 	int			pid_fils;
@@ -91,69 +91,25 @@ void			pipeline(t_cmd *cmd, t_ms *ms)
 	int			fd[2];
 	pid_t		pid;
 	int			fdd;
-	int			has_redir_first;
 
 	ms->ret = 0;
 	ms->forked = 0;
-	has_redir_first = 0;
-	fd[0] = 0;
-	fd[1] = 0;
-	while (cmd && is_redir(cmd))
-	{
-		if (is_type(cmd, DRIGHT))
-			redir(ms, cmd->next, DRIGHT);
-		else if (is_type(cmd, RIGHT))
-			redir(ms, cmd->next, RIGHT);
-		else if (is_type(cmd, LEFT))
-			input(ms, cmd->next);
-		if (cmd)
-			cmd = cmd->next->next;
-		has_redir_first = 1;
-		if (ms->ret)
-		{
-			ms->last_ret = 1;
-			break ;
-		}
-	}
-	if (has_redir_first && is_type(cmd, PIPES) && cmd->next)
-		cmd = cmd->next;
-	reset_fd(ms);
+	first_cmd_is_redir(ms, &cmd);
 	while (cmd && !ms->ret)
 	{
-		if (cmd && !ft_strcmp(cmd->content[0], "exit"))
-			;
-		else
+		if (cmd && ft_strcmp(cmd->content[0], "exit"))
 		{
 			ms->forked++;
 			pipe(fd);
 			pid = fork();
 			if (pid == -1 || ms->forked == 100)
-			{
-				ft_putstr_fd("Minishell: fork: Out of memory\n", 2);
-				exit(12);
-			}
+				fork_error();
 			else if (pid == 0)
-			{
-				dup2(fdd, STDIN);
-				if (cmd->next && cmd->next->type_link == 4)
-					dup2(fd[1], STDOUT);
-				if (cmd->next && is_redir(cmd->next))
-					set_redirection(ms, cmd);
-				if (ms->ret)
-					exit(ms->ret);
-				close(fd[0]);
-				select_execution(ms, cmd, 1);
-				if (cmd->ret_value)
-					exit(ms->last_ret);
-				execve(cmd->content[0], cmd->content, ms->arr_env);
-			}
+				child_execution(ms, &cmd, fdd, fd);
 			else
-			{
-				close(fd[1]);
-				fdd = fd[0];
-			}
+				parent_execution(&fdd, fd);
 		}
-		cmd = next_cmd_to_execute(ms, cmd);
+		cmd = next_cmd_to_execute(cmd);
 	}
-	waiting_loop(ms, cmd);
+	waiting_loop(ms);
 }

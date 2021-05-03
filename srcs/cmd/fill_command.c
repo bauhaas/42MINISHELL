@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/03 13:56:58 by bahaas            #+#    #+#             */
-/*   Updated: 2021/05/03 14:01:26 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/05/03 14:50:41 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void		set_redirection_type(t_cmd *cmd, t_tokens **tokens)
 	}
 }
 
-void		fill_sep_cmd(t_ms *ms, t_cmd **new, t_cmd **cmd, t_tokens **tokens)
+void		fill_sep_cmd(t_cmd **new, t_tokens **tokens)
 {
 	int i;
 
@@ -38,7 +38,7 @@ void		fill_sep_cmd(t_ms *ms, t_cmd **new, t_cmd **cmd, t_tokens **tokens)
 	(*new)->content[i] = NULL;
 }
 
-void		fill_arg_cmd(t_ms *ms, t_cmd **new, t_cmd **cmd, t_tokens **tokens)
+void		fill_arg_cmd(t_cmd **new, t_tokens **tokens)
 {
 	int i;
 
@@ -54,7 +54,8 @@ void		fill_arg_cmd(t_ms *ms, t_cmd **new, t_cmd **cmd, t_tokens **tokens)
 			i++;
 			*tokens = (*tokens)->next;
 			if (((*tokens) &&
-					(*tokens)->prev && (*tokens)->prev->type_content == REDIR))
+					(*tokens)->prev && (*tokens)->prev->prev &&
+					(*tokens)->prev->prev->type_content == REDIR))
 				break ;
 		}
 		else
