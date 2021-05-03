@@ -6,7 +6,7 @@
 /*   By: clorin <clorin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 12:28:05 by clorin            #+#    #+#             */
-/*   Updated: 2021/04/30 19:41:31 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/05/03 11:52:38 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -296,6 +296,9 @@ void			redir(t_ms *mini, t_cmd *cmd, int type);
 void			input(t_ms *mini, t_cmd *cmd);
 void			reset_fd(t_ms *ms);
 void			ft_close(int fd);
+void			cmd_is_bltn(t_ms *ms, t_cmd *cmd, int exit_in_pipeline);
+void			set_redirection(t_ms *ms, t_cmd *cmd);
+void			pipeline(t_cmd *cmd, t_ms *ms);
 /*
 ** init_env
 */
