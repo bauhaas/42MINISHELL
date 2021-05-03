@@ -296,7 +296,7 @@ void			redir(t_ms *mini, t_cmd *cmd, int type);
 void			input(t_ms *mini, t_cmd *cmd);
 void			reset_fd(t_ms *ms);
 void			ft_close(int fd);
-void			cmd_is_bltn(t_ms *ms, t_cmd *cmd, int exit_in_pipeline);
+void			select_execution(t_ms *ms, t_cmd *cmd, int exit_in_pipeline);
 void			set_redirection(t_ms *ms, t_cmd *cmd);
 void			pipeline(t_cmd *cmd, t_ms *ms);
 void			tokens_to_cmd(t_ms *ms, t_cmd **cmd,t_tokens **tokens);
