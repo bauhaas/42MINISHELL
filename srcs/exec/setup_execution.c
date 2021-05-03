@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/13 14:06:30 by bahaas            #+#    #+#             */
-/*   Updated: 2021/04/28 15:14:53 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/05/03 11:22:03 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ void	reset_fd(t_ms *ms)
 	ms->pipout = -1;
 }
 
+/*
 t_cmd	*next_cmd_to_execute(t_cmd *cmd)
 {
 	cmd = cmd->next;
@@ -47,13 +48,14 @@ t_cmd	*next_cmd_to_execute(t_cmd *cmd)
 	}
 	return (cmd);
 }
+*/
 
 /*
 ** 1. Execute cmd block per block (séparateur = ; )
 ** 2. After execution, we reset our fd to stdin & stdout for next command
 ** 3. On se déplace au prochain bloc de commande (premiere commande après un ;)
 */
-
+/*
 void	setup_execution(t_ms *ms, t_cmd *cmd)
 {
 	int status;
@@ -105,4 +107,4 @@ void	setup_execution(t_ms *ms, t_cmd *cmd)
 	}
 	reset_fd(ms);
 }
-
+*/

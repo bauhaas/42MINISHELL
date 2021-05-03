@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 14:40:36 by bahaas            #+#    #+#             */
-/*   Updated: 2021/04/29 18:24:10 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/05/03 11:26:06 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ void		launch_exec(t_ms *ms, t_cmd *cmd)
 	else
 		;
 }
-
+/*
 void		launch_cmd(t_ms *ms, t_cmd *cmd, int pipe)
 {
 	if (ms->recursive == 0 && ft_strcmp(cmd->content[0], "cat") && pipe == 0)
@@ -136,15 +136,16 @@ void		launch_cmd(t_ms *ms, t_cmd *cmd, int pipe)
 	ms->pipout = -1;
 	ms->recursive = 0;
 }
+*/
 
+/*
 void		launch_redirection(t_ms *ms, t_cmd *cmd, int redirection_type)
 {
 	char *file;
-/*
+
 	printf("LAUNCH REDIRECTION\n");
 	printf("with cmd : %s\n", cmd->content[0]);
 	printf("with redirection_type : %d\n", redirection_type);
-*/
 	file = cmd->content[0];
 	if (redirection_type == RIGHT || redirection_type == DRIGHT)
 	{
@@ -161,4 +162,4 @@ void		launch_redirection(t_ms *ms, t_cmd *cmd, int redirection_type)
 		ms->fdin = open(file, O_RDONLY, 0644);
 		dup2(ms->fdin, STDIN);
 	}
-}
+}*/
