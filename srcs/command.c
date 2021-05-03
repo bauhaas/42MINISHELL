@@ -245,6 +245,6 @@ void		line_to_cmd(t_ms *ms, char *line, t_cmd *cmd)
 			pipeline(tmp, ms);
 	}
 	else
-		cmd_is_bltn(ms, cmd, 0);
+		select_execution(ms, cmd, 0);
 	free_cmd(to_free);
 }
