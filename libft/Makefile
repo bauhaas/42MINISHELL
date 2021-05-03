@@ -45,15 +45,9 @@ all:		${NAME}
 
 $(NAME):	${OBJS}
 			@echo "\n----------- \033[32mTerminé\033[0m -----------"
-			@echo "\n\033[32m"
-			@echo "██      ██ ██████  ███████ ████████"
-			@echo "██      ██ ██   ██ ██         ██   "
-			@echo "██      ██ ██████  █████      ██   " 
-			@echo "██      ██ ██   ██ ██         ██   "
-			@echo "███████ ██ ██████  ██         ██   " 
 			
 			@ar rc ${NAME} ${OBJS}
-			@echo "\033[0m\nCréation de la librairie ... \033[32mok\033[0m"
+			@echo "\033[0m\nCréation de la librairie ...libft \033[32mok\033[0m"
 			@ranlib ${NAME}
 			@echo "Optimisation ... \033[32mok\033[0m"
 			@echo "\033[1;31;40m -------------- TERMINÉ ---------------\033[0m"

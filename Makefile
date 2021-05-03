@@ -22,7 +22,7 @@ SRC		= srcs/main.c srcs/init.c srcs/cmd/command.c srcs/init_env.c\
 		srcs/parsing/expansion.c  srcs/parsing/tokens.c srcs/parsing/utils.c srcs/parsing/parser.c \
 		srcs/parsing/parser_utils.c srcs/parsing/parse_bloc.c\
 		srcs/print.c \
-		srcs/exec/file.c srcs/exec/setup_execution.c srcs/exec/execute.c srcs/exec/signal.c srcs/exec/launch.c srcs/exec/redirection.c \
+		srcs/exec/file.c srcs/exec/signal.c srcs/exec/launch.c srcs/exec/redirection.c \
 		srcs/cmd/execution.c srcs/cmd/tokens_to_cmd.c srcs/cmd/fill_command.c
 
 CC		= clang
@@ -41,6 +41,11 @@ all :		$(NAME)
 		@$(CC) $(FLAGS) $(HEADER) -c $< -o $(<:.c=.o)
 
 $(NAME) :	$(OBJ)
+		@echo "\033[31m██   ██ ██████  \033[32m ███    ███ ██ ███    ██ ██ ███████ ██   ██ ███████ ██      ██\033[0m" 
+		@echo "\033[31m██   ██      ██ \033[32m ████  ████ ██ ████   ██ ██ ██      ██   ██ ██      ██      ██\033[0m"   
+		@echo "\033[31m███████  █████  \033[32m ██ ████ ██ ██ ██ ██  ██ ██ ███████ ███████ █████   ██      ██\033[0m"
+		@echo "\033[31m     ██ ██      \033[32m ██  ██  ██ ██ ██  ██ ██ ██      ██ ██   ██ ██      ██      ██\033[0m"
+		@echo "\033[31m     ██ ███████ \033[32m ██      ██ ██ ██   ████ ██ ███████ ██   ██ ███████ ███████ ███████\033[0m"
 		@make -C libft/
 		@$(CC) $(FLAGS) $(HEADER) $(OBJ) -o $(NAME) -L libft/ -lft -lncurses
 		@echo "Building minishell : \033[32mOK\033[0m"
