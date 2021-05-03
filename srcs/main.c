@@ -21,7 +21,7 @@ static void			free_list(void *list)
 	free(e);
 }
 
-static int			valid_bloc(t_list **list_bloc)
+static int			valid_bloc(t_list **list_bloc, char *line)
 {
 	t_list			*bloc;
 	char			*trim_bloc;
@@ -32,12 +32,12 @@ static int			valid_bloc(t_list **list_bloc)
 		trim_bloc = ft_strtrim((char*)bloc->content, " \t\n\v\f\r");
 		if (ft_is_empty(trim_bloc))
 		{
-			ft_putstr_fd("Minishell: ", 2);
-			ft_putstr_fd("syntax error near unexpected token `;'\n", 2);
-			return (FALSE);
+			ft_strdel(&trim_bloc);
+			return (nb_semicolon(line));
 		}
 		else if (trim_bloc[0] == '|')
 		{
+			ft_strdel(&trim_bloc);
 			ft_putstr_fd("Minishell: ", 2);
 			ft_putstr_fd("syntax error near unexpected token `|'\n", 2);
 			return (FALSE);
@@ -61,7 +61,7 @@ static int			line_processing(t_ms *ms)
 		return (2);
 	}
 	bloc = parse_bloc(ms->line);
-	if (!valid_bloc(&bloc))
+	if (!valid_bloc(&bloc, ms->line))
 	{
 		ft_lstclear(&head_bloc, &free_list);
 		return (2);
