@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/21 00:44:41 by bahaas            #+#    #+#             */
-/*   Updated: 2021/04/12 17:56:27 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/05/03 15:37:47 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,12 +62,14 @@ t_var		*ft_get_t_var(t_list **head_ref, char *elem)
 	return (NULL);
 }
 
-int			is_type(t_cmd *cmd, int type)
+int			has_valid_redir_or_pipe(t_cmd *cmd)
 {
-	if (cmd && cmd->type_link == type)
-		return (1);
-	else
-		return (0);
+	if (cmd->next && (is_redir(cmd->next) || is_pipe(cmd->next)))
+	{
+		if (cmd->next->ret_value == 4)
+			return (0);
+	}
+	return (1);
 }
 
 int			has_pipe(t_cmd *cmd)

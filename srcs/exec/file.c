@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 15:30:38 by bahaas            #+#    #+#             */
-/*   Updated: 2021/04/29 18:04:48 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/05/03 14:15:07 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,20 +114,20 @@ static void			find_absolute_path(t_ms *ms, t_cmd *cmd, int i)
 **	search and validate the order
 */
 
-int				search_prog(t_ms *ms, t_cmd *cmd)
+int					search_prog(t_ms *ms, t_cmd *cmd)
 {
 	if (cmd->content[0][0] != '.' && cmd->content[0][0] != '/')
 		find_absolute_path(ms, cmd, 0);
 	else
 		valid_file(cmd, 0);
-	if(DEBUG)
+	if (DEBUG)
 		printf("search_prog cmd->ret_value = %d\n", cmd->ret_value);
-	if(cmd->ret_value)
+	if (cmd->ret_value)
 	{
-		if(!ft_strcmp(cmd->content[0], ".."))
+		if (!ft_strcmp(cmd->content[0], ".."))
 			cmd->ret_value = 4;
 		error_file(ms, cmd);
-		return(cmd->ret_value);
+		return (cmd->ret_value);
 	}
 	return (TRUE);
 }
