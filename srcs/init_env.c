@@ -18,10 +18,10 @@
 ** the 2nd is the value. Making sure that our strings after split exist.
 */
 
-t_var		*init_envvar(char *env_var)
+t_var			*init_envvar(char *env_var)
 {
-	char	**split_var;
-	t_var	*new;
+	char		**split_var;
+	t_var		*new;
 
 	new = malloc(sizeof(t_var));
 	if (!new)
@@ -43,7 +43,7 @@ t_var		*init_envvar(char *env_var)
 ** Create a new node & fill it with name + value of the var sent.
 */
 
-t_list		*lstnew_var(t_var *content)
+t_list			*lstnew_var(t_var *content)
 {
 	t_list		*new;
 
@@ -64,11 +64,11 @@ t_list		*lstnew_var(t_var *content)
 ** a new element in our list
 */
 
-void		init_lstenv(t_ms *ms, t_list **lst_env, char **env)
+void			init_lstenv(t_ms *ms, t_list **lst_env, char **env)
 {
-	t_list	*new;
-	t_var	*var;
-	int		i;
+	t_list		*new;
+	t_var		*var;
+	int			i;
 
 	i = 0;
 	while (env[i] != NULL)
@@ -87,12 +87,12 @@ void		init_lstenv(t_ms *ms, t_list **lst_env, char **env)
 	}
 }
 
-char		**lst_to_arr(t_list *env)
+char			**lst_to_arr(t_list *env)
 {
-	char	**arr_env;
-	t_list	*tmp;
-	t_var	*var;
-	int		i;
+	char		**arr_env;
+	t_list		*tmp;
+	t_var		*var;
+	int			i;
 
 	tmp = env;
 	i = 0;
