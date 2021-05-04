@@ -45,6 +45,19 @@ void			upgrade_shlvl(t_ms *ms)
 	}
 }
 
+static void		create_var(t_ms *ms, char *name, char *value)
+{
+	t_var	*new;
+
+	new = (t_var*)malloc(sizeof(t_var));
+	if (new)
+	{
+		new->name = ft_strdup(name);
+		new->value = ft_strdup(value);
+		ft_lstadd_back(&ms->env, ft_lstnew(new));
+	}
+}
+
 static void		init_pwd(t_ms *ms)
 {
 	char *tmp;
@@ -55,12 +68,14 @@ static void		init_pwd(t_ms *ms)
 	{
 		ft_strdel(&ms->pwd);
 		ms->pwd = ft_strdup(tmp);
+		create_var(ms, "PWD", ms->pwd);
 		ft_strclr(tmp);
 	}
 	if (!ft_getenv(&ms->env, "OLDPWD", 1))
 	{
 		ft_strdel(&ms->old_pwd);
 		ms->old_pwd = ft_strdup(tmp);
+		create_var(ms, "OLDPWD", ms->old_pwd);
 	}
 	ft_strdel(&tmp);
 }
