@@ -81,6 +81,20 @@ static int	set_cd(char *new_loc, t_ms *ms)
 	update_var(ms);
 	return (0);
 }
+static int	cd_old_pwd(t_ms *ms, t_cmd *cmd)
+{
+	int		ret;
+
+	if (ft_is_empty(ms->old_pwd))
+	{
+		ft_putstr_fd("minishell: cd: OLDPWD not set\n", 2);
+		return (1);
+	}
+	ret = set_cd(ms->old_pwd, ms);
+	if (ret == 0)
+		ft_pwd(ms, cmd);
+	return (ret);
+}
 
 int			ft_cd(t_ms *ms, t_cmd *cmd)
 {
@@ -102,10 +116,7 @@ int			ft_cd(t_ms *ms, t_cmd *cmd)
 		return (set_cd(ft_getenv(&ms->env, "HOME", 1), ms));
 	}
 	if (ft_strcmp(cmd->content[1], "-") == 0)
-	{
-		ft_pwd(ms, cmd);
-		return (set_cd(ms->old_pwd, ms));
-	}
+		return (cd_old_pwd(ms, cmd));
 	else
 		return (set_cd(cmd->content[1], ms));
 }
