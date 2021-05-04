@@ -6,7 +6,7 @@
 #    By: clorin <clorin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/03/17 12:01:33 by clorin            #+#    #+#              #
-#    Updated: 2021/05/03 15:42:54 by bahaas           ###   ########.fr        #
+#    Updated: 2021/05/03 22:25:02 by bahaas           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,21 +14,45 @@ NAME		= minishell
 
 VERSION		= 0.9
 
-SRC		= srcs/main.c srcs/init.c srcs/cmd/command.c srcs/init_env.c\
-		srcs/termcaps/cursor.c srcs/termcaps/termcaps.c srcs/termcaps/keyboard.c srcs/termcaps/termcaps_utils.c\
-		srcs/termcaps/print_utils.c srcs/termcaps/prompt.c srcs/termcaps/history.c srcs/termcaps/cursor_utils.c\
-		srcs/builtins/pwd.c srcs/builtins/echo.c srcs/builtins/export.c	srcs/builtins/env.c srcs/builtins/export_utils.c\
-		srcs/builtins/unset.c srcs/builtins/exit.c srcs/builtins/cd.c srcs/builtins/builtins.c srcs/utils.c \
-		srcs/parsing/expansion.c  srcs/parsing/tokens.c srcs/parsing/utils.c srcs/parsing/parser.c \
-		srcs/parsing/parser_utils.c srcs/parsing/parse_bloc.c\
-		srcs/print.c \
-		srcs/exec/file.c  srcs/exec/signal.c srcs/exec/launch.c srcs/exec/redirection.c \
-		srcs/cmd/execution.c srcs/cmd/tokens_to_cmd.c srcs/cmd/fill_command.c srcs/cmd/fork.c srcs/exec/fd.c srcs/exec/types.c
+SRC		= srcs/main.c srcs/init.c srcs/init_env.c srcs/utils.c srcs/print.c \
+		srcs/termcaps/cursor.c			\
+		srcs/termcaps/termcaps.c		\
+		srcs/termcaps/keyboard.c		\
+		srcs/termcaps/termcaps_utils.c	\
+		srcs/termcaps/print_utils.c		\
+		srcs/termcaps/prompt.c			\
+		srcs/termcaps/history.c			\
+		srcs/termcaps/cursor_utils.c	\
+		srcs/builtins/pwd.c				\
+		srcs/builtins/echo.c			\
+		srcs/builtins/export.c			\
+		srcs/builtins/env.c				\
+		srcs/builtins/export_utils.c	\
+		srcs/builtins/unset.c			\
+		srcs/builtins/exit.c			\
+		srcs/builtins/cd.c				\
+		srcs/builtins/builtins.c		\
+		srcs/parsing/expansion.c		\
+		srcs/parsing/tokens.c			\
+		srcs/parsing/utils.c			\
+		srcs/parsing/parser.c			\
+		srcs/parsing/parser_utils.c		\
+		srcs/parsing/parse_bloc.c		\
+		srcs/exec/file.c				\
+		srcs/exec/signal.c				\
+		srcs/exec/launch.c				\
+		srcs/exec/redirection.c			\
+		srcs/exec/execution.c			\
+		srcs/exec/fork.c				\
+		srcs/exec/fd.c					\
+		srcs/exec/types.c				\
+		srcs/cmd/tokens_to_cmd.c		\
+		srcs/cmd/command.c				\
+		srcs/cmd/fill_command.c			\
 
 CC		= clang
 
 FLAGS		= -Wall -Werror -Wextra -g -D VERSION=$(VERSION)
-#FLAGS		= -g -D VERSION=$(VERSION)
 
 HEADER		= -I includes/
 

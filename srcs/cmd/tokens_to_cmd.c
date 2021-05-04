@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/03 12:13:07 by bahaas            #+#    #+#             */
-/*   Updated: 2021/05/03 14:52:32 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/05/03 21:44:11 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,9 +89,7 @@ int		set_cmd_creation(t_ms *ms, t_cmd **new, t_cmd **cmd, t_tokens **tokens)
 void	tokens_to_cmd(t_ms *ms, t_cmd **cmd, t_tokens **tokens)
 {
 	t_cmd		*new;
-	int			i;
 
-	i = 0;
 	if (!set_cmd_creation(ms, &new, cmd, tokens))
 		return ;
 	if ((*tokens)->type_content != CMD_ARGS)

@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/03 15:31:08 by bahaas            #+#    #+#             */
-/*   Updated: 2021/05/03 15:37:57 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/05/03 21:33:57 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,5 @@ int		is_type(t_cmd *cmd, int type)
 {
 	if (cmd && cmd->type_link == type)
 		return (1);
-	else
-		return (0);
+	return (0);
 }

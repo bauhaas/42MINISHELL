@@ -6,11 +6,33 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/03 11:47:55 by bahaas            #+#    #+#             */
-/*   Updated: 2021/05/03 14:59:12 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/05/03 23:34:50 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+void			first_cmd_is_redir(t_ms *ms, t_cmd **cmd)
+{
+	int			has_redir_first;
+
+	has_redir_first = 0;
+	while (cmd && is_redir(*cmd))
+	{
+		select_redirection(ms, *cmd, (*cmd)->next);
+		if (*cmd)
+			*cmd = (*cmd)->next->next;
+		has_redir_first = 1;
+		if (ms->ret)
+		{
+			ms->last_ret = 1;
+			break ;
+		}
+	}
+	if (has_redir_first && is_type(*cmd, PIPES) && (*cmd)->next)
+		*cmd = (*cmd)->next;
+	reset_fd(ms);
+}
 
 static t_cmd	*next_cmd_to_execute(t_cmd *cmd)
 {
@@ -74,24 +96,13 @@ static void		waiting_loop(t_ms *ms)
 	}
 }
 
-void			select_execution(t_ms *ms, t_cmd *cmd, int exit_in_pipeline)
-{
-	if (cmd && get_bltn(ms, cmd->content[0]))
-	{
-		ms->last_ret = launch_bltn(ms, cmd);
-		if (exit_in_pipeline)
-			exit(ms->last_ret);
-	}
-	else
-		search_prog(ms, cmd);
-}
-
 void			pipeline(t_cmd *cmd, t_ms *ms)
 {
 	int			fd[2];
 	pid_t		pid;
 	int			fdd;
 
+	fdd = 0;
 	ms->ret = 0;
 	ms->forked = 0;
 	first_cmd_is_redir(ms, &cmd);

@@ -6,33 +6,11 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/21 14:52:26 by bahaas            #+#    #+#             */
-/*   Updated: 2021/05/03 15:37:38 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/05/03 23:15:36 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-void		first_cmd_is_redir(t_ms *ms, t_cmd **cmd)
-{
-	int			has_redir_first;
-
-	has_redir_first = 0;
-	while (cmd && is_redir(*cmd))
-	{
-		select_redirection(ms, *cmd, (*cmd)->next);
-		if (*cmd)
-			*cmd = (*cmd)->next->next;
-		has_redir_first = 1;
-		if (ms->ret)
-		{
-			ms->last_ret = 1;
-			break ;
-		}
-	}
-	if (has_redir_first && is_type(*cmd, PIPES) && (*cmd)->next)
-		*cmd = (*cmd)->next;
-	reset_fd(ms);
-}
 
 int			print_cmd_error(t_ms *ms, t_cmd *cmd)
 {
@@ -122,6 +100,9 @@ void		line_to_cmd(t_ms *ms, char *line, t_cmd *cmd)
 			pipeline(tmp, ms);
 	}
 	else
-		select_execution(ms, cmd, 0);
+	{
+		if (check_cmd_status(ms, cmd))
+			select_execution(ms, cmd, 0);
+	}
 	free_cmd(to_free);
 }
