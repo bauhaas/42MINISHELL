@@ -28,7 +28,6 @@ void	sig_int(int code)
 void	sig_quit(int code)
 {
 	(void)code;
-	if (g_ms->pid)
 		write(1, "\n", 1);
 }
 

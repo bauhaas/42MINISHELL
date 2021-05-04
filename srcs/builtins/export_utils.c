@@ -37,10 +37,23 @@ void		*list_sort(t_list **dest, t_list *list)
 {
 	t_list	*tmp;
 
+	// while(list)
+	// {
+	// 	printf("list->content = %s\n", (char*)list->content);
+	// 	list=list->next;
+	// }
+	t_var *env;
+	//char *name;
+	//char *value;
 	tmp = list;
 	while (tmp)
 	{
-		ft_lstadd_front(dest, ft_memdup(tmp, sizeof(tmp)));
+		env = (t_var*)tmp->content;
+		//name = env->name;
+		//value = env->value;
+		//printf("tmp->content => %s=%s\n", env->name, env->value);
+		ft_lstadd_front(dest, ft_lstnew(env));
+		//ft_lstadd_front(dest, ft_memdup(tmp, sizeof(tmp)));
 		tmp = tmp->next;
 	}
 	ft_list_sort(dest);
