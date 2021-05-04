@@ -111,8 +111,8 @@ typedef struct			s_cmd
 	struct s_cmd		*prev;
 	struct s_cmd		*next;
 	int					is_last;
-	int			has_pipe_before;
-	int			has_pipe_after;
+	int					has_pipe_before;
+	int					has_pipe_after;
 }						t_cmd;
 
 typedef struct			s_ms
@@ -291,25 +291,28 @@ t_list					*parse_bloc(char *str);
 int						nb_semicolon(char *str);
 int						escaped(char *str, int pos);
 int						print_cmd_error(t_ms *ms, t_cmd *cmd);
-void					select_redirection(t_ms *ms, t_cmd *redir_cmd, t_cmd *file_to_redirect);
+void					select_redirection(t_ms *ms, t_cmd *redir_cmd,
+						t_cmd *file_to_redirect);
 int						is_redir(t_cmd *cmd);
-void			redir(t_ms *mini, t_cmd *cmd, int type);
-void			input(t_ms *mini, t_cmd *cmd);
-void			reset_fd(t_ms *ms);
-void			ft_close(int fd);
-void			select_execution(t_ms *ms, t_cmd *cmd, int exit_in_pipeline);
-void			set_redirection(t_ms *ms, t_cmd *cmd);
-void			pipeline(t_cmd *cmd, t_ms *ms);
-void			tokens_to_cmd(t_ms *ms, t_cmd **cmd,t_tokens **tokens);
-int				is_pipe(t_cmd *cmd);
-void		fill_arg_cmd(t_cmd **new, t_tokens **tokens);
-void		fill_sep_cmd(t_cmd **new, t_tokens **tokens);
-void		set_redirection_type(t_cmd *cmd, t_tokens **tokens);
+void					redir(t_ms *mini, t_cmd *cmd, int type);
+void					input(t_ms *mini, t_cmd *cmd);
+void					reset_fd(t_ms *ms);
+void					ft_close(int fd);
+void					select_execution(t_ms *ms, t_cmd *cmd,
+						int exit_in_pipeline);
+void					set_redirection(t_ms *ms, t_cmd *cmd);
+void					pipeline(t_cmd *cmd, t_ms *ms);
+void					tokens_to_cmd(t_ms *ms, t_cmd **cmd, t_tokens **tokens);
+int						is_pipe(t_cmd *cmd);
+void					fill_arg_cmd(t_cmd **new, t_tokens **tokens);
+void					fill_sep_cmd(t_cmd **new, t_tokens **tokens);
+void					set_redirection_type(t_cmd *cmd, t_tokens **tokens);
 
-void		fork_error(void);
-void		parent_execution(int *fdd, int *fd);
-void		child_execution(t_ms *ms, t_cmd **cmd, int fdd, int *fd);
-void		first_cmd_is_redir(t_ms *ms, t_cmd **cmd);
+void					fork_error(void);
+void					parent_execution(int *fdd, int *fd);
+void					child_execution(t_ms *ms, t_cmd **cmd, int fdd,
+						int *fd);
+void					first_cmd_is_redir(t_ms *ms, t_cmd **cmd);
 
 /*
 ** init_env
@@ -319,4 +322,5 @@ char					**lst_to_arr(t_list *env);
 void					init_lstenv(t_ms *ms, t_list **lst_env, char **env);
 t_list					*lstnew_var(t_var *content);
 t_var					*init_envvar(char *env_var);
+void					free_arrstr(char **arr_env);
 #endif
