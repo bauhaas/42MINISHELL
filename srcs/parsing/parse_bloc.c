@@ -28,7 +28,7 @@ int					nb_semicolon(char *str)
 			nb++;
 		i++;
 	}
-	ft_putstr_fd("Minishell: ", 2);
+	ft_putstr_fd("minishell: ", 2);
 	if (nb >= 2)
 		ft_putstr_fd("syntax error near unexpected token `;;'\n", 2);
 	else

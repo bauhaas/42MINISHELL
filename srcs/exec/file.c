@@ -53,7 +53,7 @@ static int			file_exist(const char *file)
 
 void				error_file(t_ms *ms, t_cmd *cmd)
 {
-	ft_putstr_fd("Minishell: ", STDERR);
+	ft_putstr_fd("minishell: ", STDERR);
 	ft_putstr_fd(cmd->content[0], STDERR);
 	if (cmd->ret_value == 1)
 	{
@@ -120,8 +120,6 @@ int					search_prog(t_ms *ms, t_cmd *cmd)
 		find_absolute_path(ms, cmd, 0);
 	else
 		valid_file(cmd, 0);
-	if (DEBUG)
-		printf("search_prog cmd->ret_value = %d\n", cmd->ret_value);
 	if (cmd->ret_value)
 	{
 		if (!ft_strcmp(cmd->content[0], ".."))

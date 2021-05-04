@@ -18,7 +18,7 @@ static int	has_not_egal(char *arg, t_ms *ms)
 
 	if (!valid_name(arg))
 	{
-		ft_putstr_fd("Minishell: export: '", STDERR);
+		ft_putstr_fd("minishell: export: '", STDERR);
 		ft_putstr_fd(arg, STDERR);
 		ft_putstr_fd("': not a valid identifier\n", STDERR);
 		return (1);
@@ -82,7 +82,7 @@ static int	arg_to_var(char *arg, t_ms *ms)
 		}
 		else
 		{
-			ft_putstr_fd("Minishell: export: `", STDERR);
+			ft_putstr_fd("minishell: export: '", STDERR);
 			ft_putstr_fd(arg, STDERR);
 			ft_putstr_fd("': not a valid identifier\n", STDERR);
 			return (1);

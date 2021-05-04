@@ -43,7 +43,7 @@ void		delete_one(t_list **head_ref, char *name)
 
 static void	unset_error(char *bad_identier)
 {
-	ft_putstr_fd("Minishell: unset: `", 2);
+	ft_putstr_fd("minishell: unset: '", 2);
 	ft_putstr_fd(bad_identier, 2);
 	ft_putstr_fd("': not a valid identifier\n", 2);
 }

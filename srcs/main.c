@@ -38,7 +38,7 @@ static int			valid_bloc(t_list **list_bloc, char *line)
 		else if (trim_bloc[0] == '|')
 		{
 			ft_strdel(&trim_bloc);
-			ft_putstr_fd("Minishell: ", 2);
+			ft_putstr_fd("minishell: ", 2);
 			ft_putstr_fd("syntax error near unexpected token `|'\n", 2);
 			return (FALSE);
 		}
@@ -57,7 +57,7 @@ static int			line_processing(t_ms *ms)
 	head_bloc = bloc;
 	if (valid_quotes(ms->line, ft_strlen(ms->line)))
 	{
-		ft_putstr_fd("Minishell: syntax error with open quotes\n", 2);
+		ft_putstr_fd("minishell: syntax error with open quotes\n", 2);
 		return (2);
 	}
 	bloc = parse_bloc(ms->line);
@@ -113,6 +113,6 @@ int					main(int argc, char **argv, char **envp)
 		prompt_loop(&ms);
 	}
 	else
-		ft_putstr_fd("Minishell: no arguments needed\n", 2);
+		ft_putstr_fd("minishell: no arguments needed\n", 2);
 	return (0);
 }

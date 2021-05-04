@@ -58,7 +58,7 @@ static int		valid_exit(t_cmd *cmd, int last_ret)
 	{
 		if (!ft_is_nbr(cmd->content[1]))
 		{
-			ft_putstr_fd("Minishell: exit: ", 2);
+			ft_putstr_fd("minishell: exit: ", 2);
 			ft_putstr_fd(cmd->content[1], 2);
 			ft_putstr_fd(" : Numeric argument required\n", 2);
 			ret = 2;
