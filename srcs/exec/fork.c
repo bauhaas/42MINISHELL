@@ -27,7 +27,6 @@ void			select_execution(t_ms *ms, t_cmd *cmd, int exit_in_pipeline)
 void			child_execution(t_ms *ms, t_cmd **cmd, int fdd, int *fd)
 {
 	dup2(fdd, STDIN);
-
 	if ((*cmd)->next && (*cmd)->next->type_link == 4)
 		dup2(fd[1], STDOUT);
 	if ((*cmd)->next && is_redir((*cmd)->next))
