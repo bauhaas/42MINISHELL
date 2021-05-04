@@ -120,6 +120,7 @@ typedef struct			s_ms
 	t_list				*env;
 	t_hist				*history;
 	t_hist				*cur_histo;
+	t_list				*head_bloc;
 	struct s_bltn		*bltn;
 	t_cmd				*cmd;
 	char				*line;
@@ -254,6 +255,7 @@ void					free_tokens(t_tokens *tokens);
 
 void					free_split(char ***split);
 void					free_env(void *env);
+void					free_list(void *list);
 char					*ft_getenv(t_list **head_ref, char *elem, int i);
 t_var					*ft_get_t_var(t_list **head_ref, char *elem);
 int						valid_name(char *name);

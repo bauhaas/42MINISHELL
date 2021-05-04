@@ -12,7 +12,7 @@
 
 #include "../includes/minishell.h"
 
-static void			free_list(void *list)
+void				free_list(void *list)
 {
 	t_list			*e;
 
@@ -51,10 +51,8 @@ static int			valid_bloc(t_list **list_bloc, char *line)
 static int			line_processing(t_ms *ms)
 {
 	t_list			*bloc;
-	t_list			*head_bloc;
 
-	bloc = NULL;
-	head_bloc = bloc;
+	bloc = ms->head_bloc;
 	if (valid_quotes(ms->line, ft_strlen(ms->line)))
 	{
 		ft_putstr_fd("minishell: syntax error with open quotes\n", 2);
@@ -63,7 +61,7 @@ static int			line_processing(t_ms *ms)
 	bloc = parse_bloc(ms->line);
 	if (!valid_bloc(&bloc, ms->line))
 	{
-		ft_lstclear(&head_bloc, &free_list);
+		ft_lstclear(&ms->head_bloc, &free_list);
 		return (2);
 	}
 	while (bloc)
@@ -73,7 +71,7 @@ static int			line_processing(t_ms *ms)
 			line_to_cmd(ms, (char*)bloc->content, ms->cmd);
 		bloc = bloc->next;
 	}
-	ft_lstclear(&head_bloc, &free_list);
+	ft_lstclear(&ms->head_bloc, &free_list);
 	return (ms->last_ret);
 }
 

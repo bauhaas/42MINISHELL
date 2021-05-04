@@ -90,6 +90,7 @@ static void		free_exit(t_ms *ms, t_cmd *cmd)
 	free_history(&ms->cur_histo);
 	ft_lstclear(&ms->env, &free_env);
 	free_arrstr(ms->arr_env);
+	ft_lstclear(&ms->head_bloc, &free_list);
 }
 
 int				ft_exit(t_ms *ms, t_cmd *cmd)
