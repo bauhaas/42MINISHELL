@@ -123,6 +123,9 @@ int			ft_export(t_ms *ms, t_cmd *cmd)
 			if (ft_is_empty(cmd->content[i]) && cmd->is_env &&
 				!cmd->content[i + 1])
 				return (export_alone(ms->env));
+			else if (ft_is_empty(cmd->content[i]) && cmd->is_env
+				&& cmd->content[i + 1])
+				i++;
 			else
 				status |= arg_to_var(cmd->content[i++], ms);
 		}
