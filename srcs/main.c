@@ -6,19 +6,19 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 12:52:12 by clorin            #+#    #+#             */
-/*   Updated: 2021/04/20 15:35:46 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/05/04 16:18:23 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void				free_list(void *list)
+void				free_list(void *content)
 {
-	t_list			*e;
+	char	*e;
 
-	e = (t_list*)list;
-	free(e->content);
-	free(e);
+	e = (char *)content;
+
+	ft_strdel(&e);
 }
 
 static int			valid_bloc(t_list **list_bloc, char *line)
@@ -52,13 +52,13 @@ static int			line_processing(t_ms *ms)
 {
 	t_list			*bloc;
 
-	bloc = ms->head_bloc;
 	if (valid_quotes(ms->line, ft_strlen(ms->line)))
 	{
 		ft_putstr_fd("minishell: syntax error with open quotes\n", 2);
 		return (2);
 	}
 	bloc = parse_bloc(ms->line);
+	ms->head_bloc = bloc;
 	if (!valid_bloc(&bloc, ms->line))
 	{
 		ft_lstclear(&ms->head_bloc, &free_list);
