@@ -27,6 +27,7 @@ void			select_execution(t_ms *ms, t_cmd *cmd, int exit_in_pipeline)
 void			child_execution(t_ms *ms, t_cmd **cmd, int fdd, int *fd)
 {
 	dup2(fdd, STDIN);
+
 	if ((*cmd)->next && (*cmd)->next->type_link == 4)
 		dup2(fd[1], STDOUT);
 	if ((*cmd)->next && is_redir((*cmd)->next))
@@ -34,6 +35,13 @@ void			child_execution(t_ms *ms, t_cmd **cmd, int fdd, int *fd)
 	if (ms->ret)
 		exit(ms->ret);
 	close(fd[0]);
+	if (ft_is_empty((*cmd)->content[0]) && !(*cmd)->is_env)
+	{
+		ft_putstr_fd("minishell: : command not found\n", 2);
+		exit(127);
+	}
+	if (ft_is_empty((*cmd)->content[0]) && (*cmd)->is_env)
+		exit(0);
 	select_execution(ms, (*cmd), 1);
 	if ((*cmd)->ret_value)
 		exit(ms->last_ret);
@@ -50,6 +58,6 @@ void			parent_execution(int *fdd, int *fd)
 
 void			fork_error(void)
 {
-	ft_putstr_fd("Minishell: fork: Out of memory\n", 2);
+	ft_putstr_fd("minishell: fork: Out of memory\n", 2);
 	exit(12);
 }
