@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/21 14:52:26 by bahaas            #+#    #+#             */
-/*   Updated: 2021/05/03 23:15:36 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/05/05 03:40:21 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,30 +79,48 @@ static int	nb_cmd(t_cmd *cmd)
 void		line_to_cmd(t_ms *ms, char *line, t_cmd *cmd)
 {
 	t_tokens	*head;
-	t_cmd		*tmp;
 	t_cmd		*to_free;
 
 	ms->tokens = NULL;
+	ms->cmd_cpy = NULL;
 	ms->total_consecutive_pipes = 0;
 	cmd = NULL;
 	parse(line, ms);
 	print_tokens(ms->tokens);
 	head = ms->tokens;
 	while (head)
-		tokens_to_cmd(ms, &cmd, &head);
+		tokens_to_cmd(ms, &ms->cmd_cpy, &cmd, &head);
 	free_tokens(ms->tokens);
 	print_cmd(cmd);
 	to_free = cmd;
-	tmp = cmd;
 	if (nb_cmd(cmd) > 1 || (nb_cmd(cmd) == 1 && !get_bltn(ms, cmd->content[0])))
 	{
 		if (check_cmd_status(ms, cmd))
-			pipeline(tmp, ms);
+			pipeline(cmd, ms);
 	}
 	else
 	{
 		if (check_cmd_status(ms, cmd))
 			select_execution(ms, cmd, 0);
 	}
+	//move permet de me deplacer sur la tete de ms->cmdcpy 
+	//to_del sera la tete de mon ms->cmdcpy
+	t_cmd *to_del = NULL;
+	t_cmd *move;
+
+	move = ms->cmd_cpy;
+	to_del = move;
+	printf("move : %s\n", move->content[0]);
+	while(move)
+	{
+		if(move->prev)
+		{
+			printf("cmdcpyprev exist\n");
+			to_del = move->prev;
+		}
+		move = move->prev;
+	}
+	printf("to_del : %s\n", to_del->content[0]);
 	free_cmd(to_free);
+	free_cmd(to_del);
 }

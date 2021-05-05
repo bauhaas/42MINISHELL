@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 12:52:12 by clorin            #+#    #+#             */
-/*   Updated: 2021/05/04 16:18:23 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/05/04 16:53:27 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ static void			prompt_loop(t_ms *ms)
 		{
 			ms->last_ret = line_processing(ms);
 			ft_strdel(&ms->line);
-			free_cmd(ms->cmd);
+			//free_cmd(ms->cmd);
 		}
 	}
 }

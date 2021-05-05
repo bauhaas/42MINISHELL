@@ -6,7 +6,7 @@
 #    By: clorin <clorin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/03/17 12:01:33 by clorin            #+#    #+#              #
-#    Updated: 2021/05/03 22:25:02 by bahaas           ###   ########.fr        #
+#    Updated: 2021/05/04 18:05:53 by bahaas           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,6 +52,7 @@ SRC		= srcs/main.c srcs/init.c srcs/init_env.c srcs/utils.c srcs/print.c \
 
 CC		= clang
 
+#FLAGS		= -Wall -Werror -Wextra -g -fsanitize=address -D VERSION=$(VERSION)
 FLAGS		= -Wall -Werror -Wextra -g -D VERSION=$(VERSION)
 
 HEADER		= -I includes/

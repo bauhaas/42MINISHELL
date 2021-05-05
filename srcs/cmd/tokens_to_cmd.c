@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/03 12:13:07 by bahaas            #+#    #+#             */
-/*   Updated: 2021/05/03 21:44:11 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/05/05 03:12:35 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,13 @@ t_cmd	*create_cmd(t_cmd **cmd)
 	while (tmp != NULL && tmp->next != NULL)
 		tmp = tmp->next;
 	if (tmp == NULL)
+	{
+		printf("cmd* = new\n");
 		*cmd = new;
+	}
 	else
 	{
+		printf("else lol\n");
 		tmp->next = new;
 		new->prev = tmp;
 	}
@@ -86,14 +90,17 @@ int		set_cmd_creation(t_ms *ms, t_cmd **new, t_cmd **cmd, t_tokens **tokens)
 	}
 }
 
-void	tokens_to_cmd(t_ms *ms, t_cmd **cmd, t_tokens **tokens)
+void	tokens_to_cmd(t_ms *ms, t_cmd **cpy, t_cmd **cmd, t_tokens **tokens)
 {
-	t_cmd		*new;
+//	t_cmd		*new;
 
-	if (!set_cmd_creation(ms, &new, cmd, tokens))
+	if (!set_cmd_creation(ms, cpy, cmd, tokens))
 		return ;
 	if ((*tokens)->type_content != CMD_ARGS)
-		fill_sep_cmd(&new, tokens);
+		fill_sep_cmd(cpy, tokens);
 	else
-		fill_arg_cmd(&new, tokens);
+		fill_arg_cmd(cpy, tokens);
+	printf("test cpy : %s\n", (*cpy)->content[0]);
+	if((*cpy)->prev)
+	printf("test cpy prev : %s\n", (*cpy)->prev->content[0]);
 }

@@ -6,7 +6,7 @@
 /*   By: clorin <clorin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 12:28:05 by clorin            #+#    #+#             */
-/*   Updated: 2021/05/03 15:35:37 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/05/05 03:11:13 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,6 +153,7 @@ typedef struct			s_ms
 	int					charge;
 	int					forked;
 	int					total_consecutive_pipes;
+	t_cmd				*cmd_cpy;
 }						t_ms;
 
 t_ms					*g_ms;
@@ -304,7 +305,8 @@ void					select_execution(t_ms *ms, t_cmd *cmd,
 						int exit_in_pipeline);
 void					set_redirection(t_ms *ms, t_cmd *cmd);
 void					pipeline(t_cmd *cmd, t_ms *ms);
-void					tokens_to_cmd(t_ms *ms, t_cmd **cmd, t_tokens **tokens);
+//void					tokens_to_cmd(t_ms *ms, t_cmd **cmd, t_tokens **tokens);
+void					tokens_to_cmd(t_ms *ms,t_cmd **cpy, t_cmd **cmd, t_tokens **tokens);
 int						is_pipe(t_cmd *cmd);
 void					fill_arg_cmd(t_cmd **new, t_tokens **tokens);
 void					fill_sep_cmd(t_cmd **new, t_tokens **tokens);

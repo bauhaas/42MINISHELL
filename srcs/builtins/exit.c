@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/21 00:44:02 by bahaas            #+#    #+#             */
-/*   Updated: 2021/05/04 16:18:38 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/05/05 03:34:10 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,10 @@ void			free_cmd(t_cmd *cmd)
 	while (cmd)
 	{
 		i = 0;
-		while (cmd->content[i])
+		printf("free : %s\n", cmd->content[i]);
+		while (cmd->content[i] != NULL)
 		{
-			if (DEBUG >= FREE_DEBUG)
+			if (DEBUG)
 				printf("free : %s\n", cmd->content[i]);
 			free(cmd->content[i]);
 			cmd->content[i] = NULL;
@@ -86,6 +87,7 @@ static void		free_exit(t_ms *ms, t_cmd *cmd)
 	free(ms->line);
 	free(ms->pwd);
 	free(ms->old_pwd);
+		printf("enter in free_cmd in exitfile : head -> %s\n", cmd->content[0]);
 	free_cmd(cmd);
 	free_history(&ms->cur_histo);
 	ft_lstclear(&ms->env, &free_env);
