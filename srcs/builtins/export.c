@@ -95,15 +95,17 @@ static int	arg_to_var(char *arg, t_ms *ms)
 static int	export_alone(t_list *tmp)
 {
 	t_list	*copy;
+	t_list	*tofree;
 
 	copy = NULL;
 	list_sort(&copy, tmp);
+	tofree = copy;
 	while (copy)
 	{
 		print_env((t_var *)copy->content, EXPORT);
 		copy = copy->next;
 	}
-	ft_lstclear(&copy, &free_env);
+	ft_lstclear(&tofree, &free_env);
 	return (0);
 }
 

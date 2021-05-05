@@ -226,8 +226,8 @@ void					free_cmd(t_cmd *cmd);
 void					init_bltn(t_ms *ms);
 int						get_bltn(t_ms *ms, char *cmd);
 int						launch_bltn(t_ms *ms, t_cmd *cmd);
-void					ft_list_sort(t_list **begin_list);
-void					*list_sort(t_list **dest, t_list *list);
+// void					ft_list_sort(t_list **begin_list);
+void					list_sort(t_list **dest, t_list *list);
 
 /*
 ** Exec folder
