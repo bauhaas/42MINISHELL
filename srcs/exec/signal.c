@@ -27,8 +27,12 @@ void	sig_int(int code)
 
 void	sig_quit(int code)
 {
-	(void)code;
-	write(1, "\n", 1);
+	if (g_ms->forked)
+	{
+		if (code == 3)
+			ft_putstr_fd("Quit: (core dumped)", 2);
+		write(2, "\n", 1);
+	}
 }
 
 void	ctr_c(t_termcaps *tc, t_ms *ms)
