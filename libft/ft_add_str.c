@@ -6,13 +6,13 @@
 /*   By: clorin <clorin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/13 07:53:24 by clorin            #+#    #+#             */
-/*   Updated: 2021/04/13 07:53:48 by clorin           ###   ########.fr       */
+/*   Updated: 2021/05/05 14:59:53 by clorin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_add_str(char *s1, const char *s2)
+char	*ft_add_str(char *s1, char *s2)
 {
 	char	*dest;
 	int		i;
@@ -31,5 +31,6 @@ char	*ft_add_str(char *s1, const char *s2)
 	while (s2[i])
 		dest[j++] = s2[i++];
 	ft_strdel(&s1);
+	ft_strdel(&s2);
 	return (dest);
 }

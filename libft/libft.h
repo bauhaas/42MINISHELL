@@ -6,7 +6,7 @@
 /*   By: clorin <clorin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/15 14:40:34 by clorin            #+#    #+#             */
-/*   Updated: 2021/03/17 11:42:12 by clorin           ###   ########.fr       */
+/*   Updated: 2021/05/05 15:00:48 by clorin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ typedef struct	s_list
 }				t_list;
 
 char			*ft_add_char(char *str, char c);
-char			*ft_add_str(char *s1, const char *s2);
+char			*ft_add_str(char *s1, char *s2);
 void			*ft_memset(void *s, int c, size_t n);
 void			ft_bzero(void *s, size_t n);
 void			*ft_memcpy(void *dest, const void *src, size_t n);
