@@ -6,7 +6,7 @@
 /*   By: clorin <clorin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 12:28:05 by clorin            #+#    #+#             */
-/*   Updated: 2021/05/05 13:20:18 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/05/05 13:39:56 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # include <limits.h>
 # include <stdbool.h>
 # include <fcntl.h>
+# include <errno.h>
 # include "../libft/libft.h"
 
 # define STDIN 0
@@ -207,7 +208,8 @@ void					print_env(t_var *env, int mod);
 void					init_ms(t_ms *ms, char **env);
 void					ft_lstswap(t_list *prev, t_list *next);
 void					line_to_cmd(t_ms *ms, char *line);
-t_tokens				*create_token(t_tokens **tokens);
+void					create_token(t_ms *ms, char **word);
+void					fill_token(t_tokens **new, t_ms *ms, char **word);
 
 /*
 ** BUiltins folder
@@ -289,8 +291,6 @@ int						is_spec_car(char c);
 int						back_slash(t_ms *ms, char *str, char **word, int i);
 int						special(t_ms *ms, char *str, char **word, int i);
 int						quote(char *str, char **word, int i, int q);
-//void					new_token(t_ms *ms, t_tokens **tokens, char **word);
-void					new_token(t_ms *ms, char **word);
 t_list					*parse_bloc(char *str);
 int						nb_semicolon(char *str);
 int						escaped(char *str, int pos);
@@ -317,6 +317,9 @@ void					parent_execution(int *fdd, int *fd);
 void					child_execution(t_ms *ms, t_cmd **cmd, int fdd,
 						int *fd);
 void					first_cmd_is_redir(t_ms *ms, t_cmd **cmd);
+
+int						error_no_file(char *str);
+void					error_getcwd(t_ms *ms, char *new_loc);
 
 /*
 ** init_env

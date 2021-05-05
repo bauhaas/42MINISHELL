@@ -6,7 +6,7 @@
 /*   By: clorin <clorin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/19 14:13:16 by clorin            #+#    #+#             */
-/*   Updated: 2021/05/05 13:23:41 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/05/05 13:38:31 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,41 +17,6 @@ int			escaped(char *str, int pos)
 	if (pos > 0 && str[pos - 1] == '\\')
 		return (TRUE);
 	return (FALSE);
-}
-
-void		new_token(t_ms *ms, char **word)
-{
-	t_tokens		*new;
-	t_tokens		*tmp;
-
-	tmp = ms->head_tokens;
-	if (*word)
-	{
-		//new = create_token(&ms->head_tokens);
-		new = ft_memalloc(sizeof(t_tokens));
-		if (new == NULL)
-			return ;
-		new->content = ft_strdup(*word);
-		if (ms->escaped_tokens != 1)
-			new->type_content = set_token_type(*word);
-		else
-			new->type_content = 1;
-		ms->escaped_tokens = 0;
-		if (ms->is_env)
-			new->is_env = 1;
-		if (ft_strcmp(*word, "echo") == 0)
-			ms->echo = TRUE;
-		ft_strdel(word);
-		if (ms->head_tokens == NULL)
-			ms->head_tokens = new;
-		else
-		{
-			while (tmp != NULL && tmp->next != NULL)
-				tmp = tmp->next;
-			tmp->next = new;
-			new->prev = tmp;
-		}
-	}
 }
 
 int			back_slash(t_ms *ms, char *str, char **word, int i)
@@ -80,7 +45,7 @@ int			special(t_ms *ms, char *str, char **word, int i)
 {
 	if (valid_quotes(str, i) == 0)
 	{
-		new_token(ms, word);
+		create_token(ms, word);
 		if (str[i] == '>')
 		{
 			if (str[i + 1] == '>')
@@ -93,7 +58,7 @@ int			special(t_ms *ms, char *str, char **word, int i)
 		}
 		else if (str[i] != '\t' && str[i] != ' ')
 			*word = ft_add_char(*word, str[i]);
-		new_token(ms, word);
+		create_token(ms, word);
 	}
 	else
 		*word = ft_add_char(*word, str[i]);
