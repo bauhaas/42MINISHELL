@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/01 01:25:44 by bahaas            #+#    #+#             */
-/*   Updated: 2021/05/03 23:18:59 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/05/05 12:10:28 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ void	print_cmd(t_cmd *cmd)
 		{
 			i = 0;
 			char *type_link;
+			printf("cmd(%d)->address : %p\n", cmd_id, &tmp);
+			printf("cmd(%d)->address next : %p\n", cmd_id, &tmp->next);
 			while (tmp->content[i])
 			{
 				if (tmp->type_link == 0)
@@ -62,12 +64,16 @@ void	print_cmd(t_cmd *cmd)
 				else if (tmp->type_link == 8)
 					type_link = "DR";
 				printf("cmd(%d)->content[%d] : %s\n", cmd_id, i, tmp->content[i]);
+				if(tmp->prev)
+				printf("cmd(%d)->content->prev[%d] : %s\n", cmd_id, i, tmp->prev->content[i]);
+				if(tmp->next)
+				printf("cmd(%d)->content->next[%d] : %s\n", cmd_id, i, tmp->next->content[i]);
 				i++;
 			}
+			if(cmd_id == 4)
+				exit(0);
 			printf("cmd(%d)->type_link : %s(%d)\n", cmd_id, type_link, tmp->type_link);
 			printf("cmd(%d)->is_env : %d\n", cmd_id, tmp->is_env);
-		//	printf("cmd(%d)->has_pipe_before : %d\n", cmd_id, tmp->has_pipe_before);
-		//	printf("cmd(%d)->has_pipe_after : %d\n", cmd_id, tmp->has_pipe_after);
 			printf("\n");
 			cmd_id++;
 			tmp = tmp->next;

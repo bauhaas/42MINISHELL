@@ -6,7 +6,7 @@
 /*   By: clorin <clorin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 12:28:05 by clorin            #+#    #+#             */
-/*   Updated: 2021/05/05 03:11:13 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/05/05 11:31:36 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,7 +144,7 @@ typedef struct			s_ms
 	int					escaped_tokens;
 	int					echo;
 	int					is_env;
-	t_tokens			*tokens;
+	t_tokens			*head_tokens;
 	int					lol;
 	int					parent;
 	int					no_exec;
@@ -206,7 +206,7 @@ int						execute(t_ms *ms, t_cmd *cmd);
 void					print_env(t_var *env, int mod);
 void					init_ms(t_ms *ms, char **env);
 void					ft_lstswap(t_list *prev, t_list *next);
-void					line_to_cmd(t_ms *ms, char *line, t_cmd *cmd);
+void					line_to_cmd(t_ms *ms, char *line);
 t_tokens				*create_token(t_tokens **tokens);
 
 /*
@@ -305,8 +305,8 @@ void					select_execution(t_ms *ms, t_cmd *cmd,
 						int exit_in_pipeline);
 void					set_redirection(t_ms *ms, t_cmd *cmd);
 void					pipeline(t_cmd *cmd, t_ms *ms);
-//void					tokens_to_cmd(t_ms *ms, t_cmd **cmd, t_tokens **tokens);
-void					tokens_to_cmd(t_ms *ms,t_cmd **cpy, t_cmd **cmd, t_tokens **tokens);
+//t_cmd					tokens_to_cmd(t_ms *ms, t_cmd **cmd, t_tokens **tokens);
+void					tokens_to_cmd(t_ms *ms, t_cmd **cmd, t_tokens **tokens);
 int						is_pipe(t_cmd *cmd);
 void					fill_arg_cmd(t_cmd **new, t_tokens **tokens);
 void					fill_sep_cmd(t_cmd **new, t_tokens **tokens);

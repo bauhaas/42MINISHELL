@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/21 00:44:02 by bahaas            #+#    #+#             */
-/*   Updated: 2021/05/05 03:34:10 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/05/05 12:17:35 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void			free_cmd(t_cmd *cmd)
 {
+	/*
 	int			i;
 
 	while (cmd)
@@ -33,6 +34,25 @@ void			free_cmd(t_cmd *cmd)
 		cmd = cmd->next;
 	}
 	free(cmd);
+	cmd = NULL;*/
+	t_cmd		*ptr_list;
+	t_cmd		*ptr_next;
+	int i;
+
+	ptr_list = cmd;
+	while (ptr_list)
+	{
+		i = 0;
+		ptr_next = ptr_list->next;
+		while(ptr_list->content[i])
+		{
+			ft_strdel(&ptr_list->content[i]);
+			i++;
+		}
+		free(ptr_list->content);
+		free(ptr_list);
+		ptr_list = ptr_next;
+	}
 	cmd = NULL;
 }
 
@@ -87,7 +107,7 @@ static void		free_exit(t_ms *ms, t_cmd *cmd)
 	free(ms->line);
 	free(ms->pwd);
 	free(ms->old_pwd);
-		printf("enter in free_cmd in exitfile : head -> %s\n", cmd->content[0]);
+	printf("enter in free_cmd in exitfile : head -> %s\n", cmd->content[0]);
 	free_cmd(cmd);
 	free_history(&ms->cur_histo);
 	ft_lstclear(&ms->env, &free_env);

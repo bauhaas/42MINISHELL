@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/20 14:29:47 by bahaas            #+#    #+#             */
-/*   Updated: 2021/04/12 17:04:45 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/05/05 11:11:44 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,17 @@
 
 void		free_tokens(t_tokens *tokens)
 {
-	while (tokens)
+	t_tokens		*ptr_list;
+	t_tokens		*ptr_next;
+
+	ptr_list = tokens;
+	while (ptr_list)
 	{
-		free(tokens->content);
-		tokens->content = NULL;
-		tokens = tokens->next;
+		ptr_next = ptr_list->next;
+		ft_strdel(&ptr_list->content);
+		free(ptr_list);
+		ptr_list = ptr_next;
 	}
-	free(tokens);
 	tokens = NULL;
 }
 
@@ -28,17 +32,17 @@ void		free_tokens(t_tokens *tokens)
 ** Parse our list of tokens. Set a new one and add it at the end of our list
 */
 
-t_tokens	*create_token(t_tokens **tokens)
+t_tokens	*create_token(t_tokens **head_tokens)
 {
 	t_tokens	*tmp;
 	t_tokens	*new;
 
 	new = ft_memalloc(sizeof(t_tokens));
-	tmp = *tokens;
+	tmp = *head_tokens;
 	while (tmp != NULL && tmp->next != NULL)
 		tmp = tmp->next;
 	if (tmp == NULL)
-		*tokens = new;
+		*head_tokens = new;
 	else
 	{
 		tmp->next = new;

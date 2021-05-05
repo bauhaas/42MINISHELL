@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 12:52:12 by clorin            #+#    #+#             */
-/*   Updated: 2021/05/04 16:53:27 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/05/05 12:19:05 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ static int			line_processing(t_ms *ms)
 	{
 		ms->echo = FALSE;
 		if (bloc->content && ((char*)bloc->content)[0] != 0)
-			line_to_cmd(ms, (char*)bloc->content, ms->cmd);
+			line_to_cmd(ms, (char*)bloc->content);
 		bloc = bloc->next;
 	}
 	ft_lstclear(&ms->head_bloc, &free_list);

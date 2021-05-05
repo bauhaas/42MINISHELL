@@ -83,12 +83,12 @@ void				parse(char *str, t_ms *ms)
 			if ((split_word = expansion(str, &word, ms, &i)))
 			{
 				while (*split_word)
-					new_token(ms, &ms->tokens, (split_word)++);
+					new_token(ms, &ms->head_tokens, (split_word)++);
 				ft_strdel(&word);
 			}
 		}
 		else
 			word = ft_add_char(word, str[i++]);
 	}
-	new_token(ms, &ms->tokens, &word);
+	new_token(ms, &ms->head_tokens, &word);
 }

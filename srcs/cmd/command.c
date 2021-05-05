@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/21 14:52:26 by bahaas            #+#    #+#             */
-/*   Updated: 2021/05/05 03:40:21 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/05/05 12:12:51 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,35 +76,38 @@ static int	nb_cmd(t_cmd *cmd)
 	return (i);
 }
 
-void		line_to_cmd(t_ms *ms, char *line, t_cmd *cmd)
+void		line_to_cmd(t_ms *ms, char *line)
 {
-	t_tokens	*head;
+	t_tokens	*token;
 	t_cmd		*to_free;
-
-	ms->tokens = NULL;
-	ms->cmd_cpy = NULL;
+ 
+	ms->head_tokens = NULL;
+	//ms->cmd_cpy = NULL;
 	ms->total_consecutive_pipes = 0;
-	cmd = NULL;
+	ms->cmd = NULL; 
 	parse(line, ms);
-	print_tokens(ms->tokens);
-	head = ms->tokens;
-	while (head)
-		tokens_to_cmd(ms, &ms->cmd_cpy, &cmd, &head);
-	free_tokens(ms->tokens);
-	print_cmd(cmd);
-	to_free = cmd;
-	if (nb_cmd(cmd) > 1 || (nb_cmd(cmd) == 1 && !get_bltn(ms, cmd->content[0])))
+	print_tokens(ms->head_tokens);
+	token = ms->head_tokens;
+	while (token) 
+		tokens_to_cmd(ms, &ms->cmd, &token);
+	//printf("test\n");
+	//print_cmd(ms->cmd);
+	//print_tokens(ms->head_tokens);
+	free_tokens(ms->head_tokens);
+	to_free = ms->cmd;
+	if (nb_cmd(ms->cmd) > 1 || (nb_cmd(ms->cmd) == 1 && !get_bltn(ms, ms->cmd->content[0])))
 	{
-		if (check_cmd_status(ms, cmd))
-			pipeline(cmd, ms);
+		if (check_cmd_status(ms, ms->cmd))
+			pipeline(ms->cmd, ms);
 	}
 	else
 	{
-		if (check_cmd_status(ms, cmd))
-			select_execution(ms, cmd, 0);
+		if (check_cmd_status(ms, ms->cmd))
+			select_execution(ms, ms->cmd, 0);
 	}
 	//move permet de me deplacer sur la tete de ms->cmdcpy 
 	//to_del sera la tete de mon ms->cmdcpy
+	/*
 	t_cmd *to_del = NULL;
 	t_cmd *move;
 
@@ -120,7 +123,14 @@ void		line_to_cmd(t_ms *ms, char *line, t_cmd *cmd)
 		}
 		move = move->prev;
 	}
-	printf("to_del : %s\n", to_del->content[0]);
+
+	*/
+	/*
+	printf("PRINT CMD AFTER EXEC\n");
+	print_cmd(ms->cmd);
+	printf("PRINT TO FREE\n");
+	print_cmd(to_free);
+	*/
 	free_cmd(to_free);
-	free_cmd(to_del);
+	//free_cmd(to_del);
 }
