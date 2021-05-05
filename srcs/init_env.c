@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 15:16:49 by bahaas            #+#    #+#             */
-/*   Updated: 2021/04/28 14:55:59 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/05/05 15:14:26 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 ** the 2nd is the value. Making sure that our strings after split exist.
 */
 
-t_var			*init_envvar(char *env_var)
+static t_var			*init_envvar(char *env_var)
 {
 	char		**split_var;
 	t_var		*new;
@@ -43,7 +43,7 @@ t_var			*init_envvar(char *env_var)
 ** Create a new node & fill it with name + value of the var sent.
 */
 
-t_list			*lstnew_var(t_var *content)
+static t_list			*lstnew_var(t_var *content)
 {
 	t_list		*new;
 

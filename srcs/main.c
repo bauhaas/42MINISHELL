@@ -6,19 +6,11 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 12:52:12 by clorin            #+#    #+#             */
-/*   Updated: 2021/05/05 13:13:09 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/05/05 15:10:51 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-void				free_list(void *content)
-{
-	char	*e;
-
-	e = (char *)content;
-	ft_strdel(&e);
-}
 
 static int			valid_bloc(t_list **list_bloc, char *line)
 {

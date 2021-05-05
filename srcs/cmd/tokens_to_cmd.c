@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/03 12:13:07 by bahaas            #+#    #+#             */
-/*   Updated: 2021/05/05 13:09:18 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/05/05 15:03:14 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 ** Find the number of strings to malloc in our cmd->content via token type.
 */
 
-int		token_number_in_cmd(t_tokens **tokens)
+static int	token_number_in_cmd(t_tokens **tokens)
 {
 	t_tokens	*count;
 	int			i;
@@ -39,7 +39,7 @@ int		token_number_in_cmd(t_tokens **tokens)
 	return (i);
 }
 
-void	create_cmd(t_ms *ms, t_tokens **tokens)
+static void	create_cmd(t_ms *ms, t_tokens **tokens)
 {
 	t_cmd		*new;
 	t_cmd		*tmp;

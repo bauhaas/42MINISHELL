@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/01 01:25:44 by bahaas            #+#    #+#             */
-/*   Updated: 2021/05/05 12:10:28 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/05/05 14:40:14 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,41 +80,4 @@ void	print_cmd(t_cmd *cmd)
 		}
 		printf("\n");
 	}
-}
-
-void	print_action(t_cmd *cmd)
-{
-	int j;
-
-	j = 0;
-	printf("cmd:");
-	while (cmd->content[j])
-	{
-		printf(" %s", cmd->content[j]);
-		j++;
-	}
-	if (cmd->prev)
-	{
-		printf("\nprev cmd type_link : %d\n", cmd->prev->type_link);
-		printf("prev cmd->content[0]: %s\n", cmd->prev->content[0]);
-	}
-	if (cmd->next)
-	{
-		printf("\nnext cmd type_link : %d\n", cmd->next->type_link);
-		printf("next cmd->content[0]: %s\n", cmd->next->content[0]);
-	}
-}
-
-void	print_action_exec_condition(t_cmd *cmd, int pipe, t_ms *ms)
-{
-	(void)ms;
-	printf("test cmd : %s\n", cmd->content[0]);
-	if (is_type(cmd->prev, END_CMD))
-		printf("test prev END\n");
-	if (is_type(cmd->prev, PIPES))
-		printf("test prev PIPE\n");
-	if (!cmd->prev)
-		printf("test prev\n");
-	if (pipe)
-		printf("test pipe\n");
 }

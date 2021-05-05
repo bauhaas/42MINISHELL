@@ -6,13 +6,13 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/21 00:41:56 by bahaas            #+#    #+#             */
-/*   Updated: 2021/04/12 17:18:46 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/05/05 15:36:55 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void		delete_one(t_list **head_ref, char *name)
+static void		delete_one(t_list **head_ref, char *name)
 {
 	t_list	*tmp;
 	t_list	*prev;

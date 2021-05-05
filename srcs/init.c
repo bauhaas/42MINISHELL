@@ -6,13 +6,13 @@
 /*   By: clorin <clorin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 12:52:12 by clorin            #+#    #+#             */
-/*   Updated: 2021/05/03 23:22:48 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/05/05 15:12:09 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void			init_sep(t_ms *ms)
+static void		init_sep(t_ms *ms)
 {
 	ms->sep_set[0] = ft_strdup(";");
 	ms->sep_set[1] = ft_strdup(">");
@@ -22,7 +22,7 @@ void			init_sep(t_ms *ms)
 	ms->sep_set[5] = NULL;
 }
 
-void			upgrade_shlvl(t_ms *ms)
+static void		upgrade_shlvl(t_ms *ms)
 {
 	int		old_shlvl;
 	t_var	*shlvl;

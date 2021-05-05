@@ -6,13 +6,13 @@
 /*   By: clorin <clorin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/21 13:22:34 by clorin            #+#    #+#             */
-/*   Updated: 2021/04/21 15:54:17 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/05/05 15:38:28 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void		ft_list_sort(t_list **begin_list)
+static void		ft_list_sort(t_list **begin_list)
 {
 	t_list	*actuel_node;
 	t_var	*env;
@@ -42,7 +42,7 @@ void		*list_sort(t_list **dest, t_list *list)
 	while (tmp)
 	{
 		env = (t_var*)tmp->content;
-		ft_lstadd_front(dest, ft_lstnew(env));
+		ft_lstadd_front(dest, ft_lstnew(ft_memdup(env, sizeof(t_var))));
 		tmp = tmp->next;
 	}
 	ft_list_sort(dest);

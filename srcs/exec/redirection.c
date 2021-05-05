@@ -6,13 +6,13 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/26 11:35:35 by bahaas            #+#    #+#             */
-/*   Updated: 2021/05/05 13:07:30 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/05/05 14:46:59 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	redir(t_ms *ms, t_cmd *cmd, int type)
+static void		redir(t_ms *ms, t_cmd *cmd, int type)
 {
 	ft_close(ms->fdout);
 	if (type == DRIGHT)
@@ -32,7 +32,7 @@ void	redir(t_ms *ms, t_cmd *cmd, int type)
 	dup2(ms->fdout, STDOUT);
 }
 
-void	input(t_ms *ms, t_cmd *cmd)
+static void		input(t_ms *ms, t_cmd *cmd)
 {
 	ft_close(ms->fdin);
 	ms->fdin = open(cmd->content[0], O_RDONLY, S_IRWXU);
@@ -57,7 +57,7 @@ void	select_redirection(t_ms *ms, t_cmd *redir_cmd, t_cmd *file_to_redirect)
 		input(ms, file_to_redirect);
 }
 
-void	set_redirection_var(t_cmd *cmd, t_cmd **redir, t_cmd **file)
+static void	set_redirection_var(t_cmd *cmd, t_cmd **redir, t_cmd **file)
 {
 	*redir = NULL;
 	*file = NULL;

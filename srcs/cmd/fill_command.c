@@ -6,13 +6,13 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/03 13:56:58 by bahaas            #+#    #+#             */
-/*   Updated: 2021/05/03 14:50:41 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/05/05 14:59:49 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void		set_redirection_type(t_cmd *cmd, t_tokens **tokens)
+static void	set_redirection_type(t_cmd *cmd, t_tokens **tokens)
 {
 	if ((*tokens)->type_content == PIPES)
 		cmd->type_link = 4;

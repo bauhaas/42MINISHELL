@@ -6,13 +6,13 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/21 14:52:26 by bahaas            #+#    #+#             */
-/*   Updated: 2021/05/05 13:13:16 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/05/05 15:01:46 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int			print_cmd_error(t_ms *ms, t_cmd *cmd)
+static int	print_cmd_error(t_ms *ms, t_cmd *cmd)
 {
 	if (cmd->type_link == 4 && cmd->next == NULL)
 		printf("minishell: syntax error near unexpected token  « | »\n");
@@ -34,7 +34,7 @@ int			print_cmd_error(t_ms *ms, t_cmd *cmd)
 	return (0);
 }
 
-int			check_cmd_status(t_ms *ms, t_cmd *cmd)
+static int	check_cmd_status(t_ms *ms, t_cmd *cmd)
 {
 	t_cmd *tmp;
 

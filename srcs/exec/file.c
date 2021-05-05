@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 15:30:38 by bahaas            #+#    #+#             */
-/*   Updated: 2021/05/03 22:55:00 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/05/05 14:52:23 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 **	if directory => 3
 */
 
-void				valid_file(t_cmd *cmd, int i)
+static void			valid_file(t_cmd *cmd, int i)
 {
 	struct stat		buffer;
 	int				exist;
@@ -51,7 +51,7 @@ static int			file_exist(const char *file)
 **	and update minishell-> exit
 */
 
-void				error_file(t_ms *ms, t_cmd *cmd)
+static void			error_file(t_ms *ms, t_cmd *cmd)
 {
 	ft_putstr_fd("minishell: ", STDERR);
 	ft_putstr_fd(cmd->content[0], STDERR);

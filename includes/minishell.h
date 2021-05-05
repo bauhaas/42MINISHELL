@@ -6,7 +6,7 @@
 /*   By: clorin <clorin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 12:28:05 by clorin            #+#    #+#             */
-/*   Updated: 2021/05/05 13:39:56 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/05/05 15:52:08 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@
 # define CMD_ARGS 1
 # define REDIR 3
 # define PIPES 4
-# define END_CMD 5
 # define LEFT 6
 # define RIGHT 7
 # define DRIGHT 8
@@ -111,9 +110,6 @@ typedef struct			s_cmd
 	int					is_env;
 	struct s_cmd		*prev;
 	struct s_cmd		*next;
-	int					is_last;
-	int					has_pipe_before;
-	int					has_pipe_after;
 }						t_cmd;
 
 typedef struct			s_ms
@@ -131,30 +127,19 @@ typedef struct			s_ms
 	char				*old_pwd;
 	char				*sep_set[6];
 	int					last_ret;
-	int					pipin;
-	int					pipout;
-	int					recursive;
 	int					in;
 	int					out;
 	int					fdin;
 	int					fdout;
-	int					flag;
-	int					redir_status;
 	int					signal;
 	int					pid;
 	int					escaped_tokens;
 	int					echo;
 	int					is_env;
 	t_tokens			*head_tokens;
-	int					lol;
-	int					parent;
-	int					no_exec;
-	int					last;
 	int					ret;
-	int					charge;
 	int					forked;
 	int					total_consecutive_pipes;
-	t_cmd				*cmd_cpy;
 }						t_ms;
 
 t_ms					*g_ms;
@@ -166,7 +151,238 @@ typedef struct			s_bltn
 }						t_bltn;
 
 /*
-**	Signal
+**	termcaps folder
+*/
+
+/*
+** cursor.c
+*/
+
+void					get_cursor_position(int *col, int *rows);
+void					set_cursor_position(t_termcaps *tc, int col, int row);
+void					beep();
+
+/*
+** cursor_utils.c
+*/
+
+void					left(t_termcaps *tc);
+void					right(t_termcaps *tc);
+void					left_word(t_termcaps *tc);
+void					right_word(t_termcaps *tc);
+
+/*
+** history.c
+*/
+
+t_hist					*add_history(t_hist **begin, char *line);
+void					up_history(t_termcaps *tc, t_ms *min);
+void					down_history(t_termcaps *tc, t_ms *mini);
+void					free_history(t_hist **begin);
+
+/*
+** keyboard.c
+*/
+
+void					keys_tree(long c, t_termcaps *tc, t_ms *mini);
+void					window_size(t_termcaps *tc);
+
+/*
+** print_utils.c
+*/
+
+void					create_line(long c, t_termcaps *tc);
+void					print_line(t_termcaps *tc, t_ms *ms);
+
+/*
+** prompt.c
+*/
+
+int						prompt(t_ms *ms);
+/*
+** termcaps.c
+*/
+
+int						get_line(t_ms *mini);
+
+/*
+** termcaps_utils.c
+*/
+
+void					clear_line(void);
+void					cls(t_termcaps *tc);
+void					free_termcaps(t_termcaps *tc);
+int						tc_putchar(int c);
+
+/*
+**	parsing folder
+*/
+
+/*
+**	expansion.c
+*/
+
+char					*value(t_ms *mini, char *str, int *i);
+
+/*
+**	parse_bloc.c
+*/
+
+int						nb_semicolon(char *str);
+t_list					*parse_bloc(char *str);
+
+/*
+**	parser.c
+*/
+
+void					parse(char *str, t_ms *ms);
+
+/*
+**	parser_utils.c
+*/
+
+int						escaped(char *str, int pos);
+int						back_slash(t_ms *ms, char *str, char **word, int i);
+int						special(t_ms *ms, char *str, char **word, int i);
+int						quote(char *str, char **word, int i, int q);
+
+/*
+**	utils.c
+*/
+
+int						is_spec_car(char c);
+int						valid_quotes(const char *str, int len);
+int						valid_name(char *name);
+char					*get_name_var(char *str);
+
+/*
+** tokens.c
+*/
+
+void					free_tokens(t_tokens *tokens);
+void					create_token(t_ms *ms, char **word);
+void					fill_token(t_tokens **new, t_ms *ms, char **word);
+int						set_token_type(char *word_list);
+
+void					print_tokens(t_tokens *tokens);
+void					print_cmd(t_cmd *cmd);
+
+/*
+** builtins folder
+*/
+
+/*
+** builtins.c
+*/
+
+void					init_bltn(t_ms *ms);
+int						get_bltn(t_ms *ms, char *cmd);
+int						launch_bltn(t_ms *ms, t_cmd *cmd);
+
+/*
+** echo.c
+*/
+
+int						ft_echo(t_ms *ms, t_cmd *cmd);
+
+/*
+** env.c
+*/
+
+void					free_env(void *env);
+void					print_env(t_var *env, int mod);
+void					ft_lstswap(t_list *prev, t_list *next);
+int						ft_env(t_ms *ms, t_cmd *cmd);
+
+/*
+** pwd.c
+*/
+
+int						ft_pwd(t_ms *ms, t_cmd *cmd);
+
+/*
+** unset.c
+*/
+
+int						ft_unset(t_ms *ms, t_cmd *cmd);
+
+/*
+** export.c
+*/
+
+int						ft_export(t_ms *ms, t_cmd *cmd);
+
+/*
+** export_utils.c
+*/
+
+void					*list_sort(t_list **dest, t_list *list);
+
+/*
+** cd.c
+*/
+
+int						ft_cd(t_ms *ms, t_cmd *cmd);
+
+/*
+** cd_error.c
+*/
+
+int						error_no_file(char *str);
+void					error_getcwd(t_ms *ms, char *new_loc);
+
+/*
+** exit.c
+*/
+
+int						ft_exit(t_ms *ms, t_cmd *cmd);
+void					free_cmd(t_cmd *cmd);
+void					free_list(void *list);
+
+/*
+** exec folder
+*/
+
+/*
+** execution.c
+*/
+
+void					pipeline(t_cmd *cmd, t_ms *ms);
+
+/*
+** file.c
+*/
+
+int						search_prog(t_ms *ms, t_cmd *cmd);
+
+/*
+**	fork.c
+*/
+
+void					parent_execution(int *fdd, int *fd);
+void					child_execution(t_ms *ms, t_cmd **cmd, int fdd,
+						int *fd);
+void					select_execution(t_ms *ms, t_cmd *cmd,
+						int exit_in_pipeline);
+void					fork_error(void);
+
+/*
+**	redirection.c
+*/
+
+void					set_redirection(t_ms *ms, t_cmd *cmd);
+void					select_redirection(t_ms *ms, t_cmd *redir_cmd,
+						t_cmd *file_to_redirect);
+
+/*
+**	fd.c
+*/
+
+void					ft_close(int fd);
+void					reset_fd(t_ms *ms);
+
+/*
+**	signal.c
 */
 
 void					sig_int(int code);
@@ -174,160 +390,71 @@ void					sig_quit(int code);
 void					ctr_c(t_termcaps *tc, t_ms *ms);
 
 /*
-**	Termcaps
-*/
-void					get_cursor_position(int *col, int *rows);
-void					set_cursor_position(t_termcaps *tc, int col, int row);
-void					keys_tree(long c, t_termcaps *tc, t_ms *mini);
-void					window_size(t_termcaps *tc);
-int						get_line(t_ms *mini);
-int						tc_putchar(int c);
-void					create_line(long c, t_termcaps *tc);
-void					clear_line(void);
-void					cls(t_termcaps *tc);
-void					print_line(t_termcaps *tc, t_ms *ms);
-int						prompt(t_ms *ms);
-void					left(t_termcaps *tc);
-void					right(t_termcaps *tc);
-void					left_word(t_termcaps *tc);
-void					right_word(t_termcaps *tc);
-void					free_termcaps(t_termcaps *tc);
-void					beep();
-
-/*
-**	history
+**	types.c
 */
 
-t_hist					*add_history(t_hist **begin, char *line);
-void					up_history(t_termcaps *tc, t_ms *min);
-void					down_history(t_termcaps *tc, t_ms *mini);
-void					free_history(t_hist **begin);
-void					init_bltn(t_ms *ms);
-int						execute(t_ms *ms, t_cmd *cmd);
-void					print_env(t_var *env, int mod);
-void					init_ms(t_ms *ms, char **env);
-void					ft_lstswap(t_list *prev, t_list *next);
-void					line_to_cmd(t_ms *ms, char *line);
-void					create_token(t_ms *ms, char **word);
-void					fill_token(t_tokens **new, t_ms *ms, char **word);
+int						is_redir(t_cmd *cmd);
+int						is_pipe(t_cmd *cmd);
+int						is_type(t_cmd *cmd, int type);
 
-/*
-** BUiltins folder
-*/
-
-int						ft_echo(t_ms *ms, t_cmd *cmd);
-int						ft_pwd(t_ms *ms, t_cmd *cmd);
-int						ft_export(t_ms *ms, t_cmd *cmd);
-int						ft_unset(t_ms *ms, t_cmd *cmd);
-int						ft_env(t_ms *ms, t_cmd *cmd);
-int						ft_cd(t_ms *ms, t_cmd *cmd);
-int						ft_exit(t_ms *ms, t_cmd *cmd);
-void					free_cmd(t_cmd *cmd);
-void					init_bltn(t_ms *ms);
-int						get_bltn(t_ms *ms, char *cmd);
-int						launch_bltn(t_ms *ms, t_cmd *cmd);
-void					ft_list_sort(t_list **begin_list);
-void					*list_sort(t_list **dest, t_list *list);
-
-/*
-** Exec folder
-*/
-
-void					error_file(t_ms *ms, t_cmd *cmd);
-int						search_prog(t_ms *ms, t_cmd *cmd);
-
-/*
-** print.c
-*/
-
-void					print_tokens(t_tokens *tokens);
-void					print_cmd(t_cmd *cmd);
-void					print_action(t_cmd *cmd);
-void					print_action_exec_condition(t_cmd *cmd,
-						int pipe, t_ms *ms);
 
 /*
 ** tokens.c
 */
 
 void					free_tokens(t_tokens *tokens);
+void					create_token(t_ms *ms, char **word);
+void					fill_token(t_tokens **new, t_ms *ms, char **word);
+int						set_token_type(char *word_list);
+
+
+/*
+**	cmd folder
+*/
+
+/*
+**	command.c
+*/
+
+void					line_to_cmd(t_ms *ms, char *line);
+
+/*
+**	tokens_to_cmd.c
+*/
+
+void					tokens_to_cmd(t_ms *ms, t_tokens **tokens);
+
+/*
+**	fill_command.c
+*/
+
+void					fill_arg_cmd(t_cmd **new, t_tokens **tokens);
+void					fill_sep_cmd(t_cmd **new, t_tokens **tokens);
+
+/*
+** main folder
+*/
+
+/*
+** init.c
+*/
+
+void					init_ms(t_ms *ms, char **env);
+
+/*
+** init_env.c
+*/
+
+char					**lst_to_arr(t_list *env);
+void					init_lstenv(t_ms *ms, t_list **lst_env, char **env);
+void					free_arrstr(char **arr_env);
 
 /*
 ** utils.c
 */
 
 void					free_split(char ***split);
-void					free_env(void *env);
-void					free_list(void *list);
 char					*ft_getenv(t_list **head_ref, char *elem, int i);
 t_var					*ft_get_t_var(t_list **head_ref, char *elem);
-int						valid_name(char *name);
-int						is_type(t_cmd *cmd, int type);
-int						has_pipe(t_cmd *cmd);
 
-void					setup_execution(t_ms *ms, t_cmd *cmd);
-int						valid_quotes(const char *str, int len);
-void					parse(char *str, t_ms *ms);
-int						set_token_type(char *word_list);
-void					close_fd(int fd);
-int						choose_action(t_ms *ms, t_cmd *cmd);
-void					valid_file(t_cmd *cmd, int i);
-
-void					launch_cmd(t_ms *ms, t_cmd *cmd, int pipe);
-void					launch_redirection(t_ms *ms, t_cmd *cmd,
-						int redirection_type);
-void					select_action(t_ms *ms, t_cmd *cmd);
-
-/*
-**	expansion
-*/
-char					*value(t_ms *mini, char *str, int *i);
-char					*get_name_var(char *str);
-int						is_spec_car(char c);
-
-/*
-**	parser
-*/
-int						back_slash(t_ms *ms, char *str, char **word, int i);
-int						special(t_ms *ms, char *str, char **word, int i);
-int						quote(char *str, char **word, int i, int q);
-t_list					*parse_bloc(char *str);
-int						nb_semicolon(char *str);
-int						escaped(char *str, int pos);
-int						print_cmd_error(t_ms *ms, t_cmd *cmd);
-void					select_redirection(t_ms *ms, t_cmd *redir_cmd,
-						t_cmd *file_to_redirect);
-int						is_redir(t_cmd *cmd);
-void					redir(t_ms *mini, t_cmd *cmd, int type);
-void					input(t_ms *mini, t_cmd *cmd);
-void					reset_fd(t_ms *ms);
-void					ft_close(int fd);
-void					select_execution(t_ms *ms, t_cmd *cmd,
-						int exit_in_pipeline);
-void					set_redirection(t_ms *ms, t_cmd *cmd);
-void					pipeline(t_cmd *cmd, t_ms *ms);
-void					tokens_to_cmd(t_ms *ms, t_tokens **tokens);
-int						is_pipe(t_cmd *cmd);
-void					fill_arg_cmd(t_cmd **new, t_tokens **tokens);
-void					fill_sep_cmd(t_cmd **new, t_tokens **tokens);
-void					set_redirection_type(t_cmd *cmd, t_tokens **tokens);
-
-void					fork_error(void);
-void					parent_execution(int *fdd, int *fd);
-void					child_execution(t_ms *ms, t_cmd **cmd, int fdd,
-						int *fd);
-void					first_cmd_is_redir(t_ms *ms, t_cmd **cmd);
-
-int						error_no_file(char *str);
-void					error_getcwd(t_ms *ms, char *new_loc);
-
-/*
-** init_env
-*/
-
-char					**lst_to_arr(t_list *env);
-void					init_lstenv(t_ms *ms, t_list **lst_env, char **env);
-t_list					*lstnew_var(t_var *content);
-t_var					*init_envvar(char *env_var);
-void					free_arrstr(char **arr_env);
 #endif

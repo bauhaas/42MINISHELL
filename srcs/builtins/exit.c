@@ -6,11 +6,19 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/21 00:44:02 by bahaas            #+#    #+#             */
-/*   Updated: 2021/05/05 13:07:53 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/05/05 15:10:45 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+void			free_list(void *content)
+{
+	char	*e;
+
+	e = (char *)content;
+	ft_strdel(&e);
+}
 
 void			free_cmd(t_cmd *cmd)
 {

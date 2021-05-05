@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/20 20:09:25 by bahaas            #+#    #+#             */
-/*   Updated: 2021/04/23 03:49:03 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/05/05 14:06:30 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,15 +95,17 @@ static int	arg_to_var(char *arg, t_ms *ms)
 static int	export_alone(t_list *tmp)
 {
 	t_list	*copy;
+	t_list	*to_free;
 
 	copy = NULL;
 	list_sort(&copy, tmp);
+	to_free = copy;
 	while (copy)
 	{
 		print_env((t_var *)copy->content, EXPORT);
 		copy = copy->next;
 	}
-	ft_lstclear(&copy, &free_env);
+	ft_lstclear(&to_free, &free_env);
 	return (0);
 }
 
