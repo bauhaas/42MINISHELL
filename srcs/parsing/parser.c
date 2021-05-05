@@ -6,7 +6,7 @@
 /*   By: clorin <clorin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/17 16:05:15 by clorin            #+#    #+#             */
-/*   Updated: 2021/04/21 22:24:52 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/05/05 13:21:22 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,12 +83,12 @@ void				parse(char *str, t_ms *ms)
 			if ((split_word = expansion(str, &word, ms, &i)))
 			{
 				while (*split_word)
-					new_token(ms, &ms->head_tokens, (split_word)++);
+					new_token(ms, (split_word)++);
 				ft_strdel(&word);
 			}
 		}
 		else
 			word = ft_add_char(word, str[i++]);
 	}
-	new_token(ms, &ms->head_tokens, &word);
+	new_token(ms, &word);
 }

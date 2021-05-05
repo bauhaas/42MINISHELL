@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/21 14:52:26 by bahaas            #+#    #+#             */
-/*   Updated: 2021/05/05 12:12:51 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/05/05 13:13:16 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,22 +80,18 @@ void		line_to_cmd(t_ms *ms, char *line)
 {
 	t_tokens	*token;
 	t_cmd		*to_free;
- 
-	ms->head_tokens = NULL;
-	//ms->cmd_cpy = NULL;
+
 	ms->total_consecutive_pipes = 0;
-	ms->cmd = NULL; 
 	parse(line, ms);
 	print_tokens(ms->head_tokens);
 	token = ms->head_tokens;
-	while (token) 
-		tokens_to_cmd(ms, &ms->cmd, &token);
-	//printf("test\n");
-	//print_cmd(ms->cmd);
-	//print_tokens(ms->head_tokens);
+	while (token)
+		tokens_to_cmd(ms, &token);
+	print_cmd(ms->cmd);
 	free_tokens(ms->head_tokens);
 	to_free = ms->cmd;
-	if (nb_cmd(ms->cmd) > 1 || (nb_cmd(ms->cmd) == 1 && !get_bltn(ms, ms->cmd->content[0])))
+	if (nb_cmd(ms->cmd) > 1 || (nb_cmd(ms->cmd) == 1
+				&& !get_bltn(ms, ms->cmd->content[0])))
 	{
 		if (check_cmd_status(ms, ms->cmd))
 			pipeline(ms->cmd, ms);
@@ -105,32 +101,5 @@ void		line_to_cmd(t_ms *ms, char *line)
 		if (check_cmd_status(ms, ms->cmd))
 			select_execution(ms, ms->cmd, 0);
 	}
-	//move permet de me deplacer sur la tete de ms->cmdcpy 
-	//to_del sera la tete de mon ms->cmdcpy
-	/*
-	t_cmd *to_del = NULL;
-	t_cmd *move;
-
-	move = ms->cmd_cpy;
-	to_del = move;
-	printf("move : %s\n", move->content[0]);
-	while(move)
-	{
-		if(move->prev)
-		{
-			printf("cmdcpyprev exist\n");
-			to_del = move->prev;
-		}
-		move = move->prev;
-	}
-
-	*/
-	/*
-	printf("PRINT CMD AFTER EXEC\n");
-	print_cmd(ms->cmd);
-	printf("PRINT TO FREE\n");
-	print_cmd(to_free);
-	*/
 	free_cmd(to_free);
-	//free_cmd(to_del);
 }

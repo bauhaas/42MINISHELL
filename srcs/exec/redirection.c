@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/26 11:35:35 by bahaas            #+#    #+#             */
-/*   Updated: 2021/05/03 23:21:03 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/05/05 13:07:30 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ void	redir(t_ms *ms, t_cmd *cmd, int type)
 		ft_putstr_fd(cmd->content[0], STDERR);
 		ft_putendl_fd(": No such file or directory", STDERR);
 		ms->ret = 1;
-	//	ms->no_exec = 1;
 		return ;
 	}
 	dup2(ms->fdout, STDOUT);
@@ -43,7 +42,6 @@ void	input(t_ms *ms, t_cmd *cmd)
 		ft_putstr_fd(cmd->content[0], STDERR);
 		ft_putendl_fd(": No such file or directory", STDERR);
 		ms->ret = 1;
-	//	ms->no_exec = 1;
 		return ;
 	}
 	dup2(ms->fdin, STDIN);

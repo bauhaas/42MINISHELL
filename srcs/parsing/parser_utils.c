@@ -6,7 +6,7 @@
 /*   By: clorin <clorin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/19 14:13:16 by clorin            #+#    #+#             */
-/*   Updated: 2021/05/05 10:57:14 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/05/05 13:23:41 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,10 @@ int			escaped(char *str, int pos)
 	return (FALSE);
 }
 
-void		new_token(t_ms *ms, t_tokens **tokens, char **word)
+void		new_token(t_ms *ms, char **word)
 {
 	t_tokens		*new;
 	t_tokens		*tmp;
-	(void)tokens;
 
 	tmp = ms->head_tokens;
 	if (*word)
@@ -43,7 +42,7 @@ void		new_token(t_ms *ms, t_tokens **tokens, char **word)
 		if (ft_strcmp(*word, "echo") == 0)
 			ms->echo = TRUE;
 		ft_strdel(word);
-		if(ms->head_tokens == NULL)
+		if (ms->head_tokens == NULL)
 			ms->head_tokens = new;
 		else
 		{
@@ -81,7 +80,7 @@ int			special(t_ms *ms, char *str, char **word, int i)
 {
 	if (valid_quotes(str, i) == 0)
 	{
-		new_token(ms, &ms->head_tokens, word);
+		new_token(ms, word);
 		if (str[i] == '>')
 		{
 			if (str[i + 1] == '>')
@@ -94,7 +93,7 @@ int			special(t_ms *ms, char *str, char **word, int i)
 		}
 		else if (str[i] != '\t' && str[i] != ' ')
 			*word = ft_add_char(*word, str[i]);
-		new_token(ms, &ms->head_tokens, word);
+		new_token(ms, word);
 	}
 	else
 		*word = ft_add_char(*word, str[i]);

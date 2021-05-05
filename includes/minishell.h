@@ -6,7 +6,7 @@
 /*   By: clorin <clorin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 12:28:05 by clorin            #+#    #+#             */
-/*   Updated: 2021/05/05 11:31:36 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/05/05 13:20:18 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -289,7 +289,8 @@ int						is_spec_car(char c);
 int						back_slash(t_ms *ms, char *str, char **word, int i);
 int						special(t_ms *ms, char *str, char **word, int i);
 int						quote(char *str, char **word, int i, int q);
-void					new_token(t_ms *ms, t_tokens **tokens, char **word);
+//void					new_token(t_ms *ms, t_tokens **tokens, char **word);
+void					new_token(t_ms *ms, char **word);
 t_list					*parse_bloc(char *str);
 int						nb_semicolon(char *str);
 int						escaped(char *str, int pos);
@@ -305,8 +306,7 @@ void					select_execution(t_ms *ms, t_cmd *cmd,
 						int exit_in_pipeline);
 void					set_redirection(t_ms *ms, t_cmd *cmd);
 void					pipeline(t_cmd *cmd, t_ms *ms);
-//t_cmd					tokens_to_cmd(t_ms *ms, t_cmd **cmd, t_tokens **tokens);
-void					tokens_to_cmd(t_ms *ms, t_cmd **cmd, t_tokens **tokens);
+void					tokens_to_cmd(t_ms *ms, t_tokens **tokens);
 int						is_pipe(t_cmd *cmd);
 void					fill_arg_cmd(t_cmd **new, t_tokens **tokens);
 void					fill_sep_cmd(t_cmd **new, t_tokens **tokens);

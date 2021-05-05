@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 12:52:12 by clorin            #+#    #+#             */
-/*   Updated: 2021/05/05 12:19:05 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/05/05 13:13:09 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ void				free_list(void *content)
 	char	*e;
 
 	e = (char *)content;
-
 	ft_strdel(&e);
 }
 
@@ -67,6 +66,8 @@ static int			line_processing(t_ms *ms)
 	while (bloc)
 	{
 		ms->echo = FALSE;
+		ms->head_tokens = NULL;
+		ms->cmd = NULL;
 		if (bloc->content && ((char*)bloc->content)[0] != 0)
 			line_to_cmd(ms, (char*)bloc->content);
 		bloc = bloc->next;
@@ -84,7 +85,6 @@ static void			prompt_loop(t_ms *ms)
 		{
 			ms->last_ret = line_processing(ms);
 			ft_strdel(&ms->line);
-			//free_cmd(ms->cmd);
 		}
 	}
 }
