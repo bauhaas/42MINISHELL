@@ -6,41 +6,11 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/21 00:44:41 by bahaas            #+#    #+#             */
-/*   Updated: 2021/04/16 13:42:13 by clorin           ###   ########.fr       */
+/*   Updated: 2021/05/05 13:28:35 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-#include <errno.h>
-
-static int	error_no_file(char *str)
-{
-	ft_putstr_fd("minishell: cd: ", 2);
-	ft_putstr_fd(str, 2);
-	ft_putstr_fd(": No such file or directory\n", 2);
-	return (1);
-}
-
-static void	error_getcwd(t_ms *ms, char *new_loc)
-{
-	char	*tmp;
-
-	ft_putstr_fd("minishell: cd: error determining the current directory:", 2);
-	ft_putstr_fd(" getcwd: cannot access parent directories: ", 2);
-	ft_putstr_fd("No file or folder of this type\n", 2);
-	ft_strdel(&ms->old_pwd);
-	ms->old_pwd = ft_strdup(ms->pwd);
-	tmp = ft_strnew(ft_strlen(ms->pwd) + ft_strlen(new_loc) + 1);
-	if (tmp)
-	{
-		ft_strcpy(tmp, ms->pwd);
-		ft_strcat(tmp, "/");
-		ft_strcat(tmp, new_loc);
-		ft_strdel(&ms->pwd);
-		ms->pwd = ft_strdup(tmp);
-		ft_strdel(&tmp);
-	}
-}
 
 static void	update_var(t_ms *ms)
 {
@@ -81,6 +51,7 @@ static int	set_cd(char *new_loc, t_ms *ms)
 	update_var(ms);
 	return (0);
 }
+
 static int	cd_old_pwd(t_ms *ms, t_cmd *cmd)
 {
 	int		ret;

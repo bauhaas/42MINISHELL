@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/20 14:29:47 by bahaas            #+#    #+#             */
-/*   Updated: 2021/05/05 11:11:44 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/05/05 13:38:23 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,29 +28,6 @@ void		free_tokens(t_tokens *tokens)
 	tokens = NULL;
 }
 
-/*
-** Parse our list of tokens. Set a new one and add it at the end of our list
-*/
-
-t_tokens	*create_token(t_tokens **head_tokens)
-{
-	t_tokens	*tmp;
-	t_tokens	*new;
-
-	new = ft_memalloc(sizeof(t_tokens));
-	tmp = *head_tokens;
-	while (tmp != NULL && tmp->next != NULL)
-		tmp = tmp->next;
-	if (tmp == NULL)
-		*head_tokens = new;
-	else
-	{
-		tmp->next = new;
-		new->prev = tmp;
-	}
-	return (new);
-}
-
 int			set_token_type(char *word_list)
 {
 	int type;
@@ -65,4 +42,43 @@ int			set_token_type(char *word_list)
 		(!strcmp(word_list, "<")))
 		type = REDIR;
 	return (type);
+}
+
+void		fill_token(t_tokens **new, t_ms *ms, char **word)
+{
+	(*new)->content = ft_strdup(*word);
+	if (ms->escaped_tokens != 1)
+		(*new)->type_content = set_token_type(*word);
+	else
+		(*new)->type_content = 1;
+	ms->escaped_tokens = 0;
+	if (ms->is_env)
+		(*new)->is_env = 1;
+	if (ft_strcmp(*word, "echo") == 0)
+		ms->echo = TRUE;
+	ft_strdel(word);
+}
+
+void		create_token(t_ms *ms, char **word)
+{
+	t_tokens		*new;
+	t_tokens		*tmp;
+
+	tmp = ms->head_tokens;
+	if (*word)
+	{
+		new = ft_memalloc(sizeof(t_tokens));
+		if (new == NULL)
+			return ;
+		fill_token(&new, ms, word);
+		if (ms->head_tokens == NULL)
+			ms->head_tokens = new;
+		else
+		{
+			while (tmp != NULL && tmp->next != NULL)
+				tmp = tmp->next;
+			tmp->next = new;
+			new->prev = tmp;
+		}
+	}
 }
