@@ -6,7 +6,7 @@
 /*   By: clorin <clorin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 13:13:22 by clorin            #+#    #+#             */
-/*   Updated: 2021/04/27 09:16:37 by clorin           ###   ########.fr       */
+/*   Updated: 2021/05/05 14:53:53 by clorin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,13 @@
 char				*get_last_ret(t_ms *mini, int *i)
 {
 	char			*dest;
+	//char			*ret;
 
-	dest = ft_strnew(ft_strlen(ft_itoa(mini->last_ret)));
-	ft_strcat(dest, ft_itoa(mini->last_ret));
+	dest = ft_itoa(mini->last_ret);
+	//dest = ft_strnew(ft_strlen(ret));
+	//ft_strcat(dest, ret);
+	//free(ret);
+	//ret=NULL;
 	*i += 2;
 	return (dest);
 }
