@@ -6,13 +6,11 @@
 #    By: clorin <clorin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/03/17 12:01:33 by clorin            #+#    #+#              #
-#    Updated: 2021/05/06 13:06:50 by bahaas           ###   ########.fr        #
+#    Updated: 2021/05/06 14:44:20 by bahaas           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME		= minishell
-
-VERSION		= 0.9
+NAME	= minishell
 
 SRC		= srcs/main/main.c				\
 		srcs/main/init.c				\
@@ -57,10 +55,9 @@ SRC		= srcs/main/main.c				\
 
 CC		= clang
 
-#FLAGS		= -Wall -Werror -Wextra -g -fsanitize=address -D VERSION=$(VERSION)
-FLAGS		= -Wall -Werror -Wextra -g -D VERSION=$(VERSION)
+FLAGS	= -Wall -Werror -Wextra
 
-HEADER		= -I includes/
+HEADER	= -I includes/
 
 OBJ		= $(SRC:.c=.o)
 
@@ -90,12 +87,6 @@ fclean :	clean
 		@echo "Delete minishell : \033[32mOK\033[0m"
 
 re :	fclean all
-
-test:	$(NAME)
-		./minishell -c test
-
-echo:	$(NAME)
-		./minishell -c echo_test
 
 run:	$(NAME)
 		./minishell
