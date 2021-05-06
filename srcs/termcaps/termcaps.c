@@ -12,11 +12,11 @@
 
 #include "../includes/minishell.h"
 
-static void		init_termcaps(t_termcaps *tc)
+static void		init_termcaps(t_termcaps *tc, t_list *env)
 {
 	char		*name;
 
-	name = getenv("TERM");
+	name = ft_getenv(&env, "TERM", TRUE);
 	if (!name)
 		name = ft_strdup("xterm");
 	if (tgetent(NULL, name) == 1)
@@ -87,7 +87,7 @@ int				get_line(t_ms *mini)
 	char		*new_line;
 
 	ft_bzero(&tc, sizeof(t_termcaps));
-	init_termcaps(&tc);
+	init_termcaps(&tc, mini->env);
 	get_cursor_position(&tc.start_col, &tc.start_row);
 	prompt(mini);
 	get_cursor_position(&tc.col, &tc.row);
