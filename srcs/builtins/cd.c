@@ -36,7 +36,7 @@ static int	set_cd(char *new_loc, t_ms *ms)
 
 	if (chdir(new_loc) == -1)
 		return (error_no_file(new_loc));
-	tmp = ft_strnew(2048);
+	tmp = NULL;
 	tmp = getcwd(tmp, sizeof(char) * 2048);
 	if (tmp)
 	{
@@ -44,11 +44,11 @@ static int	set_cd(char *new_loc, t_ms *ms)
 		ms->old_pwd = ft_strdup(ms->pwd);
 		ft_strdel(&ms->pwd);
 		ms->pwd = ft_strdup(tmp);
-		ft_strdel(&tmp);
 	}
 	else
 		error_getcwd(ms, new_loc);
 	update_var(ms);
+	ft_strdel(&tmp);
 	return (0);
 }
 

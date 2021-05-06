@@ -12,13 +12,19 @@
 
 #include "../../includes/minishell.h"
 
+static void		free_end_exit(t_ms *ms, int ret)
+{
+	free_exit(ms);
+	exit(ret);
+}
+
 void			select_execution(t_ms *ms, t_cmd *cmd, int exit_in_pipeline)
 {
 	if (cmd && get_bltn(ms, cmd->content[0]))
 	{
 		ms->last_ret = launch_bltn(ms, cmd);
 		if (exit_in_pipeline)
-			exit(ms->last_ret);
+			free_end_exit(ms, ms->last_ret);
 	}
 	else
 		search_prog(ms, cmd);
@@ -32,21 +38,18 @@ void			child_execution(t_ms *ms, t_cmd **cmd, int fdd, int *fd)
 	if ((*cmd)->next && is_redir((*cmd)->next))
 		set_redirection(ms, (*cmd));
 	if (ms->ret)
-		exit(ms->ret);
+		free_end_exit(ms, ms->ret);
 	close(fd[0]);
 	if (ft_is_empty((*cmd)->content[0]) && !(*cmd)->is_env)
 	{
 		ft_putstr_fd("minishell: : command not found\n", 2);
-		exit(127);
+		free_end_exit(ms, 127);
 	}
 	if (ft_is_empty((*cmd)->content[0]) && (*cmd)->is_env)
-		exit(0);
+		free_end_exit(ms, 0);
 	select_execution(ms, (*cmd), 1);
 	if ((*cmd)->ret_value)
-	{
-		free_exit(ms, *cmd);
-		exit(ms->last_ret);
-	}
+		free_end_exit(ms, ms->last_ret);
 	free_arrstr(ms->arr_env);
 	ms->arr_env = lst_to_arr(ms->env);
 	execve((*cmd)->content[0], (*cmd)->content, ms->arr_env);

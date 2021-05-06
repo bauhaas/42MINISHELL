@@ -62,7 +62,7 @@ static void		init_pwd(t_ms *ms)
 {
 	char *tmp;
 
-	tmp = ft_strnew(2048);
+	tmp = NULL;
 	tmp = getcwd(tmp, sizeof(char) * 2048);
 	if (!ft_getenv(&ms->env, "PWD", 1))
 	{

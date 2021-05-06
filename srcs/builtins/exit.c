@@ -32,11 +32,10 @@ static int		valid_exit(t_cmd *cmd, int last_ret)
 	return (ret);
 }
 
-void			free_exit(t_ms *ms, t_cmd *cmd)
+void			free_exit(t_ms *ms)
 {
 	int			i;
 
-	(void)cmd;
 	i = 0;
 	while (ms->bltn->bltn_name[i])
 		free(ms->bltn->bltn_name[i++]);
@@ -73,7 +72,7 @@ int				ft_exit(t_ms *ms, t_cmd *cmd)
 		return (1);
 	}
 	status = valid_exit(cmd, ms->last_ret);
-	free_exit(ms, cmd);
+	free_exit(ms);
 	exit(status);
 	return (0);
 }

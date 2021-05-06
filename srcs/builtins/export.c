@@ -85,6 +85,7 @@ static int	arg_to_var(char *arg, t_ms *ms)
 			ft_putstr_fd("minishell: export: '", STDERR);
 			ft_putstr_fd(arg, STDERR);
 			ft_putstr_fd("': not a valid identifier\n", STDERR);
+			free_split(&arg_split);
 			return (1);
 		}
 	}
