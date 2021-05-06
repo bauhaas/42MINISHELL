@@ -332,6 +332,7 @@ void					error_getcwd(t_ms *ms, char *new_loc);
 */
 
 int						ft_exit(t_ms *ms, t_cmd *cmd);
+void					free_exit(t_ms *ms, t_cmd *cmd);
 
 /*
 ** exec folder

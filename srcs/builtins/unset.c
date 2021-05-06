@@ -12,6 +12,15 @@
 
 #include "../includes/minishell.h"
 
+static void	free_t_var(void *var)
+{
+	t_var	*e;
+
+	e = (t_var*)var;
+	ft_strdel(&e->name);
+	ft_strdel(&e->value);
+	free(e);
+}
 static void	delete_one(t_list **head_ref, char *name)
 {
 	t_list	*tmp;
@@ -24,7 +33,7 @@ static void	delete_one(t_list **head_ref, char *name)
 	if (tmp != NULL && !ft_strcmp(var->name, name))
 	{
 		*head_ref = tmp->next;
-		free(tmp);
+		ft_lstdelone(tmp, &free_t_var);
 	}
 	else
 	{
@@ -37,7 +46,7 @@ static void	delete_one(t_list **head_ref, char *name)
 		if (tmp == NULL)
 			return ;
 		prev->next = tmp->next;
-		free(tmp);
+		ft_lstdelone(tmp, &free_t_var);
 	}
 }
 

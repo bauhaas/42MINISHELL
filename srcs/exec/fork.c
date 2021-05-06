@@ -43,7 +43,10 @@ void			child_execution(t_ms *ms, t_cmd **cmd, int fdd, int *fd)
 		exit(0);
 	select_execution(ms, (*cmd), 1);
 	if ((*cmd)->ret_value)
+	{
+		free_exit(ms, *cmd);
 		exit(ms->last_ret);
+	}
 	free_arrstr(ms->arr_env);
 	ms->arr_env = lst_to_arr(ms->env);
 	execve((*cmd)->content[0], (*cmd)->content, ms->arr_env);

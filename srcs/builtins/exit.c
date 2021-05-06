@@ -32,10 +32,11 @@ static int		valid_exit(t_cmd *cmd, int last_ret)
 	return (ret);
 }
 
-static void		free_exit(t_ms *ms, t_cmd *cmd)
+void			free_exit(t_ms *ms, t_cmd *cmd)
 {
 	int			i;
 
+	(void)cmd;
 	i = 0;
 	while (ms->bltn->bltn_name[i])
 		free(ms->bltn->bltn_name[i++]);
@@ -49,7 +50,7 @@ static void		free_exit(t_ms *ms, t_cmd *cmd)
 	free(ms->line);
 	free(ms->pwd);
 	free(ms->old_pwd);
-	free_cmd(cmd);
+	free_cmd(ms->cmd);
 	free_history(&ms->cur_histo);
 	ft_lstclear(&ms->env, &free_env);
 	free_arrstr(ms->arr_env);

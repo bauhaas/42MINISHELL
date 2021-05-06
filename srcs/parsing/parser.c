@@ -26,6 +26,7 @@ static char	**expansion(char *str, char **word, t_ms *ms, int *i)
 				|| (j > 0 && str[j - 1] == '=')) && ms->echo == FALSE)
 	{
 		split_word = ft_split(*word, ' ');
+		ms->free_all = 1;
 		return (split_word);
 	}
 	else if (*word[0] == '\0')

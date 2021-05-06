@@ -77,6 +77,21 @@ static void			error_file(t_ms *ms, t_cmd *cmd)
 	}
 }
 
+static char			*construc_path(char *path, char *cmd)
+{
+	char			*program;
+
+	program = NULL;
+	program = ft_strnew(ft_strlen(path) + 1 + ft_strlen(cmd));
+	if (program)
+	{
+		ft_strcat(program, path);
+		ft_strcat(program, "/");
+		ft_strcat(program, cmd);
+	}
+	return (program);
+}
+
 /*
 **	search in the PATH and update cmd->content[0]
 */
@@ -96,20 +111,18 @@ static void			find_absolute_path(t_ms *ms, t_cmd *cmd, int i)
 	}
 	while (path_to_check[i])
 	{
-		program = ft_strdup(path_to_check[i]);
-		program = ft_strjoin(path_to_check[i], "/");
-		program = ft_strjoin(program, cmd->content[0]);
+		program = construc_path(path_to_check[i++], cmd->content[0]);
 		if (file_exist(program))
 		{
 			ft_strdel(&cmd->content[0]);
 			cmd->content[0] = ft_strdup(program);
-			free(program);
+			ft_strdel(&program);
 			return ;
 		}
-		i++;
-		free(program);
+		ft_strdel(&program);
 	}
 	cmd->ret_value = 4;
+	free_arrstr(path_to_check);
 }
 
 /*
