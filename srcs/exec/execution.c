@@ -114,7 +114,7 @@ void			pipeline(t_cmd *cmd, t_ms *ms)
 			pipe(fd);
 			pid = fork();
 			if (pid == -1 || ms->forked == 100)
-				fork_error();
+				fork_error(ms);
 			else if (pid == 0)
 				child_execution(ms, &cmd, fdd, fd);
 			else

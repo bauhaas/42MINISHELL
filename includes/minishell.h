@@ -360,7 +360,7 @@ void					child_execution(t_ms *ms, t_cmd **cmd, int fdd,
 						int *fd);
 void					select_execution(t_ms *ms, t_cmd *cmd,
 						int exit_in_pipeline);
-void					fork_error(void);
+void					fork_error(t_ms *ms);
 
 /*
 **	redirection.c

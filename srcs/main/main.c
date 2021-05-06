@@ -85,7 +85,6 @@ int					main(int argc, char **argv, char **envp)
 {
 	t_ms			ms;
 
-	(void)argv;
 	ft_bzero(&ms, sizeof(t_ms));
 	init_ms(&ms, envp);
 	signal(SIGINT, &sig_int);

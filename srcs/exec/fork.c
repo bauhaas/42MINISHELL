@@ -61,8 +61,8 @@ void			parent_execution(int *fdd, int *fd)
 	*fdd = fd[0];
 }
 
-void			fork_error(void)
+void			fork_error(t_ms *ms)
 {
 	ft_putstr_fd("minishell: fork: Out of memory\n", 2);
-	exit(12);
+	free_end_exit(ms, 12);
 }

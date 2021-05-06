@@ -69,7 +69,6 @@ static void		init_pwd(t_ms *ms)
 		ft_strdel(&ms->pwd);
 		ms->pwd = ft_strdup(tmp);
 		create_var(ms, "PWD", ms->pwd);
-		ft_strclr(tmp);
 	}
 	if (!ft_getenv(&ms->env, "OLDPWD", 1))
 	{

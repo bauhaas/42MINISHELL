@@ -15,21 +15,27 @@
 static int	print_cmd_error(t_ms *ms, t_cmd *cmd)
 {
 	if (cmd->type_link == 4 && cmd->next == NULL)
-		printf("minishell: syntax error near unexpected token  « | »\n");
+		ft_putstr_fd("minishell: syntax error near unexpected token  « | »\n"
+			, 2);
 	else if (is_redir(cmd) && (cmd->next && (is_redir(cmd->next)
 					|| is_type(cmd, PIPES))))
 	{
-		printf("minishell: syntax error near unexpected token");
-		printf(" « %s »\n", cmd->next->content[0]);
+		ft_putstr_fd("minishell: syntax error near unexpected token « ", 2);
+		ft_putstr_fd(cmd->next->content[0], 2);
+		ft_putstr_fd(" »\n", 2);
 	}
 	else if ((is_pipe(cmd) || is_redir(cmd)) && cmd->prev
 			&& (is_redir(cmd->prev) || is_pipe(cmd->prev)))
 	{
-		printf("minishell: syntax error near unexpected token");
-		printf(" « %s »\n", cmd->content[0]);
+		ft_putstr_fd("minishell: syntax error near unexpected token « ", 2);
+		ft_putstr_fd(cmd->content[0], 2);
+		ft_putstr_fd(" »\n", 2);
 	}
 	else if ((is_redir(cmd)) && cmd->next == NULL)
-		printf("minishell: syntax error near unexpected token  « newline »\n");
+	{
+		ft_putstr_fd("minishell: syntax error near unexpected token ", 2);
+		ft_putstr_fd("« newline »\n", 2);
+	}
 	ms->last_ret = 2;
 	return (0);
 }
@@ -47,12 +53,14 @@ static int	check_cmd_status(t_ms *ms, t_cmd *cmd)
 			return (print_cmd_error(ms, tmp));
 		else if (ms->total_consecutive_pipes == 2)
 		{
-			printf("minishell: syntax error near unexpected token  « | »\n");
+			ft_putstr_fd("minishell: ", 2);
+			ft_putstr_fd("syntax error near unexpected token « | »\n", 2);
 			return (0);
 		}
 		else if (ms->total_consecutive_pipes > 2)
 		{
-			printf("minishell: syntax error near unexpected token  « || »\n");
+			ft_putstr_fd("minishell: ", 2);
+			ft_putstr_fd("syntax error near unexpected token « || »\n", 2);
 			return (0);
 		}
 		tmp = tmp->next;
