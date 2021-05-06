@@ -6,13 +6,13 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/03 11:47:55 by bahaas            #+#    #+#             */
-/*   Updated: 2021/05/03 23:34:50 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/05/05 14:54:02 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void			first_cmd_is_redir(t_ms *ms, t_cmd **cmd)
+static void		first_cmd_is_redir(t_ms *ms, t_cmd **cmd)
 {
 	int			has_redir_first;
 

@@ -6,7 +6,7 @@
 #    By: clorin <clorin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/03/17 12:01:33 by clorin            #+#    #+#              #
-#    Updated: 2021/05/05 13:34:12 by bahaas           ###   ########.fr        #
+#    Updated: 2021/05/06 03:49:39 by bahaas           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,11 @@ NAME		= minishell
 
 VERSION		= 0.9
 
-SRC		= srcs/main.c srcs/init.c srcs/init_env.c srcs/utils.c srcs/print.c \
+SRC		= srcs/main/main.c				\
+		srcs/main/init.c				\
+		srcs/main/init_env.c			\
+		srcs/main/utils.c				\
+		srcs/main/free.c 				\
 		srcs/termcaps/cursor.c			\
 		srcs/termcaps/termcaps.c		\
 		srcs/termcaps/keyboard.c		\
@@ -41,7 +45,6 @@ SRC		= srcs/main.c srcs/init.c srcs/init_env.c srcs/utils.c srcs/print.c \
 		srcs/parsing/parse_bloc.c		\
 		srcs/exec/file.c				\
 		srcs/exec/signal.c				\
-		srcs/exec/launch.c				\
 		srcs/exec/redirection.c			\
 		srcs/exec/execution.c			\
 		srcs/exec/fork.c				\

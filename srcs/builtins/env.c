@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/21 00:42:31 by bahaas            #+#    #+#             */
-/*   Updated: 2021/04/21 15:53:48 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/05/06 04:00:59 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,6 @@ int			ft_env(t_ms *ms, t_cmd *cmd)
 {
 	t_list	*tmp;
 
-	(void)ms;
-	(void)cmd;
 	tmp = ms->env;
 	if (!cmd->content[1])
 	{

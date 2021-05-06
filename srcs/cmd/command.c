@@ -6,13 +6,13 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/21 14:52:26 by bahaas            #+#    #+#             */
-/*   Updated: 2021/05/05 13:13:16 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/05/06 03:49:32 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int			print_cmd_error(t_ms *ms, t_cmd *cmd)
+static int	print_cmd_error(t_ms *ms, t_cmd *cmd)
 {
 	if (cmd->type_link == 4 && cmd->next == NULL)
 		printf("minishell: syntax error near unexpected token  « | »\n");
@@ -34,7 +34,7 @@ int			print_cmd_error(t_ms *ms, t_cmd *cmd)
 	return (0);
 }
 
-int			check_cmd_status(t_ms *ms, t_cmd *cmd)
+static int	check_cmd_status(t_ms *ms, t_cmd *cmd)
 {
 	t_cmd *tmp;
 
@@ -82,12 +82,10 @@ void		line_to_cmd(t_ms *ms, char *line)
 	t_cmd		*to_free;
 
 	ms->total_consecutive_pipes = 0;
-	parse(line, ms);
-	print_tokens(ms->head_tokens);
+	parse(line, ms, 0);
 	token = ms->head_tokens;
 	while (token)
 		tokens_to_cmd(ms, &token);
-	print_cmd(ms->cmd);
 	free_tokens(ms->head_tokens);
 	to_free = ms->cmd;
 	if (nb_cmd(ms->cmd) > 1 || (nb_cmd(ms->cmd) == 1

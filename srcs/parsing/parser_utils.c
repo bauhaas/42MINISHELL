@@ -6,11 +6,17 @@
 /*   By: clorin <clorin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/19 14:13:16 by clorin            #+#    #+#             */
-/*   Updated: 2021/05/05 13:38:31 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/05/06 03:39:17 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+int			is_spec(char c)
+{
+	return (c == '\\' || c == ' ' || c == '\t' || c == '>' || c == '|'
+			|| c == '<' || c == '"' || c == '\'');
+}
 
 int			escaped(char *str, int pos)
 {

@@ -6,25 +6,11 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/21 00:44:41 by bahaas            #+#    #+#             */
-/*   Updated: 2021/05/03 15:37:47 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/05/06 03:47:20 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-void		free_split(char ***split)
-{
-	int i;
-
-	i = -1;
-	while ((*split)[++i])
-	{
-		free((*split)[i]);
-		(*split)[i] = NULL;
-	}
-	free(*split);
-	*split = NULL;
-}
 
 char		*ft_getenv(t_list **head_ref, char *elem, int i)
 {
@@ -60,25 +46,4 @@ t_var		*ft_get_t_var(t_list **head_ref, char *elem)
 		tmp = tmp->next;
 	}
 	return (NULL);
-}
-
-int			has_valid_redir_or_pipe(t_cmd *cmd)
-{
-	if (cmd->next && (is_redir(cmd->next) || is_pipe(cmd->next)))
-	{
-		if (cmd->next->ret_value == 4)
-			return (0);
-	}
-	return (1);
-}
-
-int			has_pipe(t_cmd *cmd)
-{
-	while (cmd && is_type(cmd, END_CMD) == 0)
-	{
-		if (is_type(cmd, PIPES))
-			return (1);
-		cmd = cmd->next;
-	}
-	return (0);
 }

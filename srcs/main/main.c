@@ -6,19 +6,11 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 12:52:12 by clorin            #+#    #+#             */
-/*   Updated: 2021/05/05 13:13:09 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/05/06 03:54:38 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-void				free_list(void *content)
-{
-	char	*e;
-
-	e = (char *)content;
-	ft_strdel(&e);
-}
 
 static int			valid_bloc(t_list **list_bloc, char *line)
 {
@@ -99,18 +91,14 @@ int					main(int argc, char **argv, char **envp)
 	signal(SIGINT, &sig_int);
 	signal(SIGQUIT, &sig_quit);
 	g_ms = &ms;
-	if (argc == 1 || argc == 2)
-	{
-		if (argc == 2)
-		{
-			DEBUG = ft_atoi(argv[1]);
-			printf("MODE DEBUG => %d\n", DEBUG);
-		}
-		else
-			DEBUG = FALSE;
+	if (argc == 1)
 		prompt_loop(&ms);
-	}
 	else
-		ft_putstr_fd("minishell: no arguments needed\n", 2);
+	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(argv[1], 2);
+		ft_putstr_fd(": No such file or directory\n", 2);
+		return (127);
+	}
 	return (0);
 }

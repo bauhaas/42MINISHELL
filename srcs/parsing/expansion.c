@@ -6,7 +6,7 @@
 /*   By: clorin <clorin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 13:13:22 by clorin            #+#    #+#             */
-/*   Updated: 2021/05/05 14:53:53 by clorin           ###   ########.fr       */
+/*   Updated: 2021/05/06 04:04:00 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,31 +16,25 @@
 **	this function returns the name's var after $ or NULL if nothing
 */
 
-char				*get_last_ret(t_ms *mini, int *i)
+static char			*get_last_ret(t_ms *mini, int *i)
 {
 	char			*dest;
-	//char			*ret;
 
 	dest = ft_itoa(mini->last_ret);
-	//dest = ft_strnew(ft_strlen(ret));
-	//ft_strcat(dest, ret);
-	//free(ret);
-	//ret=NULL;
 	*i += 2;
 	return (dest);
 }
 
-char				*get_null_value(t_ms *mini, int len, int *i)
+static char			*get_null_value(int len, int *i)
 {
 	char			*dest;
 
-	(void)mini;
 	dest = ft_strnew(1);
 	*i += len + 1;
 	return (dest);
 }
 
-char				*get_good_value(t_ms *mini, char *name, int len, int *i)
+static char			*get_good_value(t_ms *mini, char *name, int len, int *i)
 {
 	char			*dest;
 
@@ -50,7 +44,7 @@ char				*get_good_value(t_ms *mini, char *name, int len, int *i)
 	return (dest);
 }
 
-char				*get_one_dollar(int *i)
+static char			*get_one_dollar(int *i)
 {
 	char			*dest;
 
@@ -75,7 +69,7 @@ char				*value(t_ms *mini, char *str, int *i)
 	else if (name && ft_getenv(&mini->env, name, TRUE))
 		dest = get_good_value(mini, name, len, i);
 	else if (name && !ft_getenv(&mini->env, name, TRUE))
-		dest = get_null_value(mini, len, i);
+		dest = get_null_value(len, i);
 	else if (*str != '$' || (*str == '$' && (*(str + 1) == '$' || !*(str + 1))))
 	{
 		dest = ft_strnew(1);
