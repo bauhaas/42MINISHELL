@@ -12,15 +12,20 @@
 
 #include "../includes/minishell.h"
 
-static void		init_termcaps(t_termcaps *tc, t_list *env)
+static void		init_termcaps(t_termcaps *tc, t_list *env, int free)
 {
 	char		*name;
 
 	name = ft_getenv(&env, "TERM", TRUE);
 	if (!name)
+	{
 		name = ft_strdup("xterm");
+		free = TRUE;
+	}
 	if (tgetent(NULL, name) == 1)
 	{
+		if (free)
+			ft_strdel(&name);
 		tcgetattr(0, &tc->term);
 		tcgetattr(0, &tc->old_termcaps);
 		tc->term.c_lflag &= ~(ICANON | ECHO);
@@ -32,11 +37,6 @@ static void		init_termcaps(t_termcaps *tc, t_list *env)
 		tc->dl = tgetstr("DL", NULL);
 		tc->cur_pos = 0;
 		tc->line = NULL;
-	}
-	else
-	{
-		ft_putstr_fd("minishell: Error termcaps \n", STDERR);
-		exit(-1);
 	}
 }
 
@@ -87,7 +87,7 @@ int				get_line(t_ms *mini)
 	char		*new_line;
 
 	ft_bzero(&tc, sizeof(t_termcaps));
-	init_termcaps(&tc, mini->env);
+	init_termcaps(&tc, mini->env, FALSE);
 	get_cursor_position(&tc.start_col, &tc.start_row);
 	prompt(mini);
 	get_cursor_position(&tc.col, &tc.row);
