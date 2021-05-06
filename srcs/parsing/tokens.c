@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/20 14:29:47 by bahaas            #+#    #+#             */
-/*   Updated: 2021/05/05 14:27:26 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/05/06 13:13:37 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,11 @@ int			set_token_type(char *word_list)
 	int type;
 
 	type = CMD_ARGS;
-	if (!strcmp(word_list, "|"))
+	if (!ft_strcmp(word_list, "|"))
 		type = PIPES;
-	else if ((!strcmp(word_list, ">")) ||
-		(!strcmp(word_list, ">>")) ||
-		(!strcmp(word_list, "<")))
+	else if ((!ft_strcmp(word_list, ">")) ||
+		(!ft_strcmp(word_list, ">>")) ||
+		(!ft_strcmp(word_list, "<")))
 		type = REDIR;
 	return (type);
 }

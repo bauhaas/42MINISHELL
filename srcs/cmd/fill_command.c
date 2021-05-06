@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/03 13:56:58 by bahaas            #+#    #+#             */
-/*   Updated: 2021/05/05 14:59:49 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/05/06 13:14:15 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ static void	set_redirection_type(t_cmd *cmd, t_tokens **tokens)
 	else if ((*tokens)->type_content == REDIR)
 	{
 		cmd->type_link = 6;
-		if (!strcmp((*tokens)->content, ">"))
+		if (!ft_strcmp((*tokens)->content, ">"))
 			cmd->type_link = 7;
-		else if (!strcmp((*tokens)->content, ">>"))
+		else if (!ft_strcmp((*tokens)->content, ">>"))
 			cmd->type_link = 8;
 	}
 }

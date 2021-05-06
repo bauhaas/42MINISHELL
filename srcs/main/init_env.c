@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/20 15:16:49 by bahaas            #+#    #+#             */
-/*   Updated: 2021/05/06 03:08:29 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/05/06 13:14:37 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,9 +76,9 @@ void			init_lstenv(t_ms *ms, t_list **lst_env, char **env)
 		var = init_envvar(env[i]);
 		new = lstnew_var(var);
 		ft_lstadd_back(lst_env, new);
-		if (!strcmp(var->name, "PWD"))
+		if (!ft_strcmp(var->name, "PWD"))
 			ms->pwd = ft_strdup(var->value);
-		if (!strcmp(var->name, "OLDPWD"))
+		if (!ft_strcmp(var->name, "OLDPWD"))
 			ms->old_pwd = ft_strdup(var->value);
 		free(var->name);
 		free(var->value);
