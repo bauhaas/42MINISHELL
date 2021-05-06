@@ -6,7 +6,7 @@
 /*   By: clorin <clorin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 13:13:22 by clorin            #+#    #+#             */
-/*   Updated: 2021/05/06 04:04:00 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/05/06 04:53:49 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,11 @@
 **	this function returns the name's var after $ or NULL if nothing
 */
 
-static char			*get_last_ret(t_ms *mini, int *i)
+static char			*get_last_ret(t_ms *ms, int *i)
 {
 	char			*dest;
 
-	dest = ft_itoa(mini->last_ret);
+	dest = ft_itoa(ms->last_ret);
 	*i += 2;
 	return (dest);
 }
@@ -34,12 +34,12 @@ static char			*get_null_value(int len, int *i)
 	return (dest);
 }
 
-static char			*get_good_value(t_ms *mini, char *name, int len, int *i)
+static char			*get_good_value(t_ms *ms, char *name, int len, int *i)
 {
 	char			*dest;
 
-	dest = ft_strnew(ft_strlen(ft_getenv(&mini->env, name, TRUE)));
-	ft_strcat(dest, ft_getenv(&mini->env, name, TRUE));
+	dest = ft_strnew(ft_strlen(ft_getenv(&ms->env, name, TRUE)));
+	ft_strcat(dest, ft_getenv(&ms->env, name, TRUE));
 	*i += len + 1;
 	return (dest);
 }
@@ -54,21 +54,21 @@ static char			*get_one_dollar(int *i)
 	return (dest);
 }
 
-char				*value(t_ms *mini, char *str, int *i)
+char				*value(t_ms *ms, char *str, int *i)
 {
 	char			*dest;
 	char			*name;
 	int				len;
 
-	mini->is_env = 1;
+	ms->is_env = 1;
 	dest = NULL;
 	name = get_name_var(str);
 	len = ft_strlen(name);
 	if (*str == '$' && *(str + 1) == '?')
-		dest = get_last_ret(mini, i);
-	else if (name && ft_getenv(&mini->env, name, TRUE))
-		dest = get_good_value(mini, name, len, i);
-	else if (name && !ft_getenv(&mini->env, name, TRUE))
+		dest = get_last_ret(ms, i);
+	else if (name && ft_getenv(&ms->env, name, TRUE))
+		dest = get_good_value(ms, name, len, i);
+	else if (name && !ft_getenv(&ms->env, name, TRUE))
 		dest = get_null_value(len, i);
 	else if (*str != '$' || (*str == '$' && (*(str + 1) == '$' || !*(str + 1))))
 	{

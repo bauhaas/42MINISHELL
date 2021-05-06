@@ -6,13 +6,13 @@
 /*   By: clorin <clorin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/17 16:05:15 by clorin            #+#    #+#             */
-/*   Updated: 2021/05/06 03:33:26 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/05/06 04:54:12 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static char	**expansion(char *str, char **word, t_ms *mini, int *i)
+static char	**expansion(char *str, char **word, t_ms *ms, int *i)
 {
 	int				j;
 	int				k;
@@ -21,9 +21,9 @@ static char	**expansion(char *str, char **word, t_ms *mini, int *i)
 	j = *i;
 	k = 0;
 	split_word = NULL;
-	*word = ft_add_str(*word, value(mini, str + *i, i));
+	*word = ft_add_str(*word, value(ms, str + *i, i));
 	if (!(!ft_strchr(*word, ' ') || valid_quotes(str, j)
-				|| (j > 0 && str[j - 1] == '=')) && mini->echo == FALSE)
+				|| (j > 0 && str[j - 1] == '=')) && ms->echo == FALSE)
 	{
 		split_word = ft_split(*word, ' ');
 		return (split_word);
@@ -33,7 +33,7 @@ static char	**expansion(char *str, char **word, t_ms *mini, int *i)
 		split_word = malloc(sizeof(char *) * 2);
 		split_word[0] = ft_strnew(1);
 		split_word[1] = NULL;
-		mini->free_all = 1;
+		ms->free_all = 1;
 		return (split_word);
 	}
 	return (NULL);
