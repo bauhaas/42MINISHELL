@@ -98,6 +98,7 @@ int					main(int argc, char **argv, char **envp)
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(argv[1], 2);
 		ft_putstr_fd(": No such file or directory\n", 2);
+		free_exit(&ms);
 		return (127);
 	}
 	return (0);
