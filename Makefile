@@ -6,7 +6,7 @@
 #    By: clorin <clorin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/03/17 12:01:33 by clorin            #+#    #+#              #
-#    Updated: 2021/05/06 03:49:39 by bahaas           ###   ########.fr        #
+#    Updated: 2021/05/06 13:06:50 by bahaas           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,6 +44,7 @@ SRC		= srcs/main/main.c				\
 		srcs/parsing/parser_utils.c		\
 		srcs/parsing/parse_bloc.c		\
 		srcs/exec/file.c				\
+		srcs/exec/file_utils.c			\
 		srcs/exec/signal.c				\
 		srcs/exec/redirection.c			\
 		srcs/exec/execution.c			\

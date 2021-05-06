@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/21 00:41:56 by bahaas            #+#    #+#             */
-/*   Updated: 2021/05/06 03:06:03 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/05/06 13:04:36 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ static void	free_t_var(void *var)
 	ft_strdel(&e->value);
 	free(e);
 }
+
 static void	delete_one(t_list **head_ref, char *name)
 {
 	t_list	*tmp;

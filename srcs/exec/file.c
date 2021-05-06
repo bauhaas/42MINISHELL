@@ -6,7 +6,7 @@
 /*   By: bahaas <bahaas@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/06 15:30:38 by bahaas            #+#    #+#             */
-/*   Updated: 2021/05/06 04:39:44 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/05/06 13:06:36 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,21 +75,6 @@ static void			error_file(t_ms *ms, t_cmd *cmd)
 		ft_putstr_fd(": Command not found\n", STDERR);
 		ms->last_ret = 127;
 	}
-}
-
-static char			*construc_path(char *path, char *cmd)
-{
-	char			*program;
-
-	program = NULL;
-	program = ft_strnew(ft_strlen(path) + 1 + ft_strlen(cmd));
-	if (program)
-	{
-		ft_strcat(program, path);
-		ft_strcat(program, "/");
-		ft_strcat(program, cmd);
-	}
-	return (program);
 }
 
 /*

@@ -6,7 +6,7 @@
 /*   By: clorin <clorin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/21 13:22:34 by clorin            #+#    #+#             */
-/*   Updated: 2021/05/06 02:53:06 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/05/06 13:02:12 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static void		ft_list_sort(t_list **begin_list)
 	{
 		env = (t_var*)actuel_node->content;
 		env_next = (t_var*)actuel_node->next->content;
-		if (strcmp(env->name, env_next->name) > 0)
+		if (ft_strcmp(env->name, env_next->name) > 0)
 		{
 			ft_lstswap(actuel_node, actuel_node->next);
 			actuel_node = *begin_list;

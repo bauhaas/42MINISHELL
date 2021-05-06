@@ -6,7 +6,7 @@
 /*   By: clorin <clorin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/17 12:28:05 by clorin            #+#    #+#             */
-/*   Updated: 2021/05/06 03:56:55 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/05/06 13:07:32 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -345,10 +345,11 @@ void					free_exit(t_ms *ms);
 void					pipeline(t_cmd *cmd, t_ms *ms);
 
 /*
-** file.c
+** file.c & file_utils.c
 */
 
 int						search_prog(t_ms *ms, t_cmd *cmd);
+char					*construc_path(char *path, char *cmd);
 
 /*
 **	fork.c
