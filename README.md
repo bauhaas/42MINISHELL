@@ -1,28 +1,12 @@
 # 42MINISHELL
-## List of content
-...
 [![norminette](https://github.com/Korkrane/42MINISHELL/actions/workflows/norminette.yaml/badge.svg)](https://github.com/Korkrane/42MINISHELL/actions/workflows/norminette.yaml)
-## Git structure
+## List of content
+
 ### Commit mssg
 - `ADD: ...` to implement new function/files
 - `FIX: ...`  to correct bugs
 - `NORM: ...` to correct norm error
 - `RFCT: ...` to refacto  
-
-## To do
-  - [ ] 1. Trouver un symbole unicode pr remplacer les flèches de couleurs dans le prompt
-  - [x] 2. ; seul doit retourner une erreur de syntaxe avec une valeur de 2 (pr le moment on a command not found & 127)
-  - [x] 3. "" seul doit print un long message d'info
-  - [x] 4. echo -nnnnnnnnnnnna doit print sur une nouvelle line
-  - [x] 5. ls | exit a le bon comportement mais affiche exit alors qu'il ne devrait pas
-  - [x] 6. export a="echo toto"  pr le moment on tente d'execute une commande "echo toto" qui ne trouve pas il faut resplit le echo et toto en 2elem
-  - [x] 7. Quand on lance une mauvaise cmd puis on exit, cela doit  return 127 (on return 0)
-  - [x] 8. cat only + ctrl C (comportement chelou avec le prompt malgré le fait qu'on est le bon retour et le bon nombre de process créer/kill)
-  - [ ] 9. > fgfegfge | ls redirection en premier doit pvr marcher et créer le fichier
-  - [x] 10. env -i ./minishell  pas d'erreur normalement., nous on a : minishell: Error termcaps -1
-  - [x] 11. unset PATH puis ls, on segfault car on va se servir de PATH pr search prog alors qu'il est vide
-  - [x] 12. gérer les cas commencant et ayant juste en cmd une redir ou un pipe
-  - [x] 13. Qd on écrit dans minishell, l'input rame et peut sauter des touches qui ont étés tapés (j'avais ce pb depuis un petit moment déjà)
 
 ## External functions allowed
 | Function name | Description                    |
