@@ -6,7 +6,7 @@
 /*   By: clorin <clorin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/18 10:06:58 by clorin            #+#    #+#             */
-/*   Updated: 2021/04/12 17:54:20 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/05/06 14:39:54 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ static void		del_char(t_termcaps *tc)
 	tc->line = str;
 }
 
-void			keys_tree(long c, t_termcaps *tc, t_ms *mini)
+void			keys_tree(long c, t_termcaps *tc, t_ms *ms)
 {
 	if (ft_isprint(c))
 		create_line(c, tc);
@@ -84,9 +84,9 @@ void			keys_tree(long c, t_termcaps *tc, t_ms *mini)
 	else if (c == RIGHT_ARROW)
 		right(tc);
 	else if (c == UP_ARROW)
-		up_history(tc, mini);
+		up_history(tc, ms);
 	else if (c == DOWN_ARROW)
-		down_history(tc, mini);
+		down_history(tc, ms);
 	else if (c == CTR_L)
 		cls(tc);
 	else if (c == HOME)
@@ -97,5 +97,5 @@ void			keys_tree(long c, t_termcaps *tc, t_ms *mini)
 		left_word(tc);
 	else if (c == CTR_RIGHT)
 		right_word(tc);
-	print_line(tc, mini);
+	print_line(tc, ms);
 }

@@ -6,7 +6,7 @@
 /*   By: clorin <clorin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/19 11:01:39 by clorin            #+#    #+#             */
-/*   Updated: 2021/04/12 17:52:44 by bahaas           ###   ########.fr       */
+/*   Updated: 2021/05/06 14:40:31 by bahaas           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,39 +36,39 @@ t_hist			*add_history(t_hist **begin, char *line)
 	return (new);
 }
 
-void			up_history(t_termcaps *tc, t_ms *mini)
+void			up_history(t_termcaps *tc, t_ms *ms)
 {
-	if (!mini->history)
+	if (!ms->history)
 	{
 		write(1, "\a", 1);
 		return ;
 	}
-	if (!tc->line && mini->cur_histo)
+	if (!tc->line && ms->cur_histo)
 	{
 		ft_strdel(&tc->line);
-		tc->line = ft_strdup(mini->cur_histo->line);
+		tc->line = ft_strdup(ms->cur_histo->line);
 	}
-	else if (mini->cur_histo->next)
+	else if (ms->cur_histo->next)
 	{
-		mini->cur_histo = mini->cur_histo->next;
+		ms->cur_histo = ms->cur_histo->next;
 		ft_strdel(&tc->line);
-		tc->line = ft_strdup(mini->cur_histo->line);
+		tc->line = ft_strdup(ms->cur_histo->line);
 	}
 	tc->cur_pos = ft_strlen(tc->line);
 }
 
-void			down_history(t_termcaps *tc, t_ms *mini)
+void			down_history(t_termcaps *tc, t_ms *ms)
 {
-	if (!mini->history)
+	if (!ms->history)
 	{
 		write(1, "\a", 1);
 		return ;
 	}
-	if (mini->cur_histo->prev)
+	if (ms->cur_histo->prev)
 	{
-		mini->cur_histo = mini->cur_histo->prev;
+		ms->cur_histo = ms->cur_histo->prev;
 		ft_strdel(&tc->line);
-		tc->line = ft_strdup(mini->cur_histo->line);
+		tc->line = ft_strdup(ms->cur_histo->line);
 	}
 	else if (!tc->line)
 	{
