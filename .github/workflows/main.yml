@@ -1,0 +1,25 @@
+
+
+name: 42-project-badge
+on:
+
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo content
+        uses: actions/checkout@v3
+
+      - name: 42 Project Badge
+        uses: Korkrane/42project-badge-action@v1.0.1
+        with:
+          login: bahaas
+          project: minishell
+          auth: ${{ secrets.GIST_SECRET }}
+          gistID: 990a037d04c9a3b71a62aa5df94cac00

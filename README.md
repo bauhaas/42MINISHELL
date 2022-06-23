@@ -1,4 +1,11 @@
 # 42MINISHELL
+![badge](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/Korkrane/990a037d04c9a3b71a62aa5df94cac00/raw/minishell_grade.json)
+![badge](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/Korkrane/990a037d04c9a3b71a62aa5df94cac00/raw/minishell_bon.json)
+![badge](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/Korkrane/990a037d04c9a3b71a62aa5df94cac00/raw/minishell_corr.json)
+![norm-v2](https://img.shields.io/github/workflow/status/Korkrane/42MINISHELL/norm-v2?label=norm-v2&style=flat-square)
+![norm-v3](https://img.shields.io/github/workflow/status/Korkrane/42MINISHELL/norm-v3?label=norm-v3&style=flat-square)
+![](https://img.shields.io/github/languages/code-size/Korkrane/42MINISHELL?label=size&style=flat-square)
+
 [![norminette](https://github.com/Korkrane/42MINISHELL/actions/workflows/norminette.yaml/badge.svg)](https://github.com/Korkrane/42MINISHELL/actions/workflows/norminette.yaml)
 ## List of content
 
@@ -6,7 +13,7 @@
 - `ADD: ...` to implement new function/files
 - `FIX: ...`  to correct bugs
 - `NORM: ...` to correct norm error
-- `RFCT: ...` to refacto  
+- `RFCT: ...` to refacto
 
 ## External functions allowed
 | Function name | Description                    |
